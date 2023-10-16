@@ -10,4 +10,28 @@
         android:label=""
         tools:layout="@layout/fragment_home"/>
 
+    <fragment
+        android:id="@+id/trendingFragment"
+        android:name="com.devshawon.curehealthcare.ui.fragments.trending.TrendingFragment"
+        android:label=""
+        tools:layout="@layout/fragment_trending"/>
+
+    <fragment
+        android:id="@+id/orderFragment"
+        android:name="com.devshawon.curehealthcare.ui.fragments.order.OrderFragment"
+        android:label=""
+        tools:layout="@layout/fragment_order"/>
+
+    <fragment
+        android:id="@+id/cartFragment"
+        android:name="com.devshawon.curehealthcare.ui.fragments.cart.CartFragment"
+        android:label=""
+        tools:layout="@layout/fragment_cart"/>
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.devshawon.curehealthcare.ui.fragments.profile.ProfileFragment"
+        android:label=""
+        tools:layout="@layout/fragment_profile"/>
+
 </navigation>
