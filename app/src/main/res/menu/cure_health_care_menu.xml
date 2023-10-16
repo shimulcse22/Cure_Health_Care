@@ -5,21 +5,21 @@
         android:icon="@drawable/ic_icon_user_home"
         android:title="@string/title_fragment_home" />
     <item
-        android:id="@+id/historyFragment"
+        android:id="@+id/trendingFragment"
         android:icon="@drawable/ic_icon_tab_bar_trending"
         android:title="@string/title_fragment_trending" />
     <item
-        android:id="@+id/walletFragment"
+        android:id="@+id/orderFragment"
         android:icon="@drawable/ic_icon_tab_bar_order"
         android:title="@string/title_fragment_orders" />
 
     <item
-        android:id="@+id/notificationFragment"
+        android:id="@+id/cartFragment"
         android:icon="@drawable/ic_icon_cart"
         android:title="@string/title_fragment_cart" />
 
     <item
-        android:id="@+id/moreFragment"
+        android:id="@+id/profileFragment"
         android:icon="@drawable/ic_icon_profile"
         android:title="@string/title_fragment_profile" />
 </menu>
