@@ -1,7 +1,7 @@
 package com.devshawon.curehealthcare.dagger.modules
 
 import com.devshawon.curehealthcare.dagger.ActivityScoped
-import com.devshawon.curehealthcare.ui.MainActivity
+import com.devshawon.curehealthcare.ui.CureHealthCareActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -13,5 +13,5 @@ abstract class ActivityBindingModule {
             HealthCareModule::class
         ]
     )
-    internal abstract fun mainActivity() : MainActivity
+    internal abstract fun mainActivity() : CureHealthCareActivity
 }

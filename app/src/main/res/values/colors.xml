@@ -2,4 +2,8 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="semi_dal_blue">#006dcc</color>
+    <color name="transparent">#00FFFFFF</color>
+    <color name="gray_1">#8e8e93</color>
+    <color name="colorWhite">#FFFFFF</color>
 </resources>

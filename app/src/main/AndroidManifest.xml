@@ -18,9 +18,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CureHealthCare"
-        tools:targetApi="31">
+        tools:targetApi="n">
         <activity
-            android:name="com.devshawon.curehealthcare.ui.MainActivity"
+            android:name="com.devshawon.curehealthcare.ui.CureHealthCareActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
