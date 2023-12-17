@@ -5,4 +5,5 @@
     <string name="title_fragment_orders">Orders</string>
     <string name="title_fragment_cart">Cart</string>
     <string name="title_fragment_profile">Profile</string>
+    <string name="login">Login</string>
 </resources>

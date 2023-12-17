@@ -7,7 +7,7 @@ import com.devshawon.curehealthcare.R
 import com.devshawon.curehealthcare.base.ui.BaseFragment
 import com.devshawon.curehealthcare.dagger.viewModel.AppViewModelFactory
 import com.devshawon.curehealthcare.databinding.FragmentProfileBinding
-import com.devshawon.curehealthcare.ui.fragments.home.HomeViewModel
+import com.devshawon.curehealthcare.ui.fragments.HomeViewModel
 import javax.inject.Inject
 
 class ProfileFragment: BaseFragment<FragmentProfileBinding>(R.layout.fragment_profile) {

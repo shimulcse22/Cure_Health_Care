@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.devshawon.curehealthcare.ui.fragments.home.HomeViewModel" />
+            type="com.devshawon.curehealthcare.ui.fragments.HomeViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -12,7 +12,9 @@ import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
 interface PreferenceStorage {
+    var refreshToken: String
     var customer: Boolean
+    var token: String
 }
 
 class SharedPreferenceStorage(context: Context) : PreferenceStorage {
@@ -20,10 +22,14 @@ class SharedPreferenceStorage(context: Context) : PreferenceStorage {
         context.sharedPreferences(PREFS_NAME)
     }
     override var customer by BooleanPreference(prefs, CUSTOMER_NAME)
+    override var token by StringPreference(prefs, PREF_TOKEN, "")
+    override var refreshToken by StringPreference(prefs, PREF_REFRESH_TOKEN, "")
 
     companion object {
         const val PREFS_NAME = "cure_health_care"
         const val CUSTOMER_NAME = "customer_name"
+        const val PREF_TOKEN = "pref_token"
+        const val PREF_REFRESH_TOKEN = "pref_refreshToken"
     }
 }
 

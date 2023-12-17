@@ -21,6 +21,10 @@
         tools:targetApi="n">
         <activity
             android:name="com.devshawon.curehealthcare.ui.CureHealthCareActivity"
+            android:exported="false">
+        </activity>
+        <activity
+            android:name="com.devshawon.curehealthcare.ui.auth.AuthActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
