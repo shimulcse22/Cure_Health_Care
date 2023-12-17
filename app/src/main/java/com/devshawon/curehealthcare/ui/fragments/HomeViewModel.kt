@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.switchMap
-import bd.com.upay.customer.network.Status
+import com.devshawon.curehealthcare.network.Status
 import com.devshawon.curehealthcare.models.BannerResponseMobile
 import com.devshawon.curehealthcare.network.Resource
 import com.devshawon.curehealthcare.ui.repository.Repository

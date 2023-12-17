@@ -1,4 +1,4 @@
-package bd.com.upay.customer.network
+package com.devshawon.curehealthcare.network
 
 enum class Status {
     SUCCESS,

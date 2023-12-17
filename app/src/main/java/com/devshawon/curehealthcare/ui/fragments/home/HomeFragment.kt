@@ -3,7 +3,6 @@ package com.devshawon.curehealthcare.ui.fragments.home
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.navGraphViewModels
@@ -12,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SnapHelper
-import bd.com.upay.customer.network.Status
+import com.devshawon.curehealthcare.network.Status
 import com.devshawon.curehealthcare.R
 import com.devshawon.curehealthcare.base.ui.BaseFragment
 import com.devshawon.curehealthcare.dagger.viewModel.AppViewModelFactory
@@ -21,10 +20,7 @@ import com.devshawon.curehealthcare.ui.adapter.CommonAdapter
 import com.devshawon.curehealthcare.ui.fragments.HomeViewModel
 import com.devshawon.curehealthcare.useCase.result.Event
 import com.devshawon.curehealthcare.useCase.result.EventObserver
-import com.google.android.gms.common.internal.service.Common
-import com.google.android.material.slider.Slider
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
@@ -55,6 +51,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             homeViewModel.bannerRequest.postValue(Event(Unit))
         }
         lifecycleScope.launch {
+            homeBannerAdapter = CommonAdapter()
             homeBannerAdapter.updateContext(requireContext())
         }
     }

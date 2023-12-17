@@ -5,17 +5,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.switchMap
-import bd.com.upay.customer.network.Status
-import com.devshawon.curehealthcare.models.BannerResponse
-import com.devshawon.curehealthcare.models.BannerResponseItem
-import com.devshawon.curehealthcare.models.Customer
+import com.devshawon.curehealthcare.network.Status
 import com.devshawon.curehealthcare.models.LoginRequest
 import com.devshawon.curehealthcare.models.LoginResponse
 import com.devshawon.curehealthcare.network.Resource
 import com.devshawon.curehealthcare.ui.repository.Repository
 import com.devshawon.curehealthcare.useCase.TokenUseCase
 import com.devshawon.curehealthcare.useCase.result.Event
-import timber.log.Timber
 import javax.inject.Inject
 
 class AuthViewModel @Inject constructor(

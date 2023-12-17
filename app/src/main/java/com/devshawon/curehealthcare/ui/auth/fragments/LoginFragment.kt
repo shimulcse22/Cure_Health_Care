@@ -10,12 +10,9 @@ import com.devshawon.curehealthcare.dagger.viewModel.AppViewModelFactory
 import com.devshawon.curehealthcare.databinding.LoginFragmentLayoutBinding
 import com.devshawon.curehealthcare.models.LoginRequest
 import com.devshawon.curehealthcare.ui.CureHealthCareActivityScreen
-import com.devshawon.curehealthcare.ui.auth.AuthActivityScreen
 import com.devshawon.curehealthcare.ui.auth.AuthViewModel
 import com.devshawon.curehealthcare.useCase.result.EventObserver
-import timber.log.Timber
 import javax.inject.Inject
-import javax.net.ssl.SSLEngineResult.Status
 
 class LoginFragment  : BaseFragment<LoginFragmentLayoutBinding>(R.layout.login_fragment_layout) {
     @Inject
@@ -34,7 +31,7 @@ class LoginFragment  : BaseFragment<LoginFragmentLayoutBinding>(R.layout.login_f
         }
 
         viewModel.event.observe(viewLifecycleOwner,EventObserver{
-            if(it == bd.com.upay.customer.network.Status.SUCCESS.name){
+            if(it == com.devshawon.curehealthcare.network.Status.SUCCESS.name){
                 activityScreenSwitcher()?.open(
                     CureHealthCareActivityScreen(
                         true

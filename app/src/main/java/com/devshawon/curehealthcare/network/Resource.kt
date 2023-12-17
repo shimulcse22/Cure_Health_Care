@@ -1,6 +1,5 @@
 package com.devshawon.curehealthcare.network
 
-import bd.com.upay.customer.network.Status
 import com.devshawon.curehealthcare.api.ApiError
 
 data class Resource<out T>(val status: Status, val data: T?, val error: ApiError?) {
