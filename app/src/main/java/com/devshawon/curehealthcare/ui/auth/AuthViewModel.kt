@@ -22,6 +22,14 @@ class AuthViewModel @Inject constructor(
     var phone = MutableLiveData<String>()
     var password = MutableLiveData<String>()
 
+    var firstName = MutableLiveData<String>()
+    var lastName = MutableLiveData<String>()
+    var mobile = MutableLiveData<String>()
+    var shopName = MutableLiveData<String>()
+    var shopAddress = MutableLiveData<String>()
+    var nid = MutableLiveData<String>()
+    var license = MutableLiveData<String>()
+
     var loginRequest = MutableLiveData<LoginRequest>()
     var loginData = MutableLiveData<LoginResponse>()
     var loginResponse : LiveData<Resource<LoginResponse>> = loginRequest.switchMap {

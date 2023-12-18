@@ -9,8 +9,20 @@
         android:id="@+id/login_fragment"
         android:name="com.devshawon.curehealthcare.ui.auth.fragments.LoginFragment"
         android:label=""
-        tools:layout="@layout/login_fragment_layout"/>
+        tools:layout="@layout/login_fragment_layout">
+        <action
+            android:id="@+id/action_login_fragment_to_registration_fragment"
+            app:destination="@id/registration_fragment" />
+    </fragment>
 
-
+    <fragment
+        android:id="@+id/registration_fragment"
+        android:name="com.devshawon.curehealthcare.ui.auth.fragments.RegistrationFragment"
+        android:label=""
+        tools:layout="@layout/registration_fragment_layout">
+        <action
+            android:id="@+id/action_registration_fragment_to_login_fragment"
+            app:destination="@id/login_fragment" />
+    </fragment>
 
 </navigation>

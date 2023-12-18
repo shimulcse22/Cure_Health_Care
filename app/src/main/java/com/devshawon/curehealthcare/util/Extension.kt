@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
@@ -30,6 +31,7 @@ fun Context.showDialog(
 }
 
 fun Fragment.navigateUp() = this.findNavController().navigateUp()
+fun Fragment.navigate(direction: NavDirections) = this.findNavController().navigate(direction)
 
 fun Context.sharedPreferences(name: String): SharedPreferences {
     val context = this.applicationContext

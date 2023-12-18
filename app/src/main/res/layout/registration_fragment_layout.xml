@@ -1,17 +1,171 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
 
-    <EditText
+    <data>
+        <variable
+            name="viewModel"
+            type="com.devshawon.curehealthcare.ui.auth.AuthViewModel" />
+    </data>
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        />
-</LinearLayout>
+        android:background="@color/gray">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:baselineAligned="false"
+            android:layout_margin="@dimen/_12sdp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/banner_background"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/register_new_account"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/first_name"
+                android:textSize="@dimen/_12ssp"
+                android:layout_marginTop="@dimen/_12ssp"
+                android:textStyle="bold"
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_round"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="@={viewModel.firstName}"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/last_name"
+                android:textSize="@dimen/_12ssp"
+                android:layout_marginTop="@dimen/_12ssp"
+                android:textStyle="bold"
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_round"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="@={viewModel.lastName}"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/mobile"
+                android:textSize="@dimen/_12ssp"
+                android:layout_marginTop="@dimen/_12ssp"
+                android:textStyle="bold"
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_round"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="@={viewModel.mobile}"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/shop_name"
+                android:textSize="@dimen/_12ssp"
+                android:layout_marginTop="@dimen/_12ssp"
+                android:textStyle="bold"
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_round"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="@={viewModel.shopName}"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/shop_address"
+                android:textSize="@dimen/_12ssp"
+                android:layout_marginTop="@dimen/_12ssp"
+                android:textStyle="bold"
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_round"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="@={viewModel.shopAddress}"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nid_number"
+                android:textSize="@dimen/_12ssp"
+                android:layout_marginTop="@dimen/_12ssp"
+                android:textStyle="bold"
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_round"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="@={viewModel.nid}"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/license"
+                android:textSize="@dimen/_12ssp"
+                android:layout_marginTop="@dimen/_12ssp"
+                android:textStyle="bold"
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_round"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="@={viewModel.license}"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/register_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="@string/register" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/cancel_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8sp"
+                android:text="@string/cancel" />
+
+            <TextView
+                android:id="@+id/already_registered"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:textSize="@dimen/_10ssp"
+                android:textColor="@color/semi_dal_blue"
+                android:text="@string/already_have_an_account"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+</layout>

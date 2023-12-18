@@ -6,4 +6,15 @@
     <string name="title_fragment_cart">Cart</string>
     <string name="title_fragment_profile">Profile</string>
     <string name="login">Login</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+    <string name="mobile">Mobile</string>
+    <string name="shop_name">Shop name</string>
+    <string name="shop_address">Shop Address</string>
+    <string name="nid_number">NID Number</string>
+    <string name="license">License</string>
+    <string name="register">Register</string>
+    <string name="cancel">Cancel</string>
+    <string name="already_have_an_account">Already have an account?</string>
+    <string name="register_new_account">Register new account</string>
 </resources>
