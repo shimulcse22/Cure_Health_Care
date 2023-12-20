@@ -34,5 +34,12 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_8sdp"
             android:text="@string/login" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/register_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_8sdp"
+            android:text="@string/register" />
     </LinearLayout>
 </layout>

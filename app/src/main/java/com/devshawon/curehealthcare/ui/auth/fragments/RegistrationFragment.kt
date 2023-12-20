@@ -13,6 +13,7 @@ import com.devshawon.curehealthcare.util.navigateUp
 import javax.inject.Inject
 
 class RegistrationFragment : BaseFragment<RegistrationFragmentLayoutBinding>(R.layout.registration_fragment_layout) {
+
     @Inject
     lateinit var viewModelFactory: AppViewModelFactory
     private val viewModel: AuthViewModel by navGraphViewModels(R.id.auth_nav_graph) { viewModelFactory }

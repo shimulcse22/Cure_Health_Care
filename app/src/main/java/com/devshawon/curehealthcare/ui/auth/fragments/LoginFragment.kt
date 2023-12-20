@@ -12,6 +12,7 @@ import com.devshawon.curehealthcare.models.LoginRequest
 import com.devshawon.curehealthcare.ui.CureHealthCareActivityScreen
 import com.devshawon.curehealthcare.ui.auth.AuthViewModel
 import com.devshawon.curehealthcare.useCase.result.EventObserver
+import com.devshawon.curehealthcare.util.navigate
 import javax.inject.Inject
 
 class LoginFragment  : BaseFragment<LoginFragmentLayoutBinding>(R.layout.login_fragment_layout) {
@@ -39,5 +40,9 @@ class LoginFragment  : BaseFragment<LoginFragmentLayoutBinding>(R.layout.login_f
                 )
             }
         })
+
+        mBinding.registerBtn.setOnClickListener {
+            navigate(LoginFragmentDirections.actionLoginFragmentToRegistrationFragment())
+        }
     }
 }

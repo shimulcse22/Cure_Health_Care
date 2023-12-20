@@ -17,4 +17,9 @@
     <string name="cancel">Cancel</string>
     <string name="already_have_an_account">Already have an account?</string>
     <string name="register_new_account">Register new account</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="change_password">Change Password</string>
+    <string name="logout">Logout</string>
+    <string name="help_line_01860998499">Help Line (01860998499)</string>
+    <string name="profile_change">Profile Change</string>
 </resources>

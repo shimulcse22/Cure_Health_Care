@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.devshawon.curehealthcare.dagger.FragmentScoped
 import com.devshawon.curehealthcare.dagger.viewModel.ViewModelKey
 import com.devshawon.curehealthcare.ui.auth.fragments.LoginFragment
+import com.devshawon.curehealthcare.ui.auth.fragments.RegistrationFragment
 import com.devshawon.curehealthcare.ui.fragments.cart.CartFragment
 import com.devshawon.curehealthcare.ui.fragments.order.OrderFragment
 import com.devshawon.curehealthcare.ui.fragments.home.HomeFragment
@@ -42,5 +43,7 @@ internal abstract class FragmentModule {
     @FragmentScoped
     @ContributesAndroidInjector
     internal abstract fun contributeProfileFragment(): ProfileFragment
+
+
 
 }
