@@ -4,12 +4,14 @@ import androidx.lifecycle.LiveData
 import com.devshawon.curehealthcare.models.BannerResponseMobile
 import com.devshawon.curehealthcare.models.LoginRequest
 import com.devshawon.curehealthcare.models.LoginResponse
+import com.devshawon.curehealthcare.models.ProductResponse
 import com.devshawon.curehealthcare.models.RefreshToken
 import com.devshawon.curehealthcare.models.RefreshTokenResponse
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Query
 
 interface ApiService {
 
@@ -20,4 +22,7 @@ interface ApiService {
 
     @GET("api/v2/mobile_slider")
     fun getBanner() : LiveData<ApiResponse<BannerResponseMobile>>
+
+    @GET("api/v2/mobile_forms")
+    fun getProduct(@Query("search")  search : String) : LiveData<ApiResponse<ProductResponse>>
 }

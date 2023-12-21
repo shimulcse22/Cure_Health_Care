@@ -57,6 +57,8 @@
             android:layout_height="wrap_content"
             android:background="@drawable/bg_round"
             android:layout_marginTop="@dimen/_8sdp"
+            android:inputType="text"
+            android:autofillHints=""
             android:text="@={viewModel.firstName}"/>
 
         <TextView
@@ -73,6 +75,8 @@
             android:layout_height="wrap_content"
             android:background="@drawable/bg_round"
             android:layout_marginTop="@dimen/_8sdp"
+            android:inputType="text"
+            android:autofillHints=""
             android:text="@={viewModel.lastName}"/>
 
         <TextView
@@ -89,6 +93,8 @@
             android:layout_height="wrap_content"
             android:background="@drawable/bg_round"
             android:layout_marginTop="@dimen/_8sdp"
+            android:inputType="text"
+            android:autofillHints=""
             android:text="@={viewModel.mobile}"/>
 
         <TextView
@@ -104,6 +110,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_round"
+            android:inputType="text"
+            android:autofillHints=""
             android:layout_marginTop="@dimen/_8sdp"
             android:text="@={viewModel.shopName}"/>
 
@@ -121,6 +129,8 @@
             android:layout_height="wrap_content"
             android:background="@drawable/bg_round"
             android:layout_marginTop="@dimen/_8sdp"
+            android:inputType="text"
+            android:autofillHints=""
             android:text="@={viewModel.shopAddress}"/>
         <TextView
             android:layout_width="wrap_content"
@@ -136,7 +146,9 @@
             android:layout_height="wrap_content"
             android:background="@drawable/bg_round"
             android:layout_marginTop="@dimen/_8sdp"
-            android:text="@={viewModel.nid}"/>
+            android:inputType="text"
+            android:text="@={viewModel.nid}"
+            android:autofillHints="" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -151,6 +163,8 @@
             android:layout_height="wrap_content"
             android:background="@drawable/bg_round"
             android:layout_marginTop="@dimen/_8sdp"
+            android:inputType="text"
+            android:autofillHints=""
             android:text="@={viewModel.license}"/>
 
     </LinearLayout>

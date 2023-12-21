@@ -22,4 +22,5 @@
     <string name="logout">Logout</string>
     <string name="help_line_01860998499">Help Line (01860998499)</string>
     <string name="profile_change">Profile Change</string>
+    <string name="reset">Reset</string>
 </resources>
