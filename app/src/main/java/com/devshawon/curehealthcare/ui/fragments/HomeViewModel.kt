@@ -7,7 +7,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.switchMap
 import com.devshawon.curehealthcare.network.Status
 import com.devshawon.curehealthcare.models.BannerResponseMobile
-import com.devshawon.curehealthcare.models.Form
+import com.devshawon.curehealthcare.models.MedicinePhoto
+import com.devshawon.curehealthcare.models.ProductData
+import com.devshawon.curehealthcare.models.ProductForms
+import com.devshawon.curehealthcare.models.ProductRequest
 import com.devshawon.curehealthcare.models.ProductResponse
 import com.devshawon.curehealthcare.network.Resource
 import com.devshawon.curehealthcare.ui.repository.Repository
@@ -32,18 +35,19 @@ class HomeViewModel @Inject constructor(
         repository.getBannerList()
     }
 
-    var productRequest = MutableLiveData<Event<String>>()
-    var productList = ArrayList<Form>()
+    var productRequest = MutableLiveData<Event<ProductRequest>>()
+    var productList = ArrayList<ProductData>()
     var productListResponse : LiveData<Resource<ProductResponse>> = productRequest.switchMap {
         repository.getProduct(it.peekContent())
     }
 
     var event = MutableLiveData<Event<String>>()
     var productEvent = MutableLiveData<Event<String>>()
+    var productCount = MutableLiveData<Int>()
 
     val buttonApiCall = MutableLiveData<Event<String>>()
 
-    init {//event.postValue(Event(it.status.name))
+    init {
         bannerListResponse.observeForever {
             if(it.status == Status.SUCCESS && it.data != null){
                 bannerList = it.data.sliders as ArrayList<String>
@@ -56,7 +60,7 @@ class HomeViewModel @Inject constructor(
         productListResponse.observeForever {
             Log.d("THE DATA IS PRODUCT ","$it")
             if(it.status == Status.SUCCESS && it.data != null){
-                productList = it.data.forms as ArrayList<Form>
+                productList = it.data.data as ArrayList<ProductData>
                 productEvent.postValue(Event(it.status.name))
             }else if(it.status == Status.ERROR){
                 productEvent.postValue(Event(it.status.name))

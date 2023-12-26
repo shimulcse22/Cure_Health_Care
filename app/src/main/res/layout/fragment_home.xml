@@ -33,7 +33,7 @@
                     android:orientation="horizontal"
                     android:visibility="visible"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintBottom_toTopOf="@+id/medicine_layout"
+                    app:layout_constraintBottom_toTopOf="@+id/emni"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -58,9 +58,15 @@
                     android:id="@+id/horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/_8sdp"
+                    android:paddingBottom="@dimen/_8sdp"
+                    android:paddingStart="@dimen/_3sdp"
+                    android:paddingEnd="@dimen/_3sdp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/banner_recycler_view"
-                    app:layout_constraintEnd_toEndOf="parent">
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:background="#f1f1f1"
+                    android:scrollbars="none">
                     <RadioGroup
                         android:id="@+id/radio_button"
                         android:layout_width="wrap_content"
@@ -68,16 +74,22 @@
                         android:orientation="horizontal"/>
                 </HorizontalScrollView>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/medicine_layout"
+                <ScrollView
+                    android:id="@+id/emni"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintVertical_chainStyle="packed"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/horizontal"
-                    tools:listitem="@layout/list_item_medicine" />
+                    app:layout_constraintVertical_chainStyle="packed"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/medicine_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:listitem="@layout/list_item_medicine" />
+                </ScrollView>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

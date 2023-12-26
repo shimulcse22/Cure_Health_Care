@@ -7,6 +7,7 @@ import com.devshawon.curehealthcare.models.BannerResponse
 import com.devshawon.curehealthcare.models.BannerResponseMobile
 import com.devshawon.curehealthcare.models.LoginRequest
 import com.devshawon.curehealthcare.models.LoginResponse
+import com.devshawon.curehealthcare.models.ProductRequest
 import com.devshawon.curehealthcare.models.ProductResponse
 import com.devshawon.curehealthcare.network.NetworkBoundResourceOnlyNetwork
 import com.devshawon.curehealthcare.network.Resource
@@ -27,9 +28,9 @@ class Repository @Inject constructor(
         }.asLiveData()
     }
 
-    fun getProduct(search : String?="tab") : LiveData<Resource<ProductResponse>>{
+    fun getProduct(search : ProductRequest) : LiveData<Resource<ProductResponse>>{
         return object : NetworkBoundResourceOnlyNetwork<ProductResponse>(appExecutors) {
-            override fun createCall() = apiService.getProduct(search?:"tab")
+            override fun createCall() = apiService.getProduct(search)
         }.asLiveData()
     }
 }

@@ -22,7 +22,7 @@ sealed class ApiResponse<T> {
                     ApiErrorResponse(
                         ApiError(
                             "500",
-                            "",
+                            error.message?:"",
                             "en"
                         )
                     )

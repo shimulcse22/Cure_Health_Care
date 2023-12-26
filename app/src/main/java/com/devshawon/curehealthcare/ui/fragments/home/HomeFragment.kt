@@ -1,5 +1,6 @@
 package com.devshawon.curehealthcare.ui.fragments.home
 
+import android.app.people.PeopleManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -8,6 +9,8 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.RadioButton
 import android.widget.RadioGroup
+import android.widget.Toolbar.LayoutParams
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -20,19 +23,23 @@ import com.devshawon.curehealthcare.R
 import com.devshawon.curehealthcare.base.ui.BaseFragment
 import com.devshawon.curehealthcare.dagger.viewModel.AppViewModelFactory
 import com.devshawon.curehealthcare.databinding.FragmentHomeBinding
+import com.devshawon.curehealthcare.models.ProductRequest
 import com.devshawon.curehealthcare.ui.adapter.CommonAdapter
+import com.devshawon.curehealthcare.ui.adapter.ProductAdapter
 import com.devshawon.curehealthcare.ui.fragments.HomeViewModel
+import com.devshawon.curehealthcare.ui.fragments.OnItemClick
 import com.devshawon.curehealthcare.useCase.result.Event
 import com.devshawon.curehealthcare.useCase.result.EventObserver
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
+class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home),OnItemClick {
     @Inject
     lateinit var viewModelFactory: AppViewModelFactory
     private val homeViewModel: HomeViewModel by navGraphViewModels(R.id.cure_health_care_nav_host_xml) { viewModelFactory }
 
     private lateinit var homeBannerAdapter: CommonAdapter
+    private lateinit var productAdapter: ProductAdapter
 
     private val handler = Handler(Looper.getMainLooper())
     private var interval = 0
@@ -54,14 +61,22 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         homeBannerAdapter = CommonAdapter()
+        productAdapter = ProductAdapter(onItemClick = this)
         lifecycleScope.launch {
             homeViewModel.bannerRequest.postValue(Event(Unit))
         }
         lifecycleScope.launch {
             homeBannerAdapter.updateContext(requireContext())
+            productAdapter.updateContext(requireContext())
         }
         lifecycleScope.launch{
-            homeViewModel.productRequest.postValue(Event("tab"))
+            homeViewModel.productRequest.postValue(Event(ProductRequest(
+                company = "",
+                firstLatter = "",
+                form = "",
+                page = 1,
+                search = ""
+            )))
         }
     }
 
@@ -80,6 +95,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         mBinding.bannerRecyclerView.layoutManager = layoutManager
         mBinding.indicator.attachToRecyclerView(mBinding.bannerRecyclerView)
 
+        mBinding.medicineLayout.adapter = productAdapter
+        mBinding.medicineLayout.itemAnimator = DefaultItemAnimator()
+        mBinding.medicineLayout.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+
         if (mBinding.bannerRecyclerView.onFlingListener == null) {
             snapHelper.attachToRecyclerView(mBinding.bannerRecyclerView)
         }
@@ -95,7 +114,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         homeViewModel.productEvent.observe(viewLifecycleOwner, EventObserver {
             if (it == Status.SUCCESS.name) {
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-                homeBannerAdapter.updateProductList(homeViewModel.productList,1)
+                productAdapter.updateProductList(homeViewModel.productList,1)
             }
         })
 
@@ -113,25 +132,24 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private fun addRadioButtons() {
         mBinding.radioButton.orientation = LinearLayout.HORIZONTAL
         val params = RadioGroup.LayoutParams(
-            RadioGroup.LayoutParams.MATCH_PARENT, RadioGroup.LayoutParams.WRAP_CONTENT
+           45, 50
         )
         for (i in 0 until 27) {
             val radioButton = RadioButton(requireContext())
             radioButton.apply {
                 id = i
                 params.setMargins(8, 5, 8, 5)
-                //setBackgroundResource(R.drawable.radio_button_background)
-                setPadding(2, 1, 2, 1)
+                setBackgroundResource(R.drawable.radio_button_background)
+                setPadding(15, 2, 15, 5)
                 text = if (i == 0) {
+                    params.width = LayoutParams.WRAP_CONTENT
                     context.resources.getText(R.string.reset)
                 } else {
                     ('A' + i - 1).toString()
                 }
-
-                alpha = 0.6f
-                setTextColor(context.resources.getColor(R.color.black))
-                textAlignment = View.TEXT_ALIGNMENT_CENTER
+                setTextColor(ContextCompat.getColorStateList(context, R.color.text_color_checked))
                 buttonDrawable = null
+                textAlignment = View.TEXT_ALIGNMENT_CENTER
                 setOnClickListener {
                     getData(radioButton.text.toString())
                 }
@@ -149,5 +167,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     override fun onDestroyView() {
         super.onDestroyView()
         handler.removeCallbacks(runnable)
+    }
+
+    override fun onPlusIconClick(item: Int) {
+        homeViewModel.productCount.value = homeViewModel.productCount.value ?: (0 + 1)
+    }
+
+    override fun onMinusIconClick(item: Int) {
+        homeViewModel.productCount.value = homeViewModel.productCount.value ?: (0 - 1)
     }
 }

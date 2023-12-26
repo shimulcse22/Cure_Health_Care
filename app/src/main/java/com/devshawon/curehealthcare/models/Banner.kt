@@ -87,5 +87,3 @@ data class BannerResponseMobile(
     @Json(name = "sliders")
     val sliders: List<String>
 )
-
-
