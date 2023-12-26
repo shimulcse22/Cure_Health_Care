@@ -33,4 +33,10 @@ class Repository @Inject constructor(
             override fun createCall() = apiService.getProduct(search)
         }.asLiveData()
     }
+
+    fun getTrending(page : Int) : LiveData<Resource<ProductResponse>>{
+        return object : NetworkBoundResourceOnlyNetwork<ProductResponse>(appExecutors) {
+            override fun createCall() = apiService.getTrending(page)
+        }.asLiveData()
+    }
 }

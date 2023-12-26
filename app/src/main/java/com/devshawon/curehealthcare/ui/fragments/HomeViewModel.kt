@@ -41,6 +41,12 @@ class HomeViewModel @Inject constructor(
         repository.getProduct(it.peekContent())
     }
 
+    var trendingRequest = MutableLiveData<Event<Int>>()
+    var trendingList = ArrayList<ProductData>()
+    var trendingListResponse : LiveData<Resource<ProductResponse>> = trendingRequest.switchMap {
+        repository.getTrending(it.peekContent())
+    }
+
     var event = MutableLiveData<Event<String>>()
     var productEvent = MutableLiveData<Event<String>>()
     var productCount = MutableLiveData<Int>()
@@ -61,6 +67,16 @@ class HomeViewModel @Inject constructor(
             Log.d("THE DATA IS PRODUCT ","$it")
             if(it.status == Status.SUCCESS && it.data != null){
                 productList = it.data.data as ArrayList<ProductData>
+                productEvent.postValue(Event(it.status.name))
+            }else if(it.status == Status.ERROR){
+                productEvent.postValue(Event(it.status.name))
+            }
+        }
+
+        trendingListResponse.observeForever {
+            Log.d("THE DATA IS PRODUCT ","$it")
+            if(it.status == Status.SUCCESS && it.data != null){
+                trendingList = it.data.data as ArrayList<ProductData>
                 productEvent.postValue(Event(it.status.name))
             }else if(it.status == Status.ERROR){
                 productEvent.postValue(Event(it.status.name))
