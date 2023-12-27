@@ -10,4 +10,7 @@
     <color name="dark_blue">#034EA2</color>
 
     <color name="gray">#FDFCFC</color>
+    <color name="divider">#e5e7eb</color>
+    <color name="update_submit">#80bd27</color>
+
 </resources>

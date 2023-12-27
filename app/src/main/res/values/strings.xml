@@ -23,4 +23,20 @@
     <string name="help_line_01860998499">Help Line (01860998499)</string>
     <string name="profile_change">Profile Change</string>
     <string name="reset">Reset</string>
+    <string name="change_picture">Change Picture</string>
+    <string name="update">Update</string>
+    <string name="update_password">Update Password</string>
+    <string name="old_password">Old Password</string>
+    <string name="new_password">New Password</string>
+    <string name="confirm_new_password">Confirm New Password</string>
+    <string name="enter_your_old_password">Enter Your Old Password</string>
+    <string name="enter_your_new_password">Enter Your New Password</string>
+    <string name="enter_new_password_again">Enter New Password Again</string>
+    <string name="enter_your_first_name">Enter Your First Name</string>
+    <string name="enter_your_last_name">Enter Your Last Name</string>
+    <string name="enter_your_mobile_number">Enter Your Mobile Number</string>
+    <string name="enter_your_shop_name">Enter Your Shop Name</string>
+    <string name="enter_your_shop_address">Enter Your Shop Address</string>
+    <string name="enter_your_nid">Enter Your Nid Number</string>
+    <string name="enter_your_license_number">Enter Your License Number</string>
 </resources>

@@ -19,16 +19,18 @@
             android:layout_margin="@dimen/_12sdp">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/_80sdp"
+                android:layout_height="@dimen/_40sdp"
                 android:layout_gravity="center"
-                android:src="@drawable/banner_background"/>
+                android:src="@drawable/logo"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/register_new_account"
+                android:textStyle="bold"
+                android:textSize="@dimen/_18ssp"
                 />
 
             <TextView
@@ -43,6 +45,8 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:padding="@dimen/_8sdp"
+                android:hint="@string/enter_your_first_name"
                 android:background="@drawable/bg_round"
                 android:layout_marginTop="@dimen/_8sdp"
                 android:text="@={viewModel.firstName}"/>
@@ -59,8 +63,11 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:padding="@dimen/_8sdp"
+                android:hint="@string/enter_your_last_name"
                 android:background="@drawable/bg_round"
                 android:layout_marginTop="@dimen/_8sdp"
+                android:autofillHints=""
                 android:text="@={viewModel.lastName}"/>
 
             <TextView
@@ -75,6 +82,8 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:padding="@dimen/_8sdp"
+                android:hint="@string/enter_your_mobile_number"
                 android:background="@drawable/bg_round"
                 android:layout_marginTop="@dimen/_8sdp"
                 android:text="@={viewModel.mobile}"/>
@@ -91,6 +100,8 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:padding="@dimen/_8sdp"
+                android:hint="@string/enter_your_shop_name"
                 android:background="@drawable/bg_round"
                 android:layout_marginTop="@dimen/_8sdp"
                 android:text="@={viewModel.shopName}"/>
@@ -107,6 +118,8 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:padding="@dimen/_8sdp"
+                android:hint="@string/enter_your_shop_address"
                 android:background="@drawable/bg_round"
                 android:layout_marginTop="@dimen/_8sdp"
                 android:text="@={viewModel.shopAddress}"/>
@@ -122,6 +135,8 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:padding="@dimen/_8sdp"
+                android:hint="@string/enter_your_nid"
                 android:background="@drawable/bg_round"
                 android:layout_marginTop="@dimen/_8sdp"
                 android:text="@={viewModel.nid}"/>
@@ -137,6 +152,8 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:padding="@dimen/_8sdp"
+                android:hint="@string/enter_your_license_number"
                 android:background="@drawable/bg_round"
                 android:layout_marginTop="@dimen/_8sdp"
                 android:text="@={viewModel.license}"/>
@@ -146,6 +163,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_8sdp"
+                android:background="@drawable/update_submit_button"
                 android:text="@string/register" />
 
             <androidx.appcompat.widget.AppCompatButton

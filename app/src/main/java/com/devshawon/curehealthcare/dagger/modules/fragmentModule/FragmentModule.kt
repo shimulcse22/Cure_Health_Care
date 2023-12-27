@@ -9,6 +9,7 @@ import com.devshawon.curehealthcare.ui.fragments.cart.CartFragment
 import com.devshawon.curehealthcare.ui.fragments.order.OrderFragment
 import com.devshawon.curehealthcare.ui.fragments.home.HomeFragment
 import com.devshawon.curehealthcare.ui.fragments.HomeViewModel
+import com.devshawon.curehealthcare.ui.fragments.profile.ChangePassword
 import com.devshawon.curehealthcare.ui.fragments.profile.EditProfileFragment
 import com.devshawon.curehealthcare.ui.fragments.profile.ProfileFragment
 import com.devshawon.curehealthcare.ui.fragments.trending.TrendingFragment
@@ -48,5 +49,9 @@ internal abstract class FragmentModule {
     @FragmentScoped
     @ContributesAndroidInjector
     internal abstract fun contributeEditProfileFragment(): EditProfileFragment
+
+    @FragmentScoped
+    @ContributesAndroidInjector
+    internal abstract fun contributeChangePassword(): ChangePassword
 
 }
