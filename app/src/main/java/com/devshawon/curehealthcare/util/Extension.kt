@@ -46,3 +46,11 @@ fun Context.sharedPreferences(name: String): SharedPreferences {
         EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
     )
 }
+
+fun getAmount(amountInStr: String?): Double {
+    return try {
+        amountInStr?.toDouble() ?: 0.0
+    } catch (e: Exception) {
+        0.0
+    }
+}

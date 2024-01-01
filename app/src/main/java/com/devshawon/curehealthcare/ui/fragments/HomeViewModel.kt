@@ -29,6 +29,9 @@ class HomeViewModel @Inject constructor(
     var mobile = MutableLiveData<String>()
     var shopAddress = MutableLiveData<String>()
 
+//    val badge = MutableLiveData<Int>()
+//    var productCount = MutableLiveData<t>()
+
     var bannerRequest = MutableLiveData<Event<Unit>>()
     var bannerList = ArrayList<String>()
     var bannerListResponse : LiveData<Resource<BannerResponseMobile>> = bannerRequest.switchMap {
@@ -37,6 +40,7 @@ class HomeViewModel @Inject constructor(
 
     var productRequest = MutableLiveData<Event<ProductRequest>>()
     var productList = ArrayList<ProductData>()
+    var productListLiveData = MutableLiveData<ArrayList<ProductData>>()
     var productListResponse : LiveData<Resource<ProductResponse>> = productRequest.switchMap {
         repository.getProduct(it.peekContent())
     }

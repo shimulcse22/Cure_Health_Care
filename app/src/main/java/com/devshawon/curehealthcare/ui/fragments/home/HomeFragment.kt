@@ -1,7 +1,5 @@
 package com.devshawon.curehealthcare.ui.fragments.home
 
-import android.app.people.PeopleManager
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -18,16 +16,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SnapHelper
-import com.devshawon.curehealthcare.network.Status
 import com.devshawon.curehealthcare.R
 import com.devshawon.curehealthcare.base.ui.BaseFragment
 import com.devshawon.curehealthcare.dagger.viewModel.AppViewModelFactory
 import com.devshawon.curehealthcare.databinding.FragmentHomeBinding
+import com.devshawon.curehealthcare.models.ProductData
 import com.devshawon.curehealthcare.models.ProductRequest
+import com.devshawon.curehealthcare.network.Status
 import com.devshawon.curehealthcare.ui.adapter.CommonAdapter
 import com.devshawon.curehealthcare.ui.adapter.ProductAdapter
 import com.devshawon.curehealthcare.ui.fragments.HomeViewModel
 import com.devshawon.curehealthcare.ui.fragments.OnItemClick
+import com.devshawon.curehealthcare.ui.fragments.UpdateCart
 import com.devshawon.curehealthcare.useCase.result.Event
 import com.devshawon.curehealthcare.useCase.result.EventObserver
 import kotlinx.coroutines.launch
@@ -37,6 +37,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home),O
     @Inject
     lateinit var viewModelFactory: AppViewModelFactory
     private val homeViewModel: HomeViewModel by navGraphViewModels(R.id.cure_health_care_nav_host_xml) { viewModelFactory }
+
 
     private lateinit var homeBannerAdapter: CommonAdapter
     private lateinit var productAdapter: ProductAdapter
@@ -169,11 +170,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home),O
         handler.removeCallbacks(runnable)
     }
 
-    override fun onPlusIconClick(item: Int) {
+    override fun onPlusIconClick(item: ProductData) {
         homeViewModel.productCount.value = homeViewModel.productCount.value ?: (0 + 1)
+        (activity as UpdateCart).inCreaseItem(item)
     }
 
-    override fun onMinusIconClick(item: Int) {
+    override fun onMinusIconClick(item: ProductData) {
         homeViewModel.productCount.value = homeViewModel.productCount.value ?: (0 - 1)
     }
 }

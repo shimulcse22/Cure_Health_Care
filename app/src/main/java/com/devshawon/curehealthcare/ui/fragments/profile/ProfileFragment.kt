@@ -21,5 +21,8 @@ class ProfileFragment: BaseFragment<FragmentProfileBinding>(R.layout.fragment_pr
         mBinding.profileLayout.setOnClickListener{
             navigate(ProfileFragmentDirections.actionProfileFragmentToEditProfileFragment())
         }
+        mBinding.changePasswordLayout.setOnClickListener {
+            navigate(ProfileFragmentDirections.actionProfileFragmentToChagePassword())
+        }
     }
 }

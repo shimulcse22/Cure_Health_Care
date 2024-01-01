@@ -39,4 +39,7 @@
     <string name="enter_your_shop_address">Enter Your Shop Address</string>
     <string name="enter_your_nid">Enter Your Nid Number</string>
     <string name="enter_your_license_number">Enter Your License Number</string>
+    <string name="place_order">Place Order</string>
+    <string name="unique_item_s">Unique item(s) :</string>
+    <string name="total_amount">Total amount :</string>
 </resources>

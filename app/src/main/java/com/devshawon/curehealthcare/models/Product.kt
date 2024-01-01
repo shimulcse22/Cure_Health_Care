@@ -111,7 +111,8 @@ data class ProductData(
     @Json(name = "unit_type")
     val unitType: String?="",
     @Json(name = "updated_at")
-    val updatedAt: String?=""
+    val updatedAt: String?="",
+    var productCount :Int?= 0,
 )
 
 @JsonClass(generateAdapter = true)

@@ -15,7 +15,7 @@ import com.devshawon.curehealthcare.databinding.ListItemMedicineBinding
 import com.devshawon.curehealthcare.models.ProductData
 import com.devshawon.curehealthcare.ui.fragments.OnItemClick
 
-class ProductAdapter(private val onItemClick : OnItemClick) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ProductCartAdapter (private val onItemClick : OnItemClick) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val productList = ArrayList<ProductData>()
     private var itemViewType = 0
     lateinit var context: Context

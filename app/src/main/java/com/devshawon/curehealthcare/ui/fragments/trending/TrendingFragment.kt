@@ -10,6 +10,7 @@ import com.devshawon.curehealthcare.R
 import com.devshawon.curehealthcare.base.ui.BaseFragment
 import com.devshawon.curehealthcare.dagger.viewModel.AppViewModelFactory
 import com.devshawon.curehealthcare.databinding.FragmentTrendingBinding
+import com.devshawon.curehealthcare.models.ProductData
 import com.devshawon.curehealthcare.models.ProductRequest
 import com.devshawon.curehealthcare.network.Status
 import com.devshawon.curehealthcare.ui.adapter.ProductAdapter
@@ -34,6 +35,9 @@ class TrendingFragment : BaseFragment<FragmentTrendingBinding>(R.layout.fragment
             homeViewModel.trendingRequest.postValue(Event(1))
         }
         productAdapter = ProductAdapter(onItemClick = this)
+        lifecycleScope.launch {
+            productAdapter.updateContext(requireContext())
+        }
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -49,9 +53,9 @@ class TrendingFragment : BaseFragment<FragmentTrendingBinding>(R.layout.fragment
         })
     }
 
-    override fun onPlusIconClick(item: Int) {
+    override fun onPlusIconClick(item: ProductData) {
     }
 
-    override fun onMinusIconClick(item: Int) {
+    override fun onMinusIconClick(item: ProductData) {
     }
 }
