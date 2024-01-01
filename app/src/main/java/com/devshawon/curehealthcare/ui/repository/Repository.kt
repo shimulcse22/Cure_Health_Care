@@ -9,6 +9,8 @@ import com.devshawon.curehealthcare.models.LoginRequest
 import com.devshawon.curehealthcare.models.LoginResponse
 import com.devshawon.curehealthcare.models.ProductRequest
 import com.devshawon.curehealthcare.models.ProductResponse
+import com.devshawon.curehealthcare.models.UpdatePassword
+import com.devshawon.curehealthcare.models.UpdatePasswordResponse
 import com.devshawon.curehealthcare.network.NetworkBoundResourceOnlyNetwork
 import com.devshawon.curehealthcare.network.Resource
 import javax.inject.Inject
@@ -37,6 +39,12 @@ class Repository @Inject constructor(
     fun getTrending(page : Int) : LiveData<Resource<ProductResponse>>{
         return object : NetworkBoundResourceOnlyNetwork<ProductResponse>(appExecutors) {
             override fun createCall() = apiService.getTrending(page)
+        }.asLiveData()
+    }
+
+    fun updatePassword(body : UpdatePassword) : LiveData<Resource<UpdatePasswordResponse>>{
+        return object : NetworkBoundResourceOnlyNetwork<UpdatePasswordResponse>(appExecutors) {
+            override fun createCall() = apiService.updatePassword(body)
         }.asLiveData()
     }
 }

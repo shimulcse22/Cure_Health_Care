@@ -41,16 +41,12 @@ class AuthViewModel @Inject constructor(
     init {
         loginResponse.observeForever {
             if(it.status == Status.SUCCESS && it.data != null){
-                Log.d("THE DATA IS 1",it.status.name)
                 it.data.let {d->
                     loginData.value = d
                 }
                 it.data.token?.let { it1 -> tokenUseCase(it1) }
-
                 event.postValue(Event(it.status.name))
             }else if(it.status == Status.ERROR){
-                Log.d("THE DATA IS 2",it.status.name)
-
                 event.postValue(Event(it.status.name))
             }
         }

@@ -24,10 +24,9 @@ class LoginFragment  : BaseFragment<LoginFragmentLayoutBinding>(R.layout.login_f
         mBinding.viewModel = viewModel
 
         mBinding.loginBtn.setOnClickListener {
-        Log.d("THE DATA IS CLICKED","j")
             viewModel.loginRequest.postValue(LoginRequest(
                 phone = "01677732635",
-                password = "770175"
+                password = "111111"
             ))
         }
 

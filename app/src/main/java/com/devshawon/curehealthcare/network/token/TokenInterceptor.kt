@@ -69,7 +69,6 @@ class TokenInterceptor constructor(
                                 initialResponse.close()
                                 val newRequest = request(chain, token)
                                 chain.proceed(newRequest)
-                                // initialResponse
                             }
                         }
                     }
@@ -84,19 +83,14 @@ class TokenInterceptor constructor(
     private fun request(chain: Interceptor.Chain, token: String): Request {
         val original = chain.request()
         val originalHttpUrl = original.url()
-        val appName = "customer"
-
-
         val requestBuilder = original.newBuilder()
-            .addHeader("E-App-Name", appName)
+            .addHeader("Authorization", "Bearer $token")
             .url(originalHttpUrl)
         return requestBuilder.build()
     }
 
     private fun logout() {
         Timber.e("Logout-")
-        //val intent = Intent(ACTION_LOGOUT)
-        //LocalBroadcastManager.getInstance(context).sendBroadcast(intent)
     }
 }
 

@@ -12,6 +12,8 @@ import com.devshawon.curehealthcare.models.ProductData
 import com.devshawon.curehealthcare.models.ProductForms
 import com.devshawon.curehealthcare.models.ProductRequest
 import com.devshawon.curehealthcare.models.ProductResponse
+import com.devshawon.curehealthcare.models.UpdatePassword
+import com.devshawon.curehealthcare.models.UpdatePasswordResponse
 import com.devshawon.curehealthcare.network.Resource
 import com.devshawon.curehealthcare.ui.repository.Repository
 import com.devshawon.curehealthcare.useCase.result.Event
@@ -28,9 +30,6 @@ class HomeViewModel @Inject constructor(
     var nid = MutableLiveData<String>()
     var mobile = MutableLiveData<String>()
     var shopAddress = MutableLiveData<String>()
-
-//    val badge = MutableLiveData<Int>()
-//    var productCount = MutableLiveData<t>()
 
     var bannerRequest = MutableLiveData<Event<Unit>>()
     var bannerList = ArrayList<String>()
@@ -49,6 +48,16 @@ class HomeViewModel @Inject constructor(
     var trendingList = ArrayList<ProductData>()
     var trendingListResponse : LiveData<Resource<ProductResponse>> = trendingRequest.switchMap {
         repository.getTrending(it.peekContent())
+    }
+
+    var oldPassword = MutableLiveData<String>()
+    var newPassword = MutableLiveData<String>()
+    var confirmNewPassword = MutableLiveData<String>()
+
+    var updatePasswordRequest = MutableLiveData<UpdatePassword>()
+    var updatePasswordEvent = MutableLiveData<Event<String>>()
+    var updatePasswordResponse : LiveData<Resource<UpdatePasswordResponse>> = updatePasswordRequest.switchMap {
+        repository.updatePassword(it)
     }
 
     var event = MutableLiveData<Event<String>>()
@@ -84,6 +93,14 @@ class HomeViewModel @Inject constructor(
                 productEvent.postValue(Event(it.status.name))
             }else if(it.status == Status.ERROR){
                 productEvent.postValue(Event(it.status.name))
+            }
+        }
+
+        updatePasswordResponse.observeForever {
+            if(it.status == Status.SUCCESS && it.data != null){
+                updatePasswordEvent.postValue(Event(it.data.message))
+            }else if(it.status == Status.ERROR){
+                updatePasswordEvent.postValue(Event(it.data?.message!!))
             }
         }
     }

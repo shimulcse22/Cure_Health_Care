@@ -46,16 +46,6 @@ sealed class ApiResponse<T> {
                 }
 
                 response.code() in 400..499 -> {
-//                    if (response.code() == 404) {
-//
-//                        ApiErrorResponse(
-//                            ApiError(
-//                                HttpStatus.NO_INTERNET_CONNECTION,
-//                                CustomerApplication.context.getString(R.string.error_message_network),
-//                                "en"
-//                            )
-//                        )
-//                    } else {
                     var msg = response.errorBody()?.string() ?: ""
                     var errorCode = ""
                     if (msg.contains("error code: 1020")) {

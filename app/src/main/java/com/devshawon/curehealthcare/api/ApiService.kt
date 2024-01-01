@@ -9,6 +9,7 @@ import com.devshawon.curehealthcare.models.ProductResponse
 import com.devshawon.curehealthcare.models.RefreshToken
 import com.devshawon.curehealthcare.models.RefreshTokenResponse
 import com.devshawon.curehealthcare.models.UpdatePassword
+import com.devshawon.curehealthcare.models.UpdatePasswordResponse
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -32,6 +33,6 @@ interface ApiService {
     @GET("api/v2/trending")
     fun getTrending( @Query("page") page: Int?=1) : LiveData<ApiResponse<ProductResponse>>
 
-//    @PUT
-//    fun updatePassword(@Body body : UpdatePassword) :
+    @PUT("api/v2/profile/password-reset")
+    fun updatePassword(@Body body : UpdatePassword) : LiveData<ApiResponse<UpdatePasswordResponse>>
 }
