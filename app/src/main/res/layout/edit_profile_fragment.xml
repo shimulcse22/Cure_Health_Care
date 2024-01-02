@@ -203,6 +203,7 @@
                     android:text="@={viewModel.license}"/>
 
                 <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/update_profile_btn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_18sdp"

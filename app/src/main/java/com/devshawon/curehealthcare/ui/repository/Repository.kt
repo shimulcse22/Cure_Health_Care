@@ -5,12 +5,15 @@ import com.devshawon.curehealthcare.api.ApiService
 import com.devshawon.curehealthcare.api.AppExecutors
 import com.devshawon.curehealthcare.models.BannerResponse
 import com.devshawon.curehealthcare.models.BannerResponseMobile
+import com.devshawon.curehealthcare.models.EditProfileGetRequest
 import com.devshawon.curehealthcare.models.LoginRequest
 import com.devshawon.curehealthcare.models.LoginResponse
 import com.devshawon.curehealthcare.models.ProductRequest
 import com.devshawon.curehealthcare.models.ProductResponse
 import com.devshawon.curehealthcare.models.UpdatePassword
 import com.devshawon.curehealthcare.models.UpdatePasswordResponse
+import com.devshawon.curehealthcare.models.UpdateProfileRequest
+import com.devshawon.curehealthcare.models.UpdateProfileResponse
 import com.devshawon.curehealthcare.network.NetworkBoundResourceOnlyNetwork
 import com.devshawon.curehealthcare.network.Resource
 import javax.inject.Inject
@@ -45,6 +48,18 @@ class Repository @Inject constructor(
     fun updatePassword(body : UpdatePassword) : LiveData<Resource<UpdatePasswordResponse>>{
         return object : NetworkBoundResourceOnlyNetwork<UpdatePasswordResponse>(appExecutors) {
             override fun createCall() = apiService.updatePassword(body)
+        }.asLiveData()
+    }
+
+    fun getEditProfile() : LiveData<Resource<EditProfileGetRequest>>{
+        return object : NetworkBoundResourceOnlyNetwork<EditProfileGetRequest>(appExecutors) {
+            override fun createCall() = apiService.getProfile()
+        }.asLiveData()
+    }
+
+    fun updateProfile(body : UpdateProfileRequest) : LiveData<Resource<UpdateProfileResponse>>{
+        return object : NetworkBoundResourceOnlyNetwork<UpdateProfileResponse>(appExecutors) {
+            override fun createCall() = apiService.updateProfile(body)
         }.asLiveData()
     }
 }

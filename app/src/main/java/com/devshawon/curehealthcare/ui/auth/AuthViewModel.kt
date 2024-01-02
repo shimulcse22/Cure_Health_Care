@@ -12,11 +12,13 @@ import com.devshawon.curehealthcare.network.Resource
 import com.devshawon.curehealthcare.ui.repository.Repository
 import com.devshawon.curehealthcare.useCase.TokenUseCase
 import com.devshawon.curehealthcare.useCase.result.Event
+import com.devshawon.curehealthcare.util.PreferenceStorage
 import javax.inject.Inject
 
 class AuthViewModel @Inject constructor(
     private val repository: Repository,
     private val tokenUseCase: TokenUseCase,
+    var preferences: PreferenceStorage,
 ) : ViewModel() {
 
     var phone = MutableLiveData<String>()
@@ -43,8 +45,12 @@ class AuthViewModel @Inject constructor(
             if(it.status == Status.SUCCESS && it.data != null){
                 it.data.let {d->
                     loginData.value = d
+                    preferences.mobileNumber = d.phone?:"233"
+                    preferences.shopAddress = d.customer.shopName?:""
+                    preferences.customerName = d.name?:""
                 }
                 it.data.token?.let { it1 -> tokenUseCase(it1) }
+
                 event.postValue(Event(it.status.name))
             }else if(it.status == Status.ERROR){
                 event.postValue(Event(it.status.name))

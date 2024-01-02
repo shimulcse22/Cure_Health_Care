@@ -2,6 +2,8 @@ package com.devshawon.curehealthcare.api
 
 import androidx.lifecycle.LiveData
 import com.devshawon.curehealthcare.models.BannerResponseMobile
+import com.devshawon.curehealthcare.models.EditProfileData
+import com.devshawon.curehealthcare.models.EditProfileGetRequest
 import com.devshawon.curehealthcare.models.LoginRequest
 import com.devshawon.curehealthcare.models.LoginResponse
 import com.devshawon.curehealthcare.models.ProductRequest
@@ -10,6 +12,8 @@ import com.devshawon.curehealthcare.models.RefreshToken
 import com.devshawon.curehealthcare.models.RefreshTokenResponse
 import com.devshawon.curehealthcare.models.UpdatePassword
 import com.devshawon.curehealthcare.models.UpdatePasswordResponse
+import com.devshawon.curehealthcare.models.UpdateProfileRequest
+import com.devshawon.curehealthcare.models.UpdateProfileResponse
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -35,4 +39,11 @@ interface ApiService {
 
     @PUT("api/v2/profile/password-reset")
     fun updatePassword(@Body body : UpdatePassword) : LiveData<ApiResponse<UpdatePasswordResponse>>
+
+    @GET("api/v2/profile_info")
+    fun getProfile() : LiveData<ApiResponse<EditProfileGetRequest>>
+
+    @PUT("api/v2/profile/update")
+    fun updateProfile(@Body body : UpdateProfileRequest) : LiveData<ApiResponse<UpdateProfileResponse>>
+
 }

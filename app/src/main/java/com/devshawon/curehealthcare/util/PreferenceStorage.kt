@@ -13,23 +13,29 @@ import kotlin.reflect.KProperty
 
 interface PreferenceStorage {
     var refreshToken: String
-    var customer: Boolean
     var token: String
+    var mobileNumber: String
+    var customerName : String
+    var shopAddress : String
 }
 
 class SharedPreferenceStorage(context: Context) : PreferenceStorage {
     private val prefs: Lazy<SharedPreferences> = lazy {
         context.sharedPreferences(PREFS_NAME)
     }
-    override var customer by BooleanPreference(prefs, CUSTOMER_NAME)
     override var token by StringPreference(prefs, PREF_TOKEN, "")
     override var refreshToken by StringPreference(prefs, PREF_REFRESH_TOKEN, "")
+    override var mobileNumber by StringPreference(prefs, MOBILE_NUMBER, "")
+    override  var customerName by StringPreference(prefs, CUSTOMER_NAME,"")
+    override  var shopAddress by StringPreference(prefs, SHOP_ADDRESS,"")
 
     companion object {
         const val PREFS_NAME = "cure_health_care"
-        const val CUSTOMER_NAME = "customer_name"
         const val PREF_TOKEN = "pref_token"
         const val PREF_REFRESH_TOKEN = "pref_refreshToken"
+        const val MOBILE_NUMBER = "mobile_number"
+        const val CUSTOMER_NAME = "customer_name"
+        const val SHOP_ADDRESS = "shop_address"
     }
 }
 

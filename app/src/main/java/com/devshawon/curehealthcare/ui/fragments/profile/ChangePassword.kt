@@ -23,7 +23,6 @@ class ChangePassword : BaseFragment<ChnagePasswordFragmentBinding>(R.layout.chna
         mBinding.viewModel = homeViewModel
 
         mBinding.updatePassword.setOnClickListener{
-            Log.d("THE UPDATE IS ","${homeViewModel.newPassword.value}")
             homeViewModel.updatePasswordRequest.postValue(
                 UpdatePassword(
                     oldPassword = homeViewModel.oldPassword.value!!,

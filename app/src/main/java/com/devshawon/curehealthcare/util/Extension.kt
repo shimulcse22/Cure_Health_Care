@@ -2,6 +2,10 @@ package com.devshawon.curehealthcare.util
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.view.LayoutInflater
+import android.view.View
+import android.widget.TextView
+import androidx.annotation.IdRes
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavDirections
@@ -9,6 +13,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import com.devshawon.curehealthcare.R
+import com.google.android.material.bottomnavigation.BottomNavigationItemView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 fun Fragment.showDialog(
@@ -54,3 +60,18 @@ fun getAmount(amountInStr: String?): Double {
         0.0
     }
 }
+
+//fun showBadge(
+//    context: Context?,
+//    bottomNavigationView: BottomNavigationView,
+//    @IdRes itemId: Int,
+//    value: String?
+//) {
+//    removeBadge(bottomNavigationView, itemId)
+//    val itemView: BottomNavigationItemView = bottomNavigationView.findViewById(itemId)
+//    val badge: View = LayoutInflater.from(context)
+//        .inflate(R.layout.badge_layout, bottomNavigationView, false)
+//    val text: TextView = badge.findViewById(R.id.badge_text_view)
+//    text.text = value
+//    itemView.addView(badge)
+//}
