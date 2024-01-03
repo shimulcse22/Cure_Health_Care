@@ -23,6 +23,7 @@ import com.devshawon.curehealthcare.databinding.FragmentHomeBinding
 import com.devshawon.curehealthcare.models.ProductData
 import com.devshawon.curehealthcare.models.ProductRequest
 import com.devshawon.curehealthcare.network.Status
+import com.devshawon.curehealthcare.ui.CureHealthCareActivity
 import com.devshawon.curehealthcare.ui.adapter.CommonAdapter
 import com.devshawon.curehealthcare.ui.adapter.ProductAdapter
 import com.devshawon.curehealthcare.ui.fragments.HomeViewModel
@@ -33,7 +34,7 @@ import com.devshawon.curehealthcare.useCase.result.EventObserver
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home),OnItemClick {
+class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), OnItemClick {
     @Inject
     lateinit var viewModelFactory: AppViewModelFactory
     private val homeViewModel: HomeViewModel by navGraphViewModels(R.id.cure_health_care_nav_host_xml) { viewModelFactory }
@@ -70,14 +71,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home),O
             homeBannerAdapter.updateContext(requireContext())
             productAdapter.updateContext(requireContext())
         }
-        lifecycleScope.launch{
-            homeViewModel.productRequest.postValue(Event(ProductRequest(
-                company = "",
-                firstLatter = "",
-                form = "",
-                page = 1,
-                search = ""
-            )))
+        lifecycleScope.launch {
+            homeViewModel.productRequest.postValue(
+                Event(
+                    ProductRequest(
+                        company = "", firstLatter = "", form = "", page = 1, search = ""
+                    )
+                )
+            )
         }
     }
 
@@ -98,7 +99,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home),O
 
         mBinding.medicineLayout.adapter = productAdapter
         mBinding.medicineLayout.itemAnimator = DefaultItemAnimator()
-        mBinding.medicineLayout.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        mBinding.medicineLayout.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
         if (mBinding.bannerRecyclerView.onFlingListener == null) {
             snapHelper.attachToRecyclerView(mBinding.bannerRecyclerView)
@@ -108,14 +110,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home),O
             if (it == Status.SUCCESS.name) {
                 interval = (3 * 1000)
                 handler.postDelayed(runnable, interval.toLong())
-                homeBannerAdapter.updateList(homeViewModel.bannerList,0)
+                homeBannerAdapter.updateList(homeViewModel.bannerList, 0)
             }
         })
 
         homeViewModel.productEvent.observe(viewLifecycleOwner, EventObserver {
             if (it == Status.SUCCESS.name) {
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-                productAdapter.updateProductList(homeViewModel.productList,1)
+                productAdapter.updateProductList(homeViewModel.productList, 1)
             }
         })
 
@@ -133,7 +135,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home),O
     private fun addRadioButtons() {
         mBinding.radioButton.orientation = LinearLayout.HORIZONTAL
         val params = RadioGroup.LayoutParams(
-           45, 50
+            45, 50
         )
         for (i in 0 until 27) {
             val radioButton = RadioButton(requireContext())
@@ -173,9 +175,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home),O
     override fun onPlusIconClick(item: ProductData) {
         homeViewModel.productCount.value = homeViewModel.productCount.value ?: (0 + 1)
         (activity as UpdateCart).inCreaseItem(item)
+        (activity as CureHealthCareActivity).showOrHideBadge(0)
     }
 
     override fun onMinusIconClick(item: ProductData) {
         homeViewModel.productCount.value = homeViewModel.productCount.value ?: (0 - 1)
+        (activity as UpdateCart).inCreaseItem(item)
+        (activity as CureHealthCareActivity).showOrHideBadge(0)
     }
 }

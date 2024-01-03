@@ -61,17 +61,32 @@ fun getAmount(amountInStr: String?): Double {
     }
 }
 
-//fun showBadge(
-//    context: Context?,
-//    bottomNavigationView: BottomNavigationView,
-//    @IdRes itemId: Int,
-//    value: String?
-//) {
-//    removeBadge(bottomNavigationView, itemId)
-//    val itemView: BottomNavigationItemView = bottomNavigationView.findViewById(itemId)
-//    val badge: View = LayoutInflater.from(context)
-//        .inflate(R.layout.badge_layout, bottomNavigationView, false)
-//    val text: TextView = badge.findViewById(R.id.badge_text_view)
-//    text.text = value
-//    itemView.addView(badge)
-//}
+fun getInt(amountInStr: String?): Int {
+    return try {
+        amountInStr?.toInt()?:0
+    } catch (e: Exception) {
+        0
+    }
+}
+
+fun showBadge(
+    context: Context?,
+    bottomNavigationView: BottomNavigationView,
+    @IdRes itemId: Int,
+    value: String?
+) {
+    removeBadge(bottomNavigationView, itemId)
+    val itemView: BottomNavigationItemView = bottomNavigationView.findViewById(itemId)
+    val badge: View = LayoutInflater.from(context)
+        .inflate(R.layout.badge_layout, bottomNavigationView, false)
+    val text: TextView = badge.findViewById(R.id.badge_text_view)
+    text.text = value
+    itemView.addView(badge)
+}
+
+fun removeBadge(bottomNavigationView: BottomNavigationView, @IdRes itemId: Int) {
+    val itemView: BottomNavigationItemView = bottomNavigationView.findViewById(itemId)
+    if (itemView.childCount == 3) {
+        itemView.removeViewAt(2)
+    }
+}

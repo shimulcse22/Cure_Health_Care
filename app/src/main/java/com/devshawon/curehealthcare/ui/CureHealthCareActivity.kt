@@ -17,15 +17,20 @@ import com.devshawon.curehealthcare.models.ProductData
 import com.devshawon.curehealthcare.ui.fragments.HomeViewModel
 import com.devshawon.curehealthcare.ui.fragments.UpdateCart
 import com.devshawon.curehealthcare.useCase.result.EventObserver
+import com.devshawon.curehealthcare.util.PreferenceStorage
 import com.devshawon.curehealthcare.util.getAmount
+import com.devshawon.curehealthcare.util.removeBadge
+import com.devshawon.curehealthcare.util.showBadge
 import javax.inject.Inject
 
 class CureHealthCareActivity : BaseActivity<ActivityCureHealthCareBinding>(R.layout.activity_cure_health_care),UpdateCart {
     @Inject
     lateinit var viewModelFactory: AppViewModelFactory
+    @Inject
+    lateinit var preferences: PreferenceStorage
     private val viewModel by viewModels<HomeViewModel> { viewModelFactory }
     private lateinit var cureHealthCareApp : CureHealthCareApplication
-    val productListLiveData : ArrayList<ProductData> = arrayListOf()
+    val productListLiveData : MutableList<ProductData> = mutableListOf()
     val productId : ArrayList<Int> = arrayListOf()
     var productPrice : Double = 0.00
 
@@ -36,6 +41,13 @@ class CureHealthCareActivity : BaseActivity<ActivityCureHealthCareBinding>(R.lay
         mBinding.lifecycleOwner = this
         mBinding.viewModel = viewModel
         cureHealthCareApp = this.application as CureHealthCareApplication
+        if(preferences.productList!!.isNotEmpty()){
+            productListLiveData.clear()
+            preferences.productList!!.forEach {
+                productListLiveData.add(it!!)
+            }
+            showOrHideBadge(0)
+        }
         mBinding.bottomNavView.setupWithNavController(mNavController)
 
         mNavController.addOnDestinationChangedListener { _, destination, _ ->
@@ -44,6 +56,16 @@ class CureHealthCareActivity : BaseActivity<ActivityCureHealthCareBinding>(R.lay
             mBinding.bottomNavView.visibility =
                 if (isTopLevelDestination) View.VISIBLE else View.GONE
         }
+    }
+
+    override fun onStop() {
+        Log.d("THE PRODUCT DATA IS ", "$productListLiveData")
+        if(productListLiveData.isNotEmpty()){
+            Log.d("THE PRODUCT DATA IS 2", "$productListLiveData")
+            preferences.productList = productListLiveData.toMutableList()
+        }
+        super.onStop()
+        //super.onDestroy()
     }
 
     fun getStackCount(): Int {
@@ -72,5 +94,14 @@ class CureHealthCareActivity : BaseActivity<ActivityCureHealthCareBinding>(R.lay
 
     override fun decreaseItem(data: ProductData) {
         productListLiveData.remove(data)
+    }
+
+    fun showOrHideBadge(count: Int) {
+        val badge : Int  = productListLiveData.size
+        if (badge > 0) {
+            showBadge(this, mBinding.bottomNavView, R.id.cartFragment, badge.toString())
+        } else {
+            removeBadge(mBinding.bottomNavView, R.id.cartFragment)
+        }
     }
 }

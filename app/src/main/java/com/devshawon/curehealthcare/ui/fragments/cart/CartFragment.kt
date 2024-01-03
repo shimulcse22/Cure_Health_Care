@@ -37,7 +37,7 @@ class CartFragment : BaseFragment<FragmentCartBinding>(R.layout.fragment_cart),O
         productAdapter = ProductCartAdapter(onItemClick = this)
         productList.value = arrayListOf()
 
-        productList.value = (activity as CureHealthCareActivity).productListLiveData
+        productList.value = (activity as CureHealthCareActivity).productListLiveData  as ArrayList<ProductData>
         lifecycleScope.launch {
             productAdapter.updateContext(requireContext())
         }

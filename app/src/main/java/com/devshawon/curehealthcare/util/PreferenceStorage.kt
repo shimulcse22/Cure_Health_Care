@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.annotation.WorkerThread
 import androidx.core.content.edit
+import com.devshawon.curehealthcare.models.ProductData
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
@@ -17,6 +18,7 @@ interface PreferenceStorage {
     var mobileNumber: String
     var customerName : String
     var shopAddress : String
+    var productList: MutableList<ProductData?>?
 }
 
 class SharedPreferenceStorage(context: Context) : PreferenceStorage {
@@ -28,6 +30,11 @@ class SharedPreferenceStorage(context: Context) : PreferenceStorage {
     override var mobileNumber by StringPreference(prefs, MOBILE_NUMBER, "")
     override  var customerName by StringPreference(prefs, CUSTOMER_NAME,"")
     override  var shopAddress by StringPreference(prefs, SHOP_ADDRESS,"")
+    override var productList by ProductListPreference(
+        prefs,
+        PRODUCT_DATA,
+        ""
+    )
 
     companion object {
         const val PREFS_NAME = "cure_health_care"
@@ -36,6 +43,7 @@ class SharedPreferenceStorage(context: Context) : PreferenceStorage {
         const val MOBILE_NUMBER = "mobile_number"
         const val CUSTOMER_NAME = "customer_name"
         const val SHOP_ADDRESS = "shop_address"
+        const val PRODUCT_DATA = "product_data"
     }
 }
 
@@ -153,6 +161,36 @@ class ExcludeLayoutList(
             Types.newParameterizedType(List::class.java, String::class.java)
         val jsonAdapter: JsonAdapter<List<String>?> =
             moshe.adapter(listOfLayout)
+        val json = jsonAdapter.toJson(value)
+        preferences.value.edit { putString(name, json) }
+    }
+}
+
+class ProductListPreference(
+    private val preferences: Lazy<SharedPreferences>,
+    private val name: String,
+    private val defaultValue: String
+) : ReadWriteProperty<Any, MutableList<ProductData?>?> {
+    @WorkerThread
+    override fun getValue(thisRef: Any, property: KProperty<*>): MutableList<ProductData?>? {
+        val moshi = Moshi.Builder().build()
+        val value = preferences.value.getString(name, defaultValue) ?: defaultValue
+        val listOfCardsType: Type =
+            Types.newParameterizedType(MutableList::class.java, ProductData::class.java)
+        val jsonAdapter: JsonAdapter<MutableList<ProductData?>?> = moshi.adapter(listOfCardsType)
+        return try {
+            jsonAdapter.fromJson(value)?: mutableListOf()
+        } catch (e: Exception) {
+            mutableListOf()
+        }
+    }
+
+    override fun setValue(thisRef: Any, property: KProperty<*>, value: MutableList<ProductData?>?) {
+        val moshi = Moshi.Builder().build()
+        val listOfCardsType: Type =
+            Types.newParameterizedType(MutableList::class.java, ProductData::class.java)
+        val jsonAdapter: JsonAdapter<MutableList<ProductData?>?> =
+            moshi.adapter(listOfCardsType)
         val json = jsonAdapter.toJson(value)
         preferences.value.edit { putString(name, json) }
     }

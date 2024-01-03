@@ -26,7 +26,7 @@ class LoginFragment  : BaseFragment<LoginFragmentLayoutBinding>(R.layout.login_f
         mBinding.loginBtn.setOnClickListener {
             viewModel.loginRequest.postValue(LoginRequest(
                 phone = "01677732635",
-                password = "111111"
+                password = "507576"
             ))
         }
 
