@@ -31,6 +31,7 @@ class AuthViewModel @Inject constructor(
     var shopAddress = MutableLiveData<String>()
     var nid = MutableLiveData<String>()
     var license = MutableLiveData<String>()
+    var loader = MutableLiveData<Boolean>()
 
     var loginRequest = MutableLiveData<LoginRequest>()
     var loginData = MutableLiveData<LoginResponse>()
@@ -43,6 +44,7 @@ class AuthViewModel @Inject constructor(
     init {
         loginResponse.observeForever {
             if(it.status == Status.SUCCESS && it.data != null){
+                loader.value = false
                 it.data.let {d->
                     loginData.value = d
                     preferences.mobileNumber = d.phone?:"233"
@@ -50,10 +52,10 @@ class AuthViewModel @Inject constructor(
                     preferences.customerName = d.name?:""
                 }
                 it.data.token?.let { it1 -> tokenUseCase(it1) }
-
                 event.postValue(Event(it.status.name))
             }else if(it.status == Status.ERROR){
-                event.postValue(Event(it.status.name))
+                loader.value = false
+                event.postValue(Event(it.error?.message!!))
             }
         }
     }

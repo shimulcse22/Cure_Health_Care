@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.devshawon.curehealthcare.network.Resource" />
+
+        <import type="com.devshawon.curehealthcare.network.Status" />
+        <import type="android.view.View"/>
+
+        <variable
+            name="resource"
+            type="Resource" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/loading_state_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:background="@color/transparent_hundred_percent"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:paddingLeft="@dimen/_5sdp"
+        android:paddingTop="@dimen/_5sdp"
+        android:paddingRight="@dimen/_5sdp"
+        android:paddingBottom="@dimen/_5sdp"
+        android:visibility="visible"
+        tools:visibility="visible"
+        app:goneUnless="@{resource.status == Status.LOADING}">
+
+       <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/loading_state_progress_circular"
+            android:layout_width="@dimen/_46sdp"
+            android:layout_height="@dimen/_46sdp"
+            android:layout_gravity="center"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/processing_final" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

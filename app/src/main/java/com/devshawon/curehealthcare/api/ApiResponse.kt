@@ -14,7 +14,7 @@ sealed class ApiResponse<T> {
                 is IOException -> ApiErrorResponse(
                     ApiError(
                         "400",
-                        "",
+                        error.message?:"",
                         "en"
                     )
                 )
@@ -63,7 +63,8 @@ sealed class ApiResponse<T> {
                     val adapter = moshi.adapter(ApiError::class.java)
 
                     val apiError = try {
-                        adapter.fromJson(msg)!!
+                        ApiError(errorCode,msg,"en")
+                        //adapter.fromJson(msg)!!
                     } catch (io: IOException) {
                         ApiError(errorCode, msg, "en")
                     }

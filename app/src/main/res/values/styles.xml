@@ -30,4 +30,5 @@
         <item name="materialAlertDialogBodyTextStyle">@style/BodyTextStyle</item>
         <item name="android:background">@drawable/bg_round_alert_dialog</item>
     </style>
+    <style name="VerticalProgressBar" parent="@style/Widget.AppCompat.ProgressBar"/>
 </resources>

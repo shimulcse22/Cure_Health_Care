@@ -1,8 +1,8 @@
 package com.devshawon.curehealthcare.ui.auth.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.navGraphViewModels
 import com.devshawon.curehealthcare.R
 import com.devshawon.curehealthcare.base.ui.BaseFragment
@@ -13,30 +13,48 @@ import com.devshawon.curehealthcare.ui.CureHealthCareActivityScreen
 import com.devshawon.curehealthcare.ui.auth.AuthViewModel
 import com.devshawon.curehealthcare.useCase.result.EventObserver
 import com.devshawon.curehealthcare.util.navigate
+import com.devshawon.curehealthcare.util.positiveButton
+import com.devshawon.curehealthcare.util.showDialog
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class LoginFragment  : BaseFragment<LoginFragmentLayoutBinding>(R.layout.login_fragment_layout) {
+class LoginFragment : BaseFragment<LoginFragmentLayoutBinding>(R.layout.login_fragment_layout) {
     @Inject
     lateinit var viewModelFactory: AppViewModelFactory
     private val viewModel: AuthViewModel by navGraphViewModels(R.id.auth_nav_graph) { viewModelFactory }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mBinding.viewModel = viewModel
+        viewModel.loader.value = false
 
         mBinding.loginBtn.setOnClickListener {
-            viewModel.loginRequest.postValue(LoginRequest(
-                phone = "01677732635",
-                password = "507576"
-            ))
+            viewModel.loader.value = true
+            lifecycleScope.launch {
+                //mBinding.loadingStateProgressCircular.visibility = View.VISIBLE
+            }
+
+            viewModel.loginRequest.postValue(
+                LoginRequest(
+                    phone = "01677732635", password = "507576"
+                )
+            )
         }
 
-        viewModel.event.observe(viewLifecycleOwner,EventObserver{
-            if(it == com.devshawon.curehealthcare.network.Status.SUCCESS.name){
+        viewModel.event.observe(viewLifecycleOwner, EventObserver {
+            //mBinding.loadingStateProgressCircular.visibility = View.GONE
+            if (it == com.devshawon.curehealthcare.network.Status.SUCCESS.name) {
                 activityScreenSwitcher()?.open(
                     CureHealthCareActivityScreen(
                         true
                     )
                 )
+            } else {
+                showDialog {
+                    setTitle(getString(R.string.error_title))
+                    setMessage(it)
+                    setIcon(R.drawable.ic_error)
+                    positiveButton(getString(R.string.ok))
+                }
             }
         })
 

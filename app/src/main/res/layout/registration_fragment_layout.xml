@@ -10,7 +10,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/gray">
+        android:background="@color/login_registration_background">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -19,10 +19,11 @@
             android:layout_margin="@dimen/_12sdp">
 
             <ImageView
-                android:layout_width="@dimen/_80sdp"
-                android:layout_height="@dimen/_40sdp"
+                android:layout_width="@dimen/_120sdp"
+                android:layout_height="@dimen/_50sdp"
                 android:layout_gravity="center"
-                android:src="@drawable/logo"/>
+                android:src="@drawable/logo"
+                android:contentDescription="@string/login" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -32,33 +33,73 @@
                 android:textStyle="bold"
                 android:textSize="@dimen/_18ssp"
                 />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/first_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:text="@string/first_name"
+                    android:textSize="@dimen/_12ssp"
+                    android:layout_marginTop="@dimen/_12ssp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    />
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toEndOf="@id/first_name"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:text="@string/star"
+                    android:textSize="@dimen/_12ssp"
+                    android:layout_marginTop="@dimen/_12ssp"
+                    android:textStyle="bold"
+                    android:textColor="@color/red"
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/first_name"
-                android:textSize="@dimen/_12ssp"
-                android:layout_marginTop="@dimen/_12ssp"
-                android:textStyle="bold"
-                />
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/_8sdp"
                 android:hint="@string/enter_your_first_name"
+                android:inputType="text"
                 android:background="@drawable/bg_round"
                 android:layout_marginTop="@dimen/_8sdp"
-                android:text="@={viewModel.firstName}"/>
+                android:text="@={viewModel.firstName}"
+                android:autofillHints="" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/last_name"
-                android:textSize="@dimen/_12ssp"
-                android:layout_marginTop="@dimen/_12ssp"
-                android:textStyle="bold"
-                />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/last_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:text="@string/last_name"
+                    android:textSize="@dimen/_12ssp"
+                    android:layout_marginTop="@dimen/_12ssp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    />
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toEndOf="@id/last_name"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:text="@string/star"
+                    android:textSize="@dimen/_12ssp"
+                    android:layout_marginTop="@dimen/_12ssp"
+                    android:textStyle="bold"
+                    android:textColor="@color/red"
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <EditText
                 android:layout_width="match_parent"
@@ -68,16 +109,36 @@
                 android:background="@drawable/bg_round"
                 android:layout_marginTop="@dimen/_8sdp"
                 android:autofillHints=""
-                android:text="@={viewModel.lastName}"/>
+                android:text="@={viewModel.lastName}"
+                android:inputType="text" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/mobile"
-                android:textSize="@dimen/_12ssp"
-                android:layout_marginTop="@dimen/_12ssp"
-                android:textStyle="bold"
-                />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/mobile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:text="@string/mobile"
+                    android:textSize="@dimen/_12ssp"
+                    android:layout_marginTop="@dimen/_12ssp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    />
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toEndOf="@id/mobile"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:text="@string/star"
+                    android:textSize="@dimen/_12ssp"
+                    android:layout_marginTop="@dimen/_12ssp"
+                    android:textStyle="bold"
+                    android:textColor="@color/red"
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <EditText
                 android:layout_width="match_parent"
@@ -86,16 +147,37 @@
                 android:hint="@string/enter_your_mobile_number"
                 android:background="@drawable/bg_round"
                 android:layout_marginTop="@dimen/_8sdp"
-                android:text="@={viewModel.mobile}"/>
+                android:text="@={viewModel.mobile}"
+                android:inputType="phone"
+                android:autofillHints="" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/shop_name"
-                android:textSize="@dimen/_12ssp"
-                android:layout_marginTop="@dimen/_12ssp"
-                android:textStyle="bold"
-                />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/shop_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:text="@string/shop_name"
+                    android:textSize="@dimen/_12ssp"
+                    android:layout_marginTop="@dimen/_12ssp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    />
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toEndOf="@id/shop_name"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:text="@string/star"
+                    android:textSize="@dimen/_12ssp"
+                    android:layout_marginTop="@dimen/_12ssp"
+                    android:textStyle="bold"
+                    android:textColor="@color/red"
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <EditText
                 android:layout_width="match_parent"
@@ -104,16 +186,37 @@
                 android:hint="@string/enter_your_shop_name"
                 android:background="@drawable/bg_round"
                 android:layout_marginTop="@dimen/_8sdp"
-                android:text="@={viewModel.shopName}"/>
+                android:text="@={viewModel.shopName}"
+                android:inputType="text"
+                android:autofillHints="" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/shop_address"
-                android:textSize="@dimen/_12ssp"
-                android:layout_marginTop="@dimen/_12ssp"
-                android:textStyle="bold"
-                />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/shop_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:text="@string/shop_address"
+                    android:textSize="@dimen/_12ssp"
+                    android:layout_marginTop="@dimen/_12ssp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    />
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toEndOf="@id/shop_address"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:text="@string/star"
+                    android:textSize="@dimen/_12ssp"
+                    android:layout_marginTop="@dimen/_12ssp"
+                    android:textStyle="bold"
+                    android:textColor="@color/red"
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <EditText
                 android:layout_width="match_parent"
@@ -122,14 +225,17 @@
                 android:hint="@string/enter_your_shop_address"
                 android:background="@drawable/bg_round"
                 android:layout_marginTop="@dimen/_8sdp"
-                android:text="@={viewModel.shopAddress}"/>
-            <TextView
+                android:text="@={viewModel.shopAddress}"
+                android:inputType="text"
+                android:autofillHints="" />
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/nid_number"
                 android:textSize="@dimen/_12ssp"
                 android:layout_marginTop="@dimen/_12ssp"
                 android:textStyle="bold"
+                android:textColor="@color/black"
                 />
 
             <EditText
@@ -139,14 +245,17 @@
                 android:hint="@string/enter_your_nid"
                 android:background="@drawable/bg_round"
                 android:layout_marginTop="@dimen/_8sdp"
-                android:text="@={viewModel.nid}"/>
-            <TextView
+                android:text="@={viewModel.nid}"
+                android:inputType="number"
+                android:autofillHints=""/>
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/license"
                 android:textSize="@dimen/_12ssp"
                 android:layout_marginTop="@dimen/_12ssp"
                 android:textStyle="bold"
+                android:textColor="@color/black"
                 />
 
             <EditText
@@ -156,7 +265,9 @@
                 android:hint="@string/enter_your_license_number"
                 android:background="@drawable/bg_round"
                 android:layout_marginTop="@dimen/_8sdp"
-                android:text="@={viewModel.license}"/>
+                android:text="@={viewModel.license}"
+                android:inputType="number"
+                android:autofillHints=""/>
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/register_btn"
@@ -164,14 +275,19 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_8sdp"
                 android:background="@drawable/update_submit_button"
-                android:text="@string/register" />
+                android:text="@string/register"
+                android:textColor="@color/black"
+                android:textStyle="bold"/>
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/cancel_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8sp"
-                android:text="@string/cancel" />
+                android:text="@string/cancel"
+                android:background="@color/update_submit"
+                android:textColor="@color/black"
+                android:textStyle="bold"/>
 
             <TextView
                 android:id="@+id/already_registered"

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
@@ -40,6 +41,7 @@ class CureHealthCareActivity : BaseActivity<ActivityCureHealthCareBinding>(R.lay
         super.onCreate(savedInstanceState)
         mBinding.lifecycleOwner = this
         mBinding.viewModel = viewModel
+        window.statusBarColor = ContextCompat.getColor(this, R.color.update_submit)
         cureHealthCareApp = this.application as CureHealthCareApplication
         if(preferences.productList!!.isNotEmpty()){
             productListLiveData.clear()

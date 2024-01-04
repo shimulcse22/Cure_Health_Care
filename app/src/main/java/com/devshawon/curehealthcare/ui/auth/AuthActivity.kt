@@ -3,6 +3,7 @@ package com.devshawon.curehealthcare.ui.auth
 import android.app.Activity
 import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
@@ -31,6 +32,7 @@ class AuthActivity : BaseActivity<AuthActivityLayoutBinding>(R.layout.auth_activ
     lateinit var preferences: PreferenceStorage
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.statusBarColor = ContextCompat.getColor(this, R.color.update_submit)
         val id = intent.getIntExtra(NAVIGATION_ID, R.id.login_fragment)
         val navHostFragment = nav_host_fragment as NavHostFragment
         val graphInflater = navHostFragment.navController.navInflater
