@@ -12,5 +12,9 @@ data class ApiError(
     @Json(name = "lang")
     val lang: String
 )
-
+@JsonClass(generateAdapter = true)
+data class Message(
+    @Json(name = "message")
+    val message : String?="",
+)
 

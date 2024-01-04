@@ -46,6 +46,7 @@ sealed class ApiResponse<T> {
                 }
 
                 response.code() in 400..499 -> {
+
                     var msg = response.errorBody()?.string() ?: ""
                     var errorCode = ""
                     if (msg.contains("error code: 1020")) {

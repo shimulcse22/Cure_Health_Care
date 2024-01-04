@@ -15,5 +15,9 @@
     <color name="red">#D62D4D</color>
     <color name="login_registration_background">#eef2f5</color>
     <color name="transparent_hundred_percent">#00000000</color>
+    <color name="purple">#E9D5FF</color>
+    <color name="text_blue">#1E40AF</color>
+    <color name="preorder_color">#8BDEF3</color>
+    <color name="deli_color">#A2F392</color>
 
 </resources>

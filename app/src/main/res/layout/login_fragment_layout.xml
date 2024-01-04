@@ -4,53 +4,47 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="android.view.View"/>
-        <import type="com.devshawon.curehealthcare.network.Resource"/>
-        <import type="com.devshawon.curehealthcare.network.Status"/>
+
+        <import type="android.view.View" />
+
+        <import type="com.devshawon.curehealthcare.network.Resource" />
+
+        <import type="com.devshawon.curehealthcare.network.Status" />
+
         <variable
             name="viewModel"
             type="com.devshawon.curehealthcare.ui.auth.AuthViewModel" />
     </data>
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-<!--        <ProgressBar-->
-<!--            android:id="@+id/loading_state_progress_circular"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent"-->
-<!--            android:indeterminateTint="@color/red"-->
-<!--            android:indeterminate="true"-->
-<!--            android:visibility="visible"-->
-<!--            />-->
-
-        <LinearLayout
+        <include
+            layout="@layout/loading_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:resource="@{(Resource) viewModel.loginResponse}" />
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/login_registration_background"
-            android:gravity="center|top"
-            android:orientation="vertical">
-            <include
-                layout="@layout/loading_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:resource="@{(Resource) viewModel.loginResponse}" />
+            android:fitsSystemWindows="true">
 
             <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/cure_health_care_image"
                 android:layout_width="@dimen/_150sdp"
                 android:layout_height="@dimen/_50sdp"
                 android:layout_marginTop="@dimen/_30sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/logo" />
 
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/login_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_12ssp"
@@ -58,15 +52,21 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/_18ssp"
                 android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@id/cure_health_care_image" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/mobile_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_20sdp"
                 android:layout_marginTop="@dimen/_8sdp"
-                android:layout_marginEnd="@dimen/_20sdp">
+                android:layout_marginEnd="@dimen/_20sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/login_text">
+
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/first_name"
@@ -91,6 +91,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <EditText
+                android:id="@+id/login_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_20sdp"
@@ -101,14 +102,17 @@
                 android:inputType="text"
                 android:padding="@dimen/_8sdp"
                 android:text="@={viewModel.phone}"
+                app:layout_constraintTop_toBottomOf="@id/mobile_number"
                 tools:ignore="LabelFor" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/password_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_20sdp"
                 android:layout_marginTop="@dimen/_8sdp"
-                android:layout_marginEnd="@dimen/_20sdp">
+                android:layout_marginEnd="@dimen/_20sdp"
+                app:layout_constraintTop_toBottomOf="@id/login_input">
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/password"
@@ -133,6 +137,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <EditText
+                android:id="@+id/password_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_20sdp"
@@ -143,19 +148,25 @@
                 android:inputType="numberPassword"
                 android:padding="@dimen/_8sdp"
                 android:text="@={viewModel.password}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/password_text"
                 tools:ignore="LabelFor" />
+
+
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/login_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_20sdp"
-                android:layout_marginEnd="@dimen/_20sdp"
                 android:layout_marginTop="@dimen/_12sdp"
+                android:layout_marginEnd="@dimen/_20sdp"
                 android:background="@drawable/update_submit_button"
                 android:text="@string/login"
                 android:textColor="@color/black"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@+id/password_input" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/forgot_password_btn"
@@ -164,7 +175,8 @@
                 android:layout_margin="@dimen/_8sdp"
                 android:gravity="center"
                 android:text="@string/forgot_password"
-                android:textColor="@color/semi_dal_blue" />
+                android:textColor="@color/semi_dal_blue"
+                app:layout_constraintTop_toBottomOf="@+id/login_btn" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/register_btn"
@@ -173,8 +185,10 @@
                 android:layout_margin="@dimen/_8sdp"
                 android:gravity="center"
                 android:text="@string/don_t_have_an_account_register"
-                android:textColor="@color/semi_dal_blue" />
-        </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                android:textColor="@color/semi_dal_blue"
+                app:layout_constraintTop_toBottomOf="@id/forgot_password_btn" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </layout>

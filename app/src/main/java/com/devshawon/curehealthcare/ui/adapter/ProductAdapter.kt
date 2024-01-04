@@ -16,6 +16,7 @@ import com.devshawon.curehealthcare.databinding.ListItemMedicineBinding
 import com.devshawon.curehealthcare.models.ProductData
 import com.devshawon.curehealthcare.ui.fragments.OnItemClick
 import com.devshawon.curehealthcare.util.getInt
+import java.lang.StringBuilder
 
 class ProductAdapter(private val onItemClick: OnItemClick) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -43,7 +44,26 @@ class ProductAdapter(private val onItemClick: OnItemClick) :
         RecyclerView.ViewHolder(binding.root) {
         fun productBindView(position: Int) {
             binding.apply {
-                medicineName.text = productList[position].commercialName
+                val string = StringBuilder()
+
+                productList[position].let {
+                    string.append(it.productForms.name).append(" ").append(it.commercialName).append("(").append(it.boxSize).append(" ")
+                        .append(it.unitType).append(")")
+                    this.medicineName.text = string
+
+                    this.medicineCompany.text = it.manufacturingCompany.name
+                    this.medicinePrice.text=  "৳ "+it.salePrice
+                    this.mrpPrice.text = it.mrp
+                    this.discountPrice.text = it.discount+"%"
+                    if(it.estimatedDelivery?.isNotEmpty() == true){
+                        this.preorderText.text = "Pre-order"
+                        this.dateText.text = it.estimatedDelivery
+                    }else{
+                        this.preorderText.visibility=View.GONE
+                        this.dateText.visibility=View.GONE
+                    }
+                }
+                //medicineName.text = productList[position].productForms.name+" "+productList[position].commercialName+"("+productList[po]
                 medicineCompany.text = productList[position].manufacturingCompany.name
                 medicinePrice.text = productList[position].salePrice
                 binding.data = if (productList[position].productCount == 0) {

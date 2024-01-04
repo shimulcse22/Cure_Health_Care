@@ -5,6 +5,7 @@ import android.view.View
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.navGraphViewModels
 import com.devshawon.curehealthcare.R
+import com.devshawon.curehealthcare.api.Message
 import com.devshawon.curehealthcare.base.ui.BaseFragment
 import com.devshawon.curehealthcare.dagger.viewModel.AppViewModelFactory
 import com.devshawon.curehealthcare.databinding.LoginFragmentLayoutBinding
@@ -35,7 +36,7 @@ class LoginFragment : BaseFragment<LoginFragmentLayoutBinding>(R.layout.login_fr
 
             viewModel.loginRequest.postValue(
                 LoginRequest(
-                    phone = "01677732635", password = "507576"
+                    phone = "01677732635", password = "995633"
                 )
             )
         }
