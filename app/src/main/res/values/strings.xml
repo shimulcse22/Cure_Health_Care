@@ -49,4 +49,7 @@
     <string name="forgot_password">Forgot password?</string>
     <string name="password">Password</string>
     <string name="sign">৳</string>
+    <string name="enter_your_password_here">Enter your password here</string>
+    <string name="minus">-</string>
+    <string name="plus">+</string>
 </resources>

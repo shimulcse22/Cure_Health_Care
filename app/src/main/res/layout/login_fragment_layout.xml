@@ -15,9 +15,11 @@
             name="viewModel"
             type="com.devshawon.curehealthcare.ui.auth.AuthViewModel" />
     </data>
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <include
             layout="@layout/loading_layout"
             android:layout_width="match_parent"
@@ -27,6 +29,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:resource="@{(Resource) viewModel.loginResponse}" />
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -98,7 +101,8 @@
                 android:layout_marginTop="@dimen/_8sdp"
                 android:layout_marginEnd="@dimen/_20sdp"
                 android:autofillHints=""
-                android:background="@drawable/bg_round"
+                android:hint="@string/enter_your_mobile_number"
+                android:background="@drawable/input_box_background"
                 android:inputType="text"
                 android:padding="@dimen/_8sdp"
                 android:text="@={viewModel.phone}"
@@ -144,7 +148,8 @@
                 android:layout_marginTop="@dimen/_8sdp"
                 android:layout_marginEnd="@dimen/_20sdp"
                 android:autofillHints=""
-                android:background="@drawable/bg_round"
+                android:hint="@string/enter_your_password_here"
+                android:background="@drawable/input_box_background"
                 android:inputType="numberPassword"
                 android:padding="@dimen/_8sdp"
                 android:text="@={viewModel.password}"
@@ -152,8 +157,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/password_text"
                 tools:ignore="LabelFor" />
-
-
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/login_btn"
@@ -164,7 +167,7 @@
                 android:layout_marginEnd="@dimen/_20sdp"
                 android:background="@drawable/update_submit_button"
                 android:text="@string/login"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textStyle="bold"
                 app:layout_constraintTop_toBottomOf="@+id/password_input" />
 
@@ -172,7 +175,8 @@
                 android:id="@+id/forgot_password_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_8sdp"
+                android:layout_margin="@dimen/_12sdp"
+                android:textSize="@dimen/_12ssp"
                 android:gravity="center"
                 android:text="@string/forgot_password"
                 android:textColor="@color/semi_dal_blue"
@@ -184,6 +188,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_8sdp"
                 android:gravity="center"
+                android:textSize="@dimen/_12ssp"
                 android:text="@string/don_t_have_an_account_register"
                 android:textColor="@color/semi_dal_blue"
                 app:layout_constraintTop_toBottomOf="@id/forgot_password_btn" />
