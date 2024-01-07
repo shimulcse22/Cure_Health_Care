@@ -45,7 +45,7 @@ class HomeViewModel @Inject constructor(
     }
 
     var productRequest = MutableLiveData<Event<ProductRequest>>()
-    var productList = ArrayList<ProductData>()
+    val productList = ArrayList<ProductData>()
     var productListLiveData = MutableLiveData<ArrayList<ProductData>>()
     var productListResponse : LiveData<Resource<ProductResponse>> = productRequest.switchMap {
         repository.getProduct(it.peekContent())
@@ -95,7 +95,16 @@ class HomeViewModel @Inject constructor(
 
         productListResponse.observeForever {
             if(it.status == Status.SUCCESS && it.data != null){
-                productList = it.data.data as ArrayList<ProductData>
+                it.data.data.forEach { d ->
+                    val id  = d.id
+                    preferences.productList?.forEach {pD->
+                        if(id == pD?.id){
+                           d.productCount = pD?.productCount
+                            return@forEach
+                        }
+                    }
+                    productList.add(d)
+                }
                 productEvent.postValue(Event(it.status.name))
             }else if(it.status == Status.ERROR){
                 productEvent.postValue(Event(it.status.name))

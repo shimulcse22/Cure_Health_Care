@@ -61,13 +61,10 @@ class CureHealthCareActivity : BaseActivity<ActivityCureHealthCareBinding>(R.lay
     }
 
     override fun onStop() {
-        Log.d("THE PRODUCT DATA IS ", "$productListLiveData")
         if(productListLiveData.isNotEmpty()){
-            Log.d("THE PRODUCT DATA IS 2", "$productListLiveData")
             preferences.productList = productListLiveData.toMutableList()
         }
         super.onStop()
-        //super.onDestroy()
     }
 
     fun getStackCount(): Int {
@@ -88,7 +85,15 @@ class CureHealthCareActivity : BaseActivity<ActivityCureHealthCareBinding>(R.lay
 
     override fun inCreaseItem(data: ProductData) {
         productPrice += getAmount(data.salePrice)
-        if(!productId.contains(data.id)){
+        var bool = false
+        productListLiveData.forEach {
+            if(it.id == data.id){
+                bool = true
+                it.productCount = data.productCount
+                return@forEach
+            }
+        }
+        if(!bool){
             productListLiveData.add(data)
         }
         productId.add(data.id?:0)
