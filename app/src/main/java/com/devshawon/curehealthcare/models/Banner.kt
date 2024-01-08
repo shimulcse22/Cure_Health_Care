@@ -80,9 +80,10 @@ data class GeneratedConversions(
     val preview: Boolean?=false,
     @Json(name = "thumb")
     val thumb: Boolean?=false
-)@JsonClass(generateAdapter = true)
+)
 
 
+@JsonClass(generateAdapter = true)
 data class BannerResponseMobile(
     @Json(name = "sliders")
     val sliders: List<String>

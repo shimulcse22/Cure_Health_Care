@@ -66,13 +66,22 @@ class ProductAdapter(private val onItemClick: OnItemClick) :
                 //medicineName.text = productList[position].productForms.name+" "+productList[position].commercialName+"("+productList[po]
                 medicineCompany.text = productList[position].manufacturingCompany.name
                 medicinePrice.text = productList[position].salePrice
-                binding.data = if (productList[position].productCount == 0) {
-                    ""
-                } else {
+                if(productList[position].productCount == 0){
+                    deleteIcon.visibility = View.INVISIBLE
+                    minusIcon.visibility = View.INVISIBLE
+                    binding.data =""
+                }else{
                     productList[position].productCount.toString()
+                    deleteIcon.visibility = View.VISIBLE
+                    minusIcon.visibility = View.VISIBLE
+                    binding.data = productList[position].productCount.toString()
                 }
-                deleteIcon.visibility = View.INVISIBLE
-                minusIcon.visibility = View.INVISIBLE
+//                binding.data = if (productList[position].productCount == 0) {
+//                    ""
+//                } else {
+//
+//                }
+
                 Glide.with(context).load(productList[position].photo.previewUrl)
                     .placeholder(R.drawable.banner_background).apply(
                         RequestOptions.bitmapTransform(
@@ -111,6 +120,7 @@ class ProductAdapter(private val onItemClick: OnItemClick) :
                         deleteIcon.visibility = View.INVISIBLE
                         numberTitle.visibility = View.INVISIBLE
                         productList[position].productCount = 0
+                        onItemClick.onMinusIconClick(productList[position])
                         return@setOnClickListener
                     }
                     productList[position].productCount = productList[position].productCount!! - 1
@@ -123,6 +133,7 @@ class ProductAdapter(private val onItemClick: OnItemClick) :
                     deleteIcon.visibility = View.INVISIBLE
                     numberTitle.visibility = View.INVISIBLE
                     productList[position].productCount = 0
+                    onItemClick.onMinusIconClick(productList[position])
                     binding.data = ""
                 }
             }

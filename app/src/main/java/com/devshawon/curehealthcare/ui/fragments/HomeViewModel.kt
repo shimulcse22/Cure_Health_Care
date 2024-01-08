@@ -8,8 +8,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.switchMap
 import com.devshawon.curehealthcare.network.Status
 import com.devshawon.curehealthcare.models.BannerResponseMobile
+import com.devshawon.curehealthcare.models.CompanyResponse
 import com.devshawon.curehealthcare.models.EditProfileData
 import com.devshawon.curehealthcare.models.EditProfileGetRequest
+import com.devshawon.curehealthcare.models.Form
+import com.devshawon.curehealthcare.models.FormResponse
 import com.devshawon.curehealthcare.models.MedicinePhoto
 import com.devshawon.curehealthcare.models.ProductData
 import com.devshawon.curehealthcare.models.ProductForms
@@ -83,6 +86,19 @@ class HomeViewModel @Inject constructor(
 
     val buttonApiCall = MutableLiveData<Event<String>>()
 
+
+    val companyRequest = MutableLiveData<Event<String>>()
+    val companyList = ArrayList<Form>()
+    val companyResponse : LiveData<Resource<CompanyResponse>> = companyRequest.switchMap {
+        repository.getCompany(it.peekContent())
+    }
+
+    val formRequest = MutableLiveData<Event<String>>()
+    val formList = ArrayList<Form>()
+    val formResponse : LiveData<Resource<FormResponse>> = formRequest.switchMap {
+        repository.getForm(it.peekContent())
+    }
+
     init {
         bannerListResponse.observeForever {
             if(it.status == Status.SUCCESS && it.data != null){
@@ -112,7 +128,6 @@ class HomeViewModel @Inject constructor(
         }
 
         trendingListResponse.observeForever {
-            Log.d("THE DATA IS PRODUCT ","$it")
             if(it.status == Status.SUCCESS && it.data != null){
                 trendingList = it.data.data as ArrayList<ProductData>
                 productEvent.postValue(Event(it.status.name))
@@ -158,6 +173,27 @@ class HomeViewModel @Inject constructor(
                 updatePasswordEvent.postValue(Event(it.data.message?:"h"))
             }else if(it.status == Status.ERROR){
                 updatePasswordEvent.postValue(Event(it.data?.message!!))
+            }
+        }
+
+        companyResponse.observeForever {
+            if(it.status == Status.SUCCESS && it.data != null){
+                it.data.let { d->
+                    companyList.clear()
+                    companyList.addAll(d.forms)
+                }
+            }else if(it.status == Status.ERROR){
+
+            }
+        }
+        formResponse.observeForever {
+            if(it.status == Status.SUCCESS && it.data != null){
+                it.data.let { d->
+                    formList.clear()
+                    formList.addAll(d.forms)
+                }
+            }else if(it.status == Status.ERROR){
+
             }
         }
     }

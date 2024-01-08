@@ -3,6 +3,7 @@ package com.devshawon.curehealthcare.ui.adapter
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -14,6 +15,8 @@ import com.devshawon.curehealthcare.R
 import com.devshawon.curehealthcare.databinding.ListItemMedicineBinding
 import com.devshawon.curehealthcare.models.ProductData
 import com.devshawon.curehealthcare.ui.fragments.OnItemClick
+import com.devshawon.curehealthcare.util.getInt
+import java.lang.StringBuilder
 
 class ProductCartAdapter (private val onItemClick : OnItemClick) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val productList = ArrayList<ProductData>()
@@ -39,12 +42,40 @@ class ProductCartAdapter (private val onItemClick : OnItemClick) : RecyclerView.
     }
 
     inner class ProductViewHolder (private val binding : ListItemMedicineBinding) : RecyclerView.ViewHolder(binding.root){
-        fun productBindView(position: Int){
+        fun productBindView(position: Int) {
             binding.apply {
-                medicineName.text = productList[position].commercialName
+                val string = StringBuilder()
+
+                productList[position].let {
+                    string.append(it.productForms.name).append(" ").append(it.commercialName).append("(").append(it.boxSize).append(" ")
+                        .append(it.unitType).append(")")
+                    this.medicineName.text = string
+
+                    this.medicineCompany.text = it.manufacturingCompany.name
+                    this.medicinePrice.text=  "৳ "+it.salePrice
+                    this.mrpPrice.text = it.mrp
+                    this.discountPrice.text = it.discount+"%"
+                    if(it.estimatedDelivery?.isNotEmpty() == true){
+                        this.preorderText.text = "Pre-order"
+                        this.dateText.text = it.estimatedDelivery
+                    }else{
+                        this.preorderText.visibility= View.GONE
+                        this.dateText.visibility= View.GONE
+                    }
+                }
+                //medicineName.text = productList[position].productForms.name+" "+productList[position].commercialName+"("+productList[po]
                 medicineCompany.text = productList[position].manufacturingCompany.name
                 medicinePrice.text = productList[position].salePrice
-                binding.data = productList[position].productCount.toString()
+                if(productList[position].productCount == 0){
+                    deleteIcon.visibility = View.INVISIBLE
+                    minusIcon.visibility = View.INVISIBLE
+                    binding.data =""
+                }else{
+                    productList[position].productCount.toString()
+                    deleteIcon.visibility = View.VISIBLE
+                    minusIcon.visibility = View.VISIBLE
+                    binding.data = productList[position].productCount.toString()
+                }
                 Glide.with(context).load(productList[position].photo.previewUrl)
                     .placeholder(R.drawable.banner_background).apply(
                         RequestOptions.bitmapTransform(
@@ -63,23 +94,40 @@ class ProductCartAdapter (private val onItemClick : OnItemClick) : RecyclerView.
                         }
                     })
 
-                plusIcon.setOnClickListener{
-                    var d = binding.data
-                    if(d == null || d ==""){
-                        d = "0"
+                plusIcon.setOnClickListener {
+                    binding.data = ((getInt(binding.data) + 1)).toString()
+                    if (getInt(binding.data) > 0) {
+                        minusIcon.visibility = View.VISIBLE
+                        deleteIcon.visibility = View.VISIBLE
+                        numberTitle.visibility = View.VISIBLE
                     }
-                    binding.data = ((d.toInt() + 1)).toString()
+
                     productList[position].productCount = productList[position].productCount!! + 1
                     onItemClick.onPlusIconClick(productList[position])
+                    executePendingBindings()
                 }
 
-                minusIcon.setOnClickListener{
-                    onItemClick.onPlusIconClick(productList[position])
-//                    var d = binding.data
-//                    if(d == null || d ==""){
-//                        d = "0"
-//                    }
-//                    binding.data = ((d.toInt() + 1)).toString()
+                minusIcon.setOnClickListener {
+                    binding.data = ((getInt(binding.data) - 1)).toString()
+                    if (getInt(binding.data) == 0) {
+                        minusIcon.visibility = View.INVISIBLE
+                        deleteIcon.visibility = View.INVISIBLE
+                        numberTitle.visibility = View.INVISIBLE
+                        productList[position].productCount = 0
+                        return@setOnClickListener
+                    }
+                    productList[position].productCount = productList[position].productCount!! - 1
+                    onItemClick.onMinusIconClick(productList[position])
+                    executePendingBindings()
+                }
+
+                deleteIcon.setOnClickListener {
+                    minusIcon.visibility = View.INVISIBLE
+                    deleteIcon.visibility = View.INVISIBLE
+                    numberTitle.visibility = View.INVISIBLE
+                    productList[position].productCount = 0
+                    onItemClick.onMinusIconClick(productList[position])
+                    binding.data = ""
                 }
             }
         }

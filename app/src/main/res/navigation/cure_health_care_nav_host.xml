@@ -8,7 +8,11 @@
         android:id="@+id/homeFragment"
         android:name="com.devshawon.curehealthcare.ui.fragments.home.HomeFragment"
         android:label=""
-        tools:layout="@layout/fragment_home"/>
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_home_to_filter_fragment"
+            app:destination="@id/filter_fragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/trendingFragment"
@@ -53,5 +57,11 @@
         android:name="com.devshawon.curehealthcare.ui.fragments.profile.ChangePassword"
         android:label=""
         tools:layout="@layout/chnage_password_fragment"/>
+
+    <fragment
+        android:id="@+id/filter_fragment"
+        android:name="com.devshawon.curehealthcare.ui.fragments.filter.FilterFragment"
+        android:label=""
+        tools:layout="@layout/filter_fragment"/>
 
 </navigation>

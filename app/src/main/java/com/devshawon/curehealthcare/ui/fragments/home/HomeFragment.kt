@@ -3,6 +3,7 @@ package com.devshawon.curehealthcare.ui.fragments.home
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.RadioButton
@@ -31,6 +32,7 @@ import com.devshawon.curehealthcare.ui.fragments.OnItemClick
 import com.devshawon.curehealthcare.ui.fragments.UpdateCart
 import com.devshawon.curehealthcare.useCase.result.Event
 import com.devshawon.curehealthcare.useCase.result.EventObserver
+import com.devshawon.curehealthcare.util.navigate
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -115,9 +117,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
         })
 
         homeViewModel.productEvent.observe(viewLifecycleOwner, EventObserver {
+            Log.d("UM CALLED HERE AGEAIN","")
+            (activity as CureHealthCareActivity).productListActivity.addAll(homeViewModel.productList)
             if (it == Status.SUCCESS.name) {
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-                productAdapter.updateProductList(homeViewModel.productList, 1)
+                productAdapter.updateProductList((activity as CureHealthCareActivity).productListActivity, 1)
             }
         })
 
@@ -130,6 +134,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
                 }
             }
         })
+
+        mBinding.filterImage.setOnClickListener {
+            navigate(HomeFragmentDirections.actionHomeToFilterFragment())
+        }
     }
 
     private fun addRadioButtons() {
@@ -180,7 +188,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
 
     override fun onMinusIconClick(item: ProductData) {
         homeViewModel.productCount.value = homeViewModel.productCount.value ?: (0 - 1)
-        (activity as UpdateCart).inCreaseItem(item)
+        (activity as UpdateCart).decreaseItem(item)
         (activity as CureHealthCareActivity).showOrHideBadge(0)
     }
 }

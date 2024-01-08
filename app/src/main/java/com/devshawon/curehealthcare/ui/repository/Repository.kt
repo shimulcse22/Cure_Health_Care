@@ -5,7 +5,10 @@ import com.devshawon.curehealthcare.api.ApiService
 import com.devshawon.curehealthcare.api.AppExecutors
 import com.devshawon.curehealthcare.models.BannerResponse
 import com.devshawon.curehealthcare.models.BannerResponseMobile
+import com.devshawon.curehealthcare.models.CompanyResponse
 import com.devshawon.curehealthcare.models.EditProfileGetRequest
+import com.devshawon.curehealthcare.models.Form
+import com.devshawon.curehealthcare.models.FormResponse
 import com.devshawon.curehealthcare.models.LoginRequest
 import com.devshawon.curehealthcare.models.LoginResponse
 import com.devshawon.curehealthcare.models.ProductRequest
@@ -60,6 +63,18 @@ class Repository @Inject constructor(
     fun updateProfile(body : UpdateProfileRequest) : LiveData<Resource<UpdateProfileResponse>>{
         return object : NetworkBoundResourceOnlyNetwork<UpdateProfileResponse>(appExecutors) {
             override fun createCall() = apiService.updateProfile(body)
+        }.asLiveData()
+    }
+
+    fun getCompany(search: String?="") : LiveData<Resource<CompanyResponse>>{
+        return object : NetworkBoundResourceOnlyNetwork<CompanyResponse>(appExecutors) {
+            override fun createCall() = apiService.getCompany(search)
+        }.asLiveData()
+    }
+
+    fun getForm(search: String?="") : LiveData<Resource<FormResponse>>{
+        return object : NetworkBoundResourceOnlyNetwork<FormResponse>(appExecutors) {
+            override fun createCall() = apiService.getForm(search)
         }.asLiveData()
     }
 }

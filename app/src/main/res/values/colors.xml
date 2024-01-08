@@ -8,7 +8,6 @@
     <color name="colorWhite">#FFFFFF</color>
     <color name="gray_7">#cacaca</color>
     <color name="dark_blue">#034EA2</color>
-
     <color name="gray">#FDFCFC</color>
     <color name="divider">#e5e7eb</color>
     <color name="update_submit">#80bd27</color>
@@ -20,5 +19,5 @@
     <color name="preorder_color">#8BDEF3</color>
     <color name="deli_color">#A2F392</color>
     <color name="plus_color">#E0F3C5</color>
-
+    <color name="reset_btn_color">#8f92a1</color>
 </resources>

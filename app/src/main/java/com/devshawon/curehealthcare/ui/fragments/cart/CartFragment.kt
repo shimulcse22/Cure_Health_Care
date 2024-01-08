@@ -20,6 +20,7 @@ import com.devshawon.curehealthcare.ui.adapter.ProductAdapter
 import com.devshawon.curehealthcare.ui.adapter.ProductCartAdapter
 import com.devshawon.curehealthcare.ui.fragments.HomeViewModel
 import com.devshawon.curehealthcare.ui.fragments.OnItemClick
+import com.devshawon.curehealthcare.ui.fragments.UpdateCart
 import com.devshawon.curehealthcare.useCase.result.EventObserver
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -60,10 +61,26 @@ class CartFragment : BaseFragment<FragmentCartBinding>(R.layout.fragment_cart),O
     }
 
     override fun onPlusIconClick(item: ProductData) {
-
+        homeViewModel.productCount.value = homeViewModel.productCount.value ?: (0 + 1)
+        (activity as CureHealthCareActivity).productListActivity.forEach {
+            if(it.id == item.id){
+                it.productCount = item.productCount
+                return@forEach
+            }
+        }
+        (activity as UpdateCart).inCreaseItem(item)
+        (activity as CureHealthCareActivity).showOrHideBadge(0)
     }
 
     override fun onMinusIconClick(item: ProductData) {
-
+        homeViewModel.productCount.value = homeViewModel.productCount.value ?: (0 - 1)
+        (activity as CureHealthCareActivity).productListActivity.forEach {
+            if(it.id == item.id){
+                it.productCount = item.productCount
+                return@forEach
+            }
+        }
+        (activity as UpdateCart).decreaseItem(item)
+        (activity as CureHealthCareActivity).showOrHideBadge(0)
     }
 }

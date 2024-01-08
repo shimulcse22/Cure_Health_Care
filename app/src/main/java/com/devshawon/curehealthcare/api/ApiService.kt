@@ -2,8 +2,10 @@ package com.devshawon.curehealthcare.api
 
 import androidx.lifecycle.LiveData
 import com.devshawon.curehealthcare.models.BannerResponseMobile
+import com.devshawon.curehealthcare.models.CompanyResponse
 import com.devshawon.curehealthcare.models.EditProfileData
 import com.devshawon.curehealthcare.models.EditProfileGetRequest
+import com.devshawon.curehealthcare.models.FormResponse
 import com.devshawon.curehealthcare.models.LoginRequest
 import com.devshawon.curehealthcare.models.LoginResponse
 import com.devshawon.curehealthcare.models.ProductRequest
@@ -45,5 +47,11 @@ interface ApiService {
 
     @PUT("api/v2/profile/update")
     fun updateProfile(@Body body : UpdateProfileRequest) : LiveData<ApiResponse<UpdateProfileResponse>>
+
+    @GET("api/v2/mobile_company")
+    fun getCompany( @Query("search") search: String?="") : LiveData<ApiResponse<CompanyResponse>>
+
+    @GET("api/v2/mobile_forms")
+    fun getForm( @Query("search") search: String?="") : LiveData<ApiResponse<FormResponse>>
 
 }

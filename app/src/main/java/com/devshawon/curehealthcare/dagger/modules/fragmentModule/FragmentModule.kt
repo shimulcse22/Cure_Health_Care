@@ -9,6 +9,10 @@ import com.devshawon.curehealthcare.ui.fragments.cart.CartFragment
 import com.devshawon.curehealthcare.ui.fragments.order.OrderFragment
 import com.devshawon.curehealthcare.ui.fragments.home.HomeFragment
 import com.devshawon.curehealthcare.ui.fragments.HomeViewModel
+import com.devshawon.curehealthcare.ui.fragments.filter.CompanyFilterFragment
+import com.devshawon.curehealthcare.ui.fragments.filter.FilterFragment
+import com.devshawon.curehealthcare.ui.fragments.filter.FilterViewModel
+import com.devshawon.curehealthcare.ui.fragments.filter.FormFilterFragment
 import com.devshawon.curehealthcare.ui.fragments.profile.ChangePassword
 import com.devshawon.curehealthcare.ui.fragments.profile.EditProfileFragment
 import com.devshawon.curehealthcare.ui.fragments.profile.ProfileFragment
@@ -53,5 +57,22 @@ internal abstract class FragmentModule {
     @FragmentScoped
     @ContributesAndroidInjector
     internal abstract fun contributeChangePassword(): ChangePassword
+
+    @FragmentScoped
+    @ContributesAndroidInjector
+    internal abstract fun contributeFilterFragment(): FilterFragment
+
+    @FragmentScoped
+    @ContributesAndroidInjector
+    internal abstract fun contributeCompanyFilterFragment(): CompanyFilterFragment
+
+    @FragmentScoped
+    @ContributesAndroidInjector
+    internal abstract fun contributeFormFilterFragment(): FormFilterFragment
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(FilterViewModel::class)
+    abstract fun bindFilterViewModel(viewModel: FilterViewModel): ViewModel
 
 }

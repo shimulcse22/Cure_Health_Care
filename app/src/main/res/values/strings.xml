@@ -44,7 +44,7 @@
     <string name="total_amount">Total amount :</string>
     <string name="star">*</string>
     <string name="error_title">Error</string>
-    <string name="ok">Ok</string>
+    <string name="ok">OK</string>
     <string name="don_t_have_an_account_register">Don’t have an account? Register</string>
     <string name="forgot_password">Forgot password?</string>
     <string name="password">Password</string>
@@ -52,4 +52,8 @@
     <string name="enter_your_password_here">Enter your password here</string>
     <string name="minus">-</string>
     <string name="plus">+</string>
+    <string name="filter">Filter</string>
+    <string name="apply">Apply</string>
+    <string name="company_filter">Company Filter</string>
+    <string name="form_filter">Form Filter</string>
 </resources>

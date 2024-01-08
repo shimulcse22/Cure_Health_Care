@@ -4,19 +4,26 @@ import com.squareup.moshi.JsonClass
 import com.squareup.moshi.Json
 
 
-//@JsonClass(generateAdapter = true)
-//data class ProductResponse(
-//    @Json(name = "forms")
-//    val forms: List<Form>
-//)
-//
-//@JsonClass(generateAdapter = true)
-//data class Form(
-//    @Json(name = "id")
-//    val id: Int?=0,
-//    @Json(name = "name")
-//    val name: String?=""
-//)
+@JsonClass(generateAdapter = true)
+data class FormResponse(
+    @Json(name = "forms")
+    val forms: List<Form>
+)
+
+@JsonClass(generateAdapter = true)
+data class CompanyResponse(
+    @Json(name = "companies")
+    val forms: List<Form>
+)
+
+@JsonClass(generateAdapter = true)
+data class Form(
+    @Json(name = "id")
+    val id: Int?=0,
+    @Json(name = "name")
+    val name: String?="",
+    var checkBox : Boolean?= false
+)
 
 @JsonClass(generateAdapter = true)
 data class ProductRequest(

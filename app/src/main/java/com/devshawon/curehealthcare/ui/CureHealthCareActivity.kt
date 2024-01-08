@@ -32,6 +32,7 @@ class CureHealthCareActivity : BaseActivity<ActivityCureHealthCareBinding>(R.lay
     private val viewModel by viewModels<HomeViewModel> { viewModelFactory }
     private lateinit var cureHealthCareApp : CureHealthCareApplication
     val productListLiveData : MutableList<ProductData> = mutableListOf()
+    val productListActivity : ArrayList<ProductData> = arrayListOf()
     val productId : ArrayList<Int> = arrayListOf()
     var productPrice : Double = 0.00
 
@@ -93,6 +94,7 @@ class CureHealthCareActivity : BaseActivity<ActivityCureHealthCareBinding>(R.lay
                 return@forEach
             }
         }
+
         if(!bool){
             productListLiveData.add(data)
         }
@@ -100,7 +102,26 @@ class CureHealthCareActivity : BaseActivity<ActivityCureHealthCareBinding>(R.lay
     }
 
     override fun decreaseItem(data: ProductData) {
-        productListLiveData.remove(data)
+        var id  =  -1
+        if(data.productCount == 0){
+            productListLiveData.forEachIndexed { index, productData ->
+                if(productData.id == data.id){
+                    id = index
+                    return@forEachIndexed
+                }
+            }
+            if(id != -1){
+                productListLiveData.removeAt(id)
+            }
+            showBadge(this, mBinding.bottomNavView, R.id.cartFragment, productListLiveData.size.toString())
+        }else{
+            productListLiveData.forEach {
+                if(it.id == data.id){
+                    it.productCount = data.productCount
+                    return@forEach
+                }
+            }
+        }
     }
 
     fun showOrHideBadge(count: Int) {
