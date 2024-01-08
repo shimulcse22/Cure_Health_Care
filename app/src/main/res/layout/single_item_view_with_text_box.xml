@@ -20,6 +20,7 @@
             android:textStyle="bold"
             android:textSize="@dimen/_11ssp"
             android:text="@string/reset"
+            android:buttonTint="@color/update_submit"
             tools:text="ksjdhfakjhfksjahfkjasdhfkalsjfhkjashfksjdafhksajfdhakjfhkjhkj"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

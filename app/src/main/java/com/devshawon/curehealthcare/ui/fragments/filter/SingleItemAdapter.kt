@@ -1,7 +1,6 @@
 package com.devshawon.curehealthcare.ui.fragments.filter
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -33,15 +32,23 @@ class SingleItemAdapter(private val context : Context) : RecyclerView.Adapter<Re
                 checkBox.isChecked = list[position].checkBox?:false
                 checkBox.setOnCheckedChangeListener { _, isChecked ->
                     checkBox.isChecked = isChecked
+                    val data = Form()
+                    data.id = list[position].id
+                    data.name = list[position].name
+                    data.checkBox = true
+                    execute.invoke(data,position)
                 }
             }
         }
     }
 
     fun updateList(form: ArrayList<Form>){
-        Log.d("THE DATA IS 90","${form.size}")
         this.list.clear()
         this.list.addAll(form)
         notifyItemRangeChanged(0,form.size)
+    }
+
+    companion object{
+        var execute : (data: Form,position : Int) -> Unit = { form: Form, i: Int -> }
     }
 }

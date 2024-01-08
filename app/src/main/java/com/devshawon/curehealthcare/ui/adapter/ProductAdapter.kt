@@ -76,11 +76,6 @@ class ProductAdapter(private val onItemClick: OnItemClick) :
                     minusIcon.visibility = View.VISIBLE
                     binding.data = productList[position].productCount.toString()
                 }
-//                binding.data = if (productList[position].productCount == 0) {
-//                    ""
-//                } else {
-//
-//                }
 
                 Glide.with(context).load(productList[position].photo.previewUrl)
                     .placeholder(R.drawable.banner_background).apply(

@@ -89,12 +89,14 @@ class HomeViewModel @Inject constructor(
 
     val companyRequest = MutableLiveData<Event<String>>()
     val companyList = ArrayList<Form>()
+    val companyOrFormEvent = MutableLiveData<Event<String>>()
     val companyResponse : LiveData<Resource<CompanyResponse>> = companyRequest.switchMap {
         repository.getCompany(it.peekContent())
     }
 
     val formRequest = MutableLiveData<Event<String>>()
     val formList = ArrayList<Form>()
+    val formEvent = MutableLiveData<Event<String>>()
     val formResponse : LiveData<Resource<FormResponse>> = formRequest.switchMap {
         repository.getForm(it.peekContent())
     }
@@ -177,23 +179,26 @@ class HomeViewModel @Inject constructor(
         }
 
         companyResponse.observeForever {
+            Log.d("THE DATA IS 901","${it.data?.forms}")
             if(it.status == Status.SUCCESS && it.data != null){
+                companyList.clear()
                 it.data.let { d->
-                    companyList.clear()
                     companyList.addAll(d.forms)
+                    companyOrFormEvent.postValue(Event(it.status.name))
                 }
             }else if(it.status == Status.ERROR){
-
+                companyOrFormEvent.postValue(Event(it.status.name))
             }
         }
         formResponse.observeForever {
             if(it.status == Status.SUCCESS && it.data != null){
+                formList.clear()
                 it.data.let { d->
-                    formList.clear()
                     formList.addAll(d.forms)
+                    formEvent.postValue(Event(it.status.name))
                 }
             }else if(it.status == Status.ERROR){
-
+                formEvent.postValue(Event(it.status.name))
             }
         }
     }

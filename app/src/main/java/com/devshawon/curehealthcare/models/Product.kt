@@ -19,9 +19,9 @@ data class CompanyResponse(
 @JsonClass(generateAdapter = true)
 data class Form(
     @Json(name = "id")
-    val id: Int?=0,
+    var id: Int?=0,
     @Json(name = "name")
-    val name: String?="",
+    var name: String?="",
     var checkBox : Boolean?= false
 )
 
