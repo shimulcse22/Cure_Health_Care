@@ -20,4 +20,5 @@
     <color name="deli_color">#A2F392</color>
     <color name="plus_color">#E0F3C5</color>
     <color name="reset_btn_color">#8f92a1</color>
+    <color name="mark_as_read">#cbd5e1</color>
 </resources>
