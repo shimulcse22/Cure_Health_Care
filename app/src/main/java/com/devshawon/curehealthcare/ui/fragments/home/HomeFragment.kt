@@ -117,13 +117,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
         })
 
         homeViewModel.productEvent.observe(viewLifecycleOwner, EventObserver {
-            Log.d("UM CALLED HERE AGEAIN","")
             (activity as CureHealthCareActivity).productListActivity.addAll(homeViewModel.productList)
             if (it == Status.SUCCESS.name) {
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
                 productAdapter.updateProductList((activity as CureHealthCareActivity).productListActivity, 1)
             }
         })
+
+        mBinding.searchImage.setOnClickListener {
+            navigate(HomeFragmentDirections.actionHomeToSearchFragment())
+        }
 
         mBinding.bannerRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {

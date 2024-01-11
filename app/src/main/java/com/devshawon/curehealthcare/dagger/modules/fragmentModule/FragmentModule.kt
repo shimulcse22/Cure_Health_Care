@@ -13,6 +13,8 @@ import com.devshawon.curehealthcare.ui.fragments.filter.CompanyFilterFragment
 import com.devshawon.curehealthcare.ui.fragments.filter.FilterFragment
 import com.devshawon.curehealthcare.ui.fragments.filter.FilterViewModel
 import com.devshawon.curehealthcare.ui.fragments.filter.FormFilterFragment
+import com.devshawon.curehealthcare.ui.fragments.filter.NotificationFragment
+import com.devshawon.curehealthcare.ui.fragments.filter.SearchFragment
 import com.devshawon.curehealthcare.ui.fragments.profile.ChangePassword
 import com.devshawon.curehealthcare.ui.fragments.profile.EditProfileFragment
 import com.devshawon.curehealthcare.ui.fragments.profile.ProfileFragment
@@ -74,5 +76,13 @@ internal abstract class FragmentModule {
     @IntoMap
     @ViewModelKey(FilterViewModel::class)
     abstract fun bindFilterViewModel(viewModel: FilterViewModel): ViewModel
+
+    @FragmentScoped
+    @ContributesAndroidInjector
+    internal abstract fun contributeSearchFragment(): SearchFragment
+
+    @FragmentScoped
+    @ContributesAndroidInjector
+    internal abstract fun contributeNotificationFragment(): NotificationFragment
 
 }

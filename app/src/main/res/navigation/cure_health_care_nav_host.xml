@@ -12,6 +12,9 @@
         <action
             android:id="@+id/action_home_to_filter_fragment"
             app:destination="@id/filter_fragment" />
+        <action
+            android:id="@+id/action_home_to_search_fragment"
+            app:destination="@id/search_fragment" />
     </fragment>
 
     <fragment
@@ -63,5 +66,17 @@
         android:name="com.devshawon.curehealthcare.ui.fragments.filter.FilterFragment"
         android:label=""
         tools:layout="@layout/filter_fragment"/>
+
+    <fragment
+        android:id="@+id/search_fragment"
+        android:name="com.devshawon.curehealthcare.ui.fragments.filter.SearchFragment"
+        android:label=""
+        tools:layout="@layout/search_fragment"/>
+
+    <fragment
+        android:id="@+id/notification_fragment"
+        android:name="com.devshawon.curehealthcare.ui.fragments.filter.NotificationFragment"
+        android:label=""
+        tools:layout="@layout/notification_fragment"/>
 
 </navigation>
