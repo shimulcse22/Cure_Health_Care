@@ -1,5 +1,6 @@
 package com.devshawon.curehealthcare.ui.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import com.devshawon.curehealthcare.api.ApiService
 import com.devshawon.curehealthcare.api.AppExecutors
@@ -11,6 +12,7 @@ import com.devshawon.curehealthcare.models.Form
 import com.devshawon.curehealthcare.models.FormResponse
 import com.devshawon.curehealthcare.models.LoginRequest
 import com.devshawon.curehealthcare.models.LoginResponse
+import com.devshawon.curehealthcare.models.OrderResponse
 import com.devshawon.curehealthcare.models.ProductRequest
 import com.devshawon.curehealthcare.models.ProductResponse
 import com.devshawon.curehealthcare.models.UpdatePassword
@@ -19,6 +21,7 @@ import com.devshawon.curehealthcare.models.UpdateProfileRequest
 import com.devshawon.curehealthcare.models.UpdateProfileResponse
 import com.devshawon.curehealthcare.network.NetworkBoundResourceOnlyNetwork
 import com.devshawon.curehealthcare.network.Resource
+import com.devshawon.curehealthcare.util.getInt
 import javax.inject.Inject
 
 class Repository @Inject constructor(
@@ -75,6 +78,13 @@ class Repository @Inject constructor(
     fun getForm(search: String?="") : LiveData<Resource<FormResponse>>{
         return object : NetworkBoundResourceOnlyNetwork<FormResponse>(appExecutors) {
             override fun createCall() = apiService.getForm(search)
+        }.asLiveData()
+    }
+
+    fun getOrder(page: String?="") : LiveData<Resource<OrderResponse>>{
+        Log.d("Order is called","")
+        return object : NetworkBoundResourceOnlyNetwork<OrderResponse>(appExecutors) {
+            override fun createCall() = apiService.getOrder(getInt(page))
         }.asLiveData()
     }
 }

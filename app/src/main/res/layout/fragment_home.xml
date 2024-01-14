@@ -5,6 +5,12 @@
 
     <data>
 
+        <import type="android.view.View" />
+
+        <import type="com.devshawon.curehealthcare.network.Resource" />
+
+        <import type="com.devshawon.curehealthcare.network.Status" />
+
         <variable
             name="viewModel"
             type="com.devshawon.curehealthcare.ui.fragments.HomeViewModel" />
@@ -114,9 +120,10 @@
                         android:id="@+id/collapsingToolbarLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fitsSystemWindows="true"
                         android:background="@color/colorWhite"
                         android:minHeight="@dimen/_50sdp"
-                        app:layout_scrollFlags="scroll|exitUntilCollapsed">
+                        app:layout_scrollFlags="scroll|snap|enterAlwaysCollapsed">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
@@ -171,9 +178,16 @@
                                     android:layout_height="wrap_content"
                                     android:orientation="horizontal" />
                             </HorizontalScrollView>
+                            <androidx.appcompat.widget.Toolbar
+
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:visibility="invisible" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                     </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+
                 </com.google.android.material.appbar.AppBarLayout>
             </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
@@ -185,27 +199,25 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/collapse_able_layout">
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/data"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/medicine_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constrainedHeight="true"
-
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/data"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:nestedScrollingEnabled="false"
                     tools:listitem="@layout/list_item_medicine" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
+
+        <include
+            layout="@layout/loading_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            app:resource="@{(Resource) viewModel.productListResponse}" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-
 </layout>

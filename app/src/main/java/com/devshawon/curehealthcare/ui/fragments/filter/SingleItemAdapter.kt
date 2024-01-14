@@ -1,6 +1,7 @@
 package com.devshawon.curehealthcare.ui.fragments.filter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -31,12 +32,10 @@ class SingleItemAdapter(private val context : Context) : RecyclerView.Adapter<Re
                 checkBox.text = list[position].name
                 checkBox.isChecked = list[position].checkBox?:false
                 checkBox.setOnClickListener {
-                    checkBox.isChecked = !checkBox.isChecked
-                    val data = Form()
-                    data.id = list[position].id
-                    data.name = list[position].name
-                    data.checkBox = checkBox.isChecked
-                    execute.invoke(data,position)
+                    Log.d("THE DATA IS ","${checkBox.isChecked}")
+                    checkBox.isChecked = checkBox.isChecked
+                    list[0].checkBox = checkBox.isChecked
+                    execute.invoke(list[position],position)
                     executePendingBindings()
                 }
             }

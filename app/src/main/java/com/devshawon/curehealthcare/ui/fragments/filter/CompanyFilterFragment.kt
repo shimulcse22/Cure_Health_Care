@@ -16,6 +16,7 @@ import com.devshawon.curehealthcare.ui.fragments.HomeViewModel
 import com.devshawon.curehealthcare.useCase.result.Event
 import com.devshawon.curehealthcare.useCase.result.EventObserver
 import kotlinx.coroutines.launch
+import java.util.Collections
 import javax.inject.Inject
 
 class CompanyFilterFragment :
@@ -48,12 +49,11 @@ class CompanyFilterFragment :
             }
         })
 
-       SingleItemAdapter.execute = { form: Form, i: Int ->
+       SingleItemAdapter.execute = { _: Form, i: Int ->
            mBinding.companyFilterRecyclerViewAll.postDelayed({
-               adapter.list.removeAt(i)
-               adapter.list.add(0,form)
+               Collections.swap(viewModel.companyList,i,0)
                adapter.notifyItemMoved(i,0)
-           }, 10)
+           }, 100)
        }
     }
 }

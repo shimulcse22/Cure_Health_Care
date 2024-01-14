@@ -21,4 +21,5 @@
     <color name="plus_color">#E0F3C5</color>
     <color name="reset_btn_color">#8f92a1</color>
     <color name="mark_as_read">#cbd5e1</color>
+    <color name="order_status">#d6d9f2</color>
 </resources>

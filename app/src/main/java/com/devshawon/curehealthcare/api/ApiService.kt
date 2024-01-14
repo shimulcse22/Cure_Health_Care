@@ -8,6 +8,7 @@ import com.devshawon.curehealthcare.models.EditProfileGetRequest
 import com.devshawon.curehealthcare.models.FormResponse
 import com.devshawon.curehealthcare.models.LoginRequest
 import com.devshawon.curehealthcare.models.LoginResponse
+import com.devshawon.curehealthcare.models.OrderResponse
 import com.devshawon.curehealthcare.models.ProductRequest
 import com.devshawon.curehealthcare.models.ProductResponse
 import com.devshawon.curehealthcare.models.RefreshToken
@@ -54,4 +55,6 @@ interface ApiService {
     @GET("api/v2/mobile_forms")
     fun getForm( @Query("search") search: String?="") : LiveData<ApiResponse<FormResponse>>
 
+    @GET("api/v2/orders")
+    fun getOrder( @Query("page") search: Int?=0) : LiveData<ApiResponse<OrderResponse>>
 }

@@ -14,6 +14,8 @@ import com.devshawon.curehealthcare.models.EditProfileGetRequest
 import com.devshawon.curehealthcare.models.Form
 import com.devshawon.curehealthcare.models.FormResponse
 import com.devshawon.curehealthcare.models.MedicinePhoto
+import com.devshawon.curehealthcare.models.OrderData
+import com.devshawon.curehealthcare.models.OrderResponse
 import com.devshawon.curehealthcare.models.ProductData
 import com.devshawon.curehealthcare.models.ProductForms
 import com.devshawon.curehealthcare.models.ProductRequest
@@ -102,6 +104,14 @@ class HomeViewModel @Inject constructor(
         repository.getForm(it.peekContent())
     }
 
+    val orderRequest = MutableLiveData<Event<String>>()
+    var orderPageCount = MutableLiveData(1)
+    val orderList = ArrayList<OrderData>()
+    val orderEvent = MutableLiveData<Event<String>>()
+    val orderResponse : LiveData<Resource<OrderResponse>> = orderRequest.switchMap {
+        repository.getOrder(it.peekContent())
+    }
+
     init {
         bannerListResponse.observeForever {
             if(it.status == Status.SUCCESS && it.data != null){
@@ -182,7 +192,6 @@ class HomeViewModel @Inject constructor(
         }
 
         companyResponse.observeForever {
-            Log.d("THE DATA IS 901","${it.data?.forms}")
             if(it.status == Status.SUCCESS && it.data != null){
                 companyList.clear()
                 it.data.let { d->
@@ -204,9 +213,22 @@ class HomeViewModel @Inject constructor(
                 formEvent.postValue(Event(it.status.name))
             }
         }
+
+        orderResponse.observeForever {
+            if(it.status == Status.SUCCESS && it.data != null){
+                orderPageCount.value = it.data.currentPage?:1
+                it.data.let { d->
+                    orderList.addAll(d.data)
+                    orderEvent.postValue(Event(it.data.currentPage!!.toString()))
+                }
+            }else if(it.status == Status.ERROR){
+                orderEvent.postValue(Event(it.error?.message?:"Error"))
+            }
+        }
     }
 
     fun resetData(){
         pageCount.value = 1
+        orderPageCount.value = 1
     }
 }

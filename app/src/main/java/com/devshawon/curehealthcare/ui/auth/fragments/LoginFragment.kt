@@ -23,6 +23,10 @@ class LoginFragment : BaseFragment<LoginFragmentLayoutBinding>(R.layout.login_fr
     @Inject
     lateinit var viewModelFactory: AppViewModelFactory
     private val viewModel: AuthViewModel by navGraphViewModels(R.id.auth_nav_graph) { viewModelFactory }
+
+    override fun haveToolbar(): Boolean {
+        return false
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mBinding.viewModel = viewModel
