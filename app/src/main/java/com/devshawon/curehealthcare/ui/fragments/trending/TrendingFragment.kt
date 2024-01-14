@@ -56,6 +56,6 @@ class TrendingFragment : BaseFragment<FragmentTrendingBinding>(R.layout.fragment
     override fun onPlusIconClick(item: ProductData) {
     }
 
-    override fun onMinusIconClick(item: ProductData) {
+    override fun onMinusIconClick(item: ProductData,position: Int) {
     }
 }

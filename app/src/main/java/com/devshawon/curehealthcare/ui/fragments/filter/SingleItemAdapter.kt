@@ -30,13 +30,14 @@ class SingleItemAdapter(private val context : Context) : RecyclerView.Adapter<Re
             binding.apply {
                 checkBox.text = list[position].name
                 checkBox.isChecked = list[position].checkBox?:false
-                checkBox.setOnCheckedChangeListener { _, isChecked ->
-                    checkBox.isChecked = isChecked
+                checkBox.setOnClickListener {
+                    checkBox.isChecked = !checkBox.isChecked
                     val data = Form()
                     data.id = list[position].id
                     data.name = list[position].name
-                    data.checkBox = true
+                    data.checkBox = checkBox.isChecked
                     execute.invoke(data,position)
+                    executePendingBindings()
                 }
             }
         }

@@ -1,12 +1,16 @@
 package com.devshawon.curehealthcare.ui.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Paint
 import android.graphics.drawable.Drawable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomTarget
@@ -52,8 +56,9 @@ class ProductAdapter(private val onItemClick: OnItemClick) :
                     this.medicineName.text = string
 
                     this.medicineCompany.text = it.manufacturingCompany.name
-                    this.medicinePrice.text=  "৳ "+it.salePrice
+                    this.medicinePrice.text=  "${context.resources.getString(R.string.money_sign)} ${it.salePrice}"
                     this.mrpPrice.text = it.mrp
+                    this.mrpPrice.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
                     this.discountPrice.text = it.discount+"%"
                     if(it.estimatedDelivery?.isNotEmpty() == true){
                         this.preorderText.text = "Pre-order"
@@ -63,9 +68,6 @@ class ProductAdapter(private val onItemClick: OnItemClick) :
                         this.dateText.visibility=View.GONE
                     }
                 }
-                //medicineName.text = productList[position].productForms.name+" "+productList[position].commercialName+"("+productList[po]
-                medicineCompany.text = productList[position].manufacturingCompany.name
-                medicinePrice.text = productList[position].salePrice
                 if(productList[position].productCount == 0){
                     deleteIcon.visibility = View.INVISIBLE
                     minusIcon.visibility = View.INVISIBLE
@@ -78,6 +80,7 @@ class ProductAdapter(private val onItemClick: OnItemClick) :
                 }
 
                 Glide.with(context).load(productList[position].photo.previewUrl)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .placeholder(R.drawable.banner_background).apply(
                         RequestOptions.bitmapTransform(
                             RoundedCorners(
@@ -102,7 +105,6 @@ class ProductAdapter(private val onItemClick: OnItemClick) :
                         deleteIcon.visibility = View.VISIBLE
                         numberTitle.visibility = View.VISIBLE
                     }
-
                     productList[position].productCount = productList[position].productCount!! + 1
                     onItemClick.onPlusIconClick(productList[position])
                     executePendingBindings()
@@ -111,25 +113,16 @@ class ProductAdapter(private val onItemClick: OnItemClick) :
                 minusIcon.setOnClickListener {
                     binding.data = ((getInt(binding.data) - 1)).toString()
                     if (getInt(binding.data) == 0) {
-                        minusIcon.visibility = View.INVISIBLE
-                        deleteIcon.visibility = View.INVISIBLE
-                        numberTitle.visibility = View.INVISIBLE
-                        productList[position].productCount = 0
-                        onItemClick.onMinusIconClick(productList[position])
+                        removeItem(this,position)
                         return@setOnClickListener
                     }
                     productList[position].productCount = productList[position].productCount!! - 1
-                    onItemClick.onMinusIconClick(productList[position])
+                    onItemClick.onMinusIconClick(productList[position],position)
                     executePendingBindings()
                 }
 
                 deleteIcon.setOnClickListener {
-                    minusIcon.visibility = View.INVISIBLE
-                    deleteIcon.visibility = View.INVISIBLE
-                    numberTitle.visibility = View.INVISIBLE
-                    productList[position].productCount = 0
-                    onItemClick.onMinusIconClick(productList[position])
-                    binding.data = ""
+                    removeItem(this,position)
                 }
             }
         }
@@ -144,5 +137,21 @@ class ProductAdapter(private val onItemClick: OnItemClick) :
         productList.clear()
         productList.addAll(updateList)
         notifyItemChanged(0, updateList)
+    }
+
+    fun addProductList(updateList: ArrayList<ProductData>) {
+        Log.e("DTASSSSSS","${updateList.size}")
+        productList.addAll(updateList)
+        notifyItemChanged(this.productList.size, updateList)
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun removeItem(binding : ListItemMedicineBinding, position: Int){
+        binding.data = ""
+        binding.minusIcon.visibility = View.INVISIBLE
+        binding.deleteIcon.visibility = View.INVISIBLE
+        binding.numberTitle.visibility = View.INVISIBLE
+        productList[position].productCount = 0
+        onItemClick.onMinusIconClick(productList[position],position)
     }
 }

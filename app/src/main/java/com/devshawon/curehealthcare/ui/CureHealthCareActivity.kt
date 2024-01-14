@@ -5,8 +5,6 @@ import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.devshawon.curehealthcare.CureHealthCareApplication
@@ -17,7 +15,6 @@ import com.devshawon.curehealthcare.databinding.ActivityCureHealthCareBinding
 import com.devshawon.curehealthcare.models.ProductData
 import com.devshawon.curehealthcare.ui.fragments.HomeViewModel
 import com.devshawon.curehealthcare.ui.fragments.UpdateCart
-import com.devshawon.curehealthcare.useCase.result.EventObserver
 import com.devshawon.curehealthcare.util.PreferenceStorage
 import com.devshawon.curehealthcare.util.getAmount
 import com.devshawon.curehealthcare.util.removeBadge
@@ -101,18 +98,17 @@ class CureHealthCareActivity : BaseActivity<ActivityCureHealthCareBinding>(R.lay
         productId.add(data.id?:0)
     }
 
-    override fun decreaseItem(data: ProductData) {
+    override fun decreaseItem(data: ProductData,position : Int) {
+        Log.d("The product is 3","${data.productCount}")
         var id  =  -1
         if(data.productCount == 0){
             productListLiveData.forEachIndexed { index, productData ->
                 if(productData.id == data.id){
-                    id = index
+                    productData.productCount = data.productCount
                     return@forEachIndexed
                 }
             }
-            if(id != -1){
-                productListLiveData.removeAt(id)
-            }
+            productListLiveData.removeAt(position)
             showBadge(this, mBinding.bottomNavView, R.id.cartFragment, productListLiveData.size.toString())
         }else{
             productListLiveData.forEach {

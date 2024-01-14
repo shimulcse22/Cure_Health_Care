@@ -40,6 +40,7 @@ class HomeViewModel @Inject constructor(
     var nid = MutableLiveData<String>()
     var mobile = MutableLiveData<String>()
     var shopAddress = MutableLiveData<String>()
+    var pageCount = MutableLiveData<Int>()
 
     var bannerRequest = MutableLiveData<Event<Unit>>()
     var bannerList = ArrayList<String>()
@@ -48,7 +49,7 @@ class HomeViewModel @Inject constructor(
     }
 
     var productRequest = MutableLiveData<Event<ProductRequest>>()
-    val productList = ArrayList<ProductData>()
+    var productList = ArrayList<ProductData>()
     var productListLiveData = MutableLiveData<ArrayList<ProductData>>()
     var productListResponse : LiveData<Resource<ProductResponse>> = productRequest.switchMap {
         repository.getProduct(it.peekContent())
@@ -113,6 +114,7 @@ class HomeViewModel @Inject constructor(
 
         productListResponse.observeForever {
             if(it.status == Status.SUCCESS && it.data != null){
+                pageCount.value = it.data.currentPage?:1
                 it.data.data.forEach { d ->
                     val id  = d.id
                     preferences.productList?.forEach {pD->
@@ -121,8 +123,9 @@ class HomeViewModel @Inject constructor(
                             return@forEach
                         }
                     }
-                    productList.add(d)
+
                 }
+                productList = it.data.data as ArrayList<ProductData>
                 productEvent.postValue(Event(it.status.name))
             }else if(it.status == Status.ERROR){
                 productEvent.postValue(Event(it.status.name))
@@ -201,5 +204,9 @@ class HomeViewModel @Inject constructor(
                 formEvent.postValue(Event(it.status.name))
             }
         }
+    }
+
+    fun resetData(){
+        pageCount.value = 1
     }
 }

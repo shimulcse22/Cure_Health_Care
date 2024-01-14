@@ -49,12 +49,11 @@ class CompanyFilterFragment :
         })
 
        SingleItemAdapter.execute = { form: Form, i: Int ->
-           mBinding.companyFilterRecyclerViewAll.postDelayed(Runnable { //
+           mBinding.companyFilterRecyclerViewAll.postDelayed({
                adapter.list.removeAt(i)
                adapter.list.add(0,form)
                adapter.notifyItemMoved(i,0)
-           }, 1000)
+           }, 10)
        }
-
     }
 }

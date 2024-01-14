@@ -35,6 +35,7 @@ import com.devshawon.curehealthcare.useCase.result.EventObserver
 import com.devshawon.curehealthcare.util.navigate
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.math.floor
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), OnItemClick {
     @Inject
@@ -64,6 +65,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        homeViewModel.resetData()
         homeBannerAdapter = CommonAdapter()
         productAdapter = ProductAdapter(onItemClick = this)
         lifecycleScope.launch {
@@ -101,8 +103,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
 
         mBinding.medicineLayout.adapter = productAdapter
         mBinding.medicineLayout.itemAnimator = DefaultItemAnimator()
-        mBinding.medicineLayout.layoutManager =
-            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        mBinding.medicineLayout.layoutManager = WrapContentLinearLayoutManager()
 
         if (mBinding.bannerRecyclerView.onFlingListener == null) {
             snapHelper.attachToRecyclerView(mBinding.bannerRecyclerView)
@@ -118,9 +119,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
 
         homeViewModel.productEvent.observe(viewLifecycleOwner, EventObserver {
             (activity as CureHealthCareActivity).productListActivity.addAll(homeViewModel.productList)
-            if (it == Status.SUCCESS.name) {
-                layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-                productAdapter.updateProductList((activity as CureHealthCareActivity).productListActivity, 1)
+            if (it == Status.SUCCESS.name && homeViewModel.pageCount.value == 1) {
+                productAdapter.updateProductList(homeViewModel.productList, 1)
+            }
+            else{
+                productAdapter.addProductList(homeViewModel.productList)
             }
         })
 
@@ -139,6 +142,22 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
                 if (offset % mBinding.bannerRecyclerView.width == 0) {
                     currentPosition = offset / mBinding.bannerRecyclerView.width
                 }
+            }
+        })
+
+        mBinding.medicineLayout.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                if (!recyclerView.canScrollVertically(1)) {
+                    val request = ProductRequest(
+                        company = "", firstLatter = "", form = "", page = (homeViewModel.pageCount.value!!+1) , search = ""
+                    )
+                    homeViewModel.productRequest.postValue(
+                        Event(
+                            request
+                        )
+                    )
+                }
+                super.onScrolled(recyclerView, dx, dy)
             }
         })
 
@@ -193,9 +212,19 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
         (activity as CureHealthCareActivity).showOrHideBadge(0)
     }
 
-    override fun onMinusIconClick(item: ProductData) {
+    override fun onMinusIconClick(item: ProductData,position:Int) {
         homeViewModel.productCount.value = homeViewModel.productCount.value ?: (0 - 1)
-        (activity as UpdateCart).decreaseItem(item)
+        (activity as UpdateCart).decreaseItem(item,position)
         (activity as CureHealthCareActivity).showOrHideBadge(0)
+    }
+
+    inner class WrapContentLinearLayoutManager : LinearLayoutManager(requireContext(),VERTICAL,false) {
+        override fun onLayoutChildren(recycler: RecyclerView.Recycler?, state: RecyclerView.State?) {
+            try {
+                super.onLayoutChildren(recycler, state)
+            } catch (_: IndexOutOfBoundsException) {
+
+            }
+        }
     }
 }
