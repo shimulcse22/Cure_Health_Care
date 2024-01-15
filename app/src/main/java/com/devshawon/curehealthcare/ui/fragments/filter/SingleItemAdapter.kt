@@ -7,9 +7,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.devshawon.curehealthcare.databinding.SingleItemViewWithTextBoxBinding
 import com.devshawon.curehealthcare.models.Form
+import java.util.Collections
 
 class SingleItemAdapter(private val context : Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    val list : ArrayList<Form> = arrayListOf()
+    var list : ArrayList<Form> = arrayListOf()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return SingleItemViewHolder(
             SingleItemViewWithTextBoxBinding.inflate(
@@ -35,6 +36,9 @@ class SingleItemAdapter(private val context : Context) : RecyclerView.Adapter<Re
                     Log.d("THE DATA IS ","${checkBox.isChecked}")
                     checkBox.isChecked = checkBox.isChecked
                     list[position].checkBox = checkBox.isChecked
+//                    Collections.swap(list,position,0)
+//                    notifyItemMoved(position,0)
+//                    notifyItemMoved(1,position)
                     execute.invoke(list[position],position,list)
                     executePendingBindings()
                 }
@@ -43,8 +47,9 @@ class SingleItemAdapter(private val context : Context) : RecyclerView.Adapter<Re
     }
 
     fun updateList(form: ArrayList<Form>){
-        this.list.clear()
-        this.list.addAll(form)
+//        this.list.clear()
+//        this.list.addAll(form)
+        list = form
         notifyItemRangeChanged(0,form.size)
     }
 

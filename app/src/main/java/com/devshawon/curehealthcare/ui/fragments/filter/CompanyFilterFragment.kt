@@ -52,10 +52,14 @@ class CompanyFilterFragment :
 
        SingleItemAdapter.execute = { form: Form, i: Int ,list :ArrayList<Form>->
            mBinding.companyFilterRecyclerViewAll.postDelayed({
-               Collections.swap(viewModel.companyList,i,0)
-               Collections.swap(list,i,0)
-               Log.d("DATASAS","${form}")
-               adapter.notifyDataSetChanged()
+               //Collections.swap(list,i,0)
+//               adapter.notifyItemMoved(i,0)
+//               adapter.notifyItemMoved(1,i)
+//               Log.d("DATASAS","${form}")
+               viewModel.companyList.removeAt(i)
+               viewModel.companyList.add(0,form)
+               adapter.updateList(list)
+               //adapter.notifyDataSetChanged()
            }, 100)
        }
     }
