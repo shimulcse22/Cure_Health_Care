@@ -1,6 +1,7 @@
 package com.devshawon.curehealthcare.ui.fragments.filter
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.navGraphViewModels
@@ -49,10 +50,12 @@ class CompanyFilterFragment :
             }
         })
 
-       SingleItemAdapter.execute = { _: Form, i: Int ->
+       SingleItemAdapter.execute = { form: Form, i: Int ,list :ArrayList<Form>->
            mBinding.companyFilterRecyclerViewAll.postDelayed({
                Collections.swap(viewModel.companyList,i,0)
-               adapter.notifyItemMoved(i,0)
+               Collections.swap(list,i,0)
+               Log.d("DATASAS","${form}")
+               adapter.notifyDataSetChanged()
            }, 100)
        }
     }

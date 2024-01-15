@@ -34,8 +34,8 @@ class SingleItemAdapter(private val context : Context) : RecyclerView.Adapter<Re
                 checkBox.setOnClickListener {
                     Log.d("THE DATA IS ","${checkBox.isChecked}")
                     checkBox.isChecked = checkBox.isChecked
-                    list[0].checkBox = checkBox.isChecked
-                    execute.invoke(list[position],position)
+                    list[position].checkBox = checkBox.isChecked
+                    execute.invoke(list[position],position,list)
                     executePendingBindings()
                 }
             }
@@ -49,6 +49,6 @@ class SingleItemAdapter(private val context : Context) : RecyclerView.Adapter<Re
     }
 
     companion object{
-        var execute : (data: Form,position : Int) -> Unit = { form: Form, i: Int -> }
+        var execute : (data: Form,position : Int,list : ArrayList<Form>) -> Unit = { form: Form, i: Int ,list :ArrayList<Form>-> }
     }
 }
