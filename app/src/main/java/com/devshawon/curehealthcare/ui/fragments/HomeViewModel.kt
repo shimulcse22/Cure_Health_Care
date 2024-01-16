@@ -144,6 +144,16 @@ class HomeViewModel @Inject constructor(
 
         trendingListResponse.observeForever {
             if(it.status == Status.SUCCESS && it.data != null){
+                it.data.data.forEach { d ->
+                    val id  = d.id
+                    preferences.productList?.forEach {pD->
+                        if(id == pD?.id){
+                            d.productCount = pD?.productCount
+                            return@forEach
+                        }
+                    }
+
+                }
                 trendingList = it.data.data as ArrayList<ProductData>
                 productEvent.postValue(Event(it.status.name))
             }else if(it.status == Status.ERROR){

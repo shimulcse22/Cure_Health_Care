@@ -50,16 +50,15 @@ class CompanyFilterFragment :
             }
         })
 
-       SingleItemAdapter.execute = { form: Form, i: Int ,list :ArrayList<Form>->
+       SingleItemAdapter.execute = { form: Form, i: Int ,isSelected :Boolean->
            mBinding.companyFilterRecyclerViewAll.postDelayed({
-               //Collections.swap(list,i,0)
-//               adapter.notifyItemMoved(i,0)
-//               adapter.notifyItemMoved(1,i)
-//               Log.d("DATASAS","${form}")
                viewModel.companyList.removeAt(i)
-               viewModel.companyList.add(0,form)
-               adapter.updateList(list)
-               //adapter.notifyDataSetChanged()
+               if(isSelected){
+                   viewModel.companyList.add(0,form)
+               }else{
+                   viewModel.companyList.add(viewModel.companyList.size,form)
+               }
+               adapter.updateList(viewModel.companyList)
            }, 100)
        }
     }

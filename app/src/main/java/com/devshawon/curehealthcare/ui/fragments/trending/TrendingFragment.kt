@@ -13,9 +13,11 @@ import com.devshawon.curehealthcare.databinding.FragmentTrendingBinding
 import com.devshawon.curehealthcare.models.ProductData
 import com.devshawon.curehealthcare.models.ProductRequest
 import com.devshawon.curehealthcare.network.Status
+import com.devshawon.curehealthcare.ui.CureHealthCareActivity
 import com.devshawon.curehealthcare.ui.adapter.ProductAdapter
 import com.devshawon.curehealthcare.ui.fragments.HomeViewModel
 import com.devshawon.curehealthcare.ui.fragments.OnItemClick
+import com.devshawon.curehealthcare.ui.fragments.UpdateCart
 import com.devshawon.curehealthcare.useCase.result.Event
 import com.devshawon.curehealthcare.useCase.result.EventObserver
 import kotlinx.coroutines.launch
@@ -54,8 +56,14 @@ class TrendingFragment : BaseFragment<FragmentTrendingBinding>(R.layout.fragment
     }
 
     override fun onPlusIconClick(item: ProductData) {
+        homeViewModel.productCount.value = homeViewModel.productCount.value ?: (0 + 1)
+        (activity as UpdateCart).inCreaseItem(item)
+        (activity as CureHealthCareActivity).showOrHideBadge(0)
     }
 
     override fun onMinusIconClick(item: ProductData,position: Int) {
+        homeViewModel.productCount.value = homeViewModel.productCount.value ?: (0 - 1)
+        (activity as UpdateCart).decreaseItem(item,position)
+        (activity as CureHealthCareActivity).showOrHideBadge(0)
     }
 }

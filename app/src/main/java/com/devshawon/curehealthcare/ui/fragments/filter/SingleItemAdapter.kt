@@ -11,6 +11,7 @@ import java.util.Collections
 
 class SingleItemAdapter(private val context : Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var list : ArrayList<Form> = arrayListOf()
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return SingleItemViewHolder(
             SingleItemViewWithTextBoxBinding.inflate(
@@ -33,27 +34,22 @@ class SingleItemAdapter(private val context : Context) : RecyclerView.Adapter<Re
                 checkBox.text = list[position].name
                 checkBox.isChecked = list[position].checkBox?:false
                 checkBox.setOnClickListener {
-                    Log.d("THE DATA IS ","${checkBox.isChecked}")
                     checkBox.isChecked = checkBox.isChecked
                     list[position].checkBox = checkBox.isChecked
-//                    Collections.swap(list,position,0)
-//                    notifyItemMoved(position,0)
-//                    notifyItemMoved(1,position)
-                    execute.invoke(list[position],position,list)
+                    execute.invoke(list[position],position,checkBox.isChecked)
                     executePendingBindings()
                 }
             }
         }
     }
 
+
     fun updateList(form: ArrayList<Form>){
-//        this.list.clear()
-//        this.list.addAll(form)
         list = form
         notifyItemRangeChanged(0,form.size)
     }
 
     companion object{
-        var execute : (data: Form,position : Int,list : ArrayList<Form>) -> Unit = { form: Form, i: Int ,list :ArrayList<Form>-> }
+        var execute : (data: Form,position : Int,isSelected :Boolean) -> Unit = { form: Form, i: Int ,isSelected :Boolean-> }
     }
 }
