@@ -118,7 +118,7 @@
                     android:layout_height="wrap_content"
                     android:background="@color/colorWhite"
                     android:minHeight="@dimen/_50sdp"
-                    app:layout_scrollFlags="scroll|snap">
+                    app:layout_scrollFlags="scroll|enterAlways">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
