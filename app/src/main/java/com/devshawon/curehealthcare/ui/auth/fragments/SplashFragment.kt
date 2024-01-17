@@ -30,38 +30,6 @@ class SplashFragment : BaseFragment<SplashFragmentBinding>(R.layout.splash_fragm
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mBinding.viewModel = viewModel
-        viewModel.loader.value = false
-
-        mBinding.loginBtn.setOnClickListener {
-            viewModel.loader.value = true
-            lifecycleScope.launch {
-                //mBinding.loadingStateProgressCircular.visibility = View.VISIBLE
-            }
-
-            viewModel.loginRequest.postValue(
-                LoginRequest(
-                    phone = "01677732635", password = "995633"
-                )
-            )
-        }
-
-        viewModel.event.observe(viewLifecycleOwner, EventObserver {
-            //mBinding.loadingStateProgressCircular.visibility = View.GONE
-            if (it == Status.SUCCESS.name) {
-                activityScreenSwitcher()?.open(
-                    CureHealthCareActivityScreen(
-                        true
-                    )
-                )
-            } else {
-                showDialog {
-                    setTitle(getString(R.string.error_title))
-                    setMessage(it)
-                    setIcon(R.drawable.ic_error)
-                    positiveButton(getString(R.string.ok))
-                }
-            }
-        })
 
         mBinding.registerBtn.setOnClickListener {
             navigate(SplashFragmentDirections.actionSplashFragmentToRegistrationFragment())

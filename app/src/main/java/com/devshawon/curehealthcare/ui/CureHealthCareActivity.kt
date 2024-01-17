@@ -53,8 +53,6 @@ class CureHealthCareActivity : BaseActivity<ActivityCureHealthCareBinding>(R.lay
         mNavController.addOnDestinationChangedListener { _, destination, _ ->
             val selectId = destination.id
             val isTopLevelDestination = TOP_LEVEL_DESTINATIONS.contains(selectId)
-            mBinding.bottomNavView.visibility =
-                if (isTopLevelDestination) View.VISIBLE else View.GONE
         }
     }
 

@@ -24,7 +24,6 @@ class AuthActivity : BaseActivity<AuthActivityLayoutBinding>(R.layout.auth_activ
         private val TOP_LEVEL_DESTINATIONS = setOf(R.id.splash_fragment)
     }
 
-
     private val mNavController by lazy { (supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment).navController }
     var mContext: Activity? = null
 
