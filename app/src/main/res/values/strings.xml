@@ -58,4 +58,9 @@
     <string name="form_filter">Form Filter</string>
     <string name="mark_as_read">Mark As Read</string>
     <string name="money_sign">৳</string>
+    <string name="search_medicine_name_to_get_started">Search medicine name to get started</string>
+    <string name="order_medicines">Order medicines</string>
+    <string name="quickly">Quickly</string>
+    <string name="at_you_convenience">At you convenience</string>
+    <string name="call_us_01860998499">Call Us (01860998499)</string>
 </resources>

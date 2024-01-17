@@ -6,6 +6,7 @@ import com.devshawon.curehealthcare.dagger.viewModel.ViewModelKey
 import com.devshawon.curehealthcare.ui.auth.AuthViewModel
 import com.devshawon.curehealthcare.ui.auth.fragments.LoginFragment
 import com.devshawon.curehealthcare.ui.auth.fragments.RegistrationFragment
+import com.devshawon.curehealthcare.ui.auth.fragments.SplashFragment
 
 import dagger.Binds
 import dagger.Module
@@ -28,5 +29,9 @@ internal abstract class LoginModule {
     @FragmentScoped
     @ContributesAndroidInjector
     internal abstract fun contributeRegistrationFragment(): RegistrationFragment
+
+    @FragmentScoped
+    @ContributesAndroidInjector
+    internal abstract fun contributeSplashFragment(): SplashFragment
 }
 

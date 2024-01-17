@@ -8,8 +8,10 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        >
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/header_title"
@@ -23,6 +25,9 @@
             android:layout_marginStart="@dimen/_8sdp"
             android:layout_marginEnd="@dimen/_8sdp"
             android:layout_marginTop="@dimen/_8sdp"
+            android:textSize="@dimen/_11ssp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
             tools:text="wdhfkafha;lfj;lkafjmnsldflkjgkjdfskjhgakjlksa;f" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -34,6 +39,12 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0"
+            android:textSize="@dimen/_11ssp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            tools:text="@string/reset"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toTopOf="@id/view"
             android:layout_marginStart="@dimen/_8sdp"
             android:layout_marginEnd="@dimen/_8sdp" />
 
@@ -48,6 +59,16 @@
             app:layout_constraintVertical_bias="0"
             android:layout_marginStart="@dimen/_8sdp"
             android:layout_marginEnd="@dimen/_8sdp"
+            android:textSize="@dimen/_11ssp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
             tools:text="kjsdhafkjlasfhlkajsfhkljasfdj" />
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1sdp"
+            android:background="@color/divider"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

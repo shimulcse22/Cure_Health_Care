@@ -49,6 +49,7 @@ class TrendingFragment : BaseFragment<FragmentTrendingBinding>(R.layout.fragment
         mBinding.trending.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
         homeViewModel.productEvent.observe(viewLifecycleOwner, EventObserver {
+            (activity as CureHealthCareActivity).productListActivity.addAll(homeViewModel.trendingList)
             if (it == Status.SUCCESS.name) {
                 productAdapter.updateProductList(homeViewModel.trendingList,1)
             }

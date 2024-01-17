@@ -4,6 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <import type="android.view.View" />
+
+        <import type="com.devshawon.curehealthcare.network.Resource" />
+
+        <import type="com.devshawon.curehealthcare.network.Status" />
+
         <variable
             name="viewModel"
             type="com.devshawon.curehealthcare.ui.fragments.HomeViewModel" />
@@ -18,32 +25,35 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent">
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <androidx.appcompat.widget.Toolbar
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:navigationIcon="@drawable/ic_icon_user_home"
-                    app:titleTextColor="@color/semi_dal_blue"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:title="Notification" />
+                    app:navigationIcon="@drawable/ic_icon_user_home"
+                    app:title="Notification"
+                    app:titleTextColor="@color/semi_dal_blue" />
+
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="@dimen/_12sdp"
                     android:background="@drawable/bg_round"
                     android:backgroundTint="@color/mark_as_read"
                     android:paddingStart="@dimen/_5sdp"
-                    android:paddingEnd="@dimen/_5sdp"
                     android:paddingTop="@dimen/_2sdp"
+                    android:paddingEnd="@dimen/_5sdp"
                     android:paddingBottom="@dimen/_2sdp"
+                    android:text="@string/mark_as_read"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_marginEnd="@dimen/_12sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="1"
-                    android:text="@string/mark_as_read"/>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -53,10 +63,21 @@
             android:id="@+id/notification_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/notification_appbar"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/notification_appbar"
             tools:listitem="@layout/notification_list_item_data" />
+
+        <include
+            layout="@layout/loading_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:resource="@{(Resource) viewModel.notificationResponse}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

@@ -21,7 +21,7 @@ import javax.inject.Inject
 class AuthActivity : BaseActivity<AuthActivityLayoutBinding>(R.layout.auth_activity_layout) {
 
     companion object {
-        private val TOP_LEVEL_DESTINATIONS = setOf(R.id.login_fragment)
+        private val TOP_LEVEL_DESTINATIONS = setOf(R.id.splash_fragment)
     }
 
 
@@ -33,7 +33,7 @@ class AuthActivity : BaseActivity<AuthActivityLayoutBinding>(R.layout.auth_activ
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.statusBarColor = ContextCompat.getColor(this, R.color.update_submit)
-        val id = intent.getIntExtra(NAVIGATION_ID, R.id.login_fragment)
+        val id = intent.getIntExtra(NAVIGATION_ID, R.id.splash_fragment)
         val navHostFragment = nav_host_fragment as NavHostFragment
         val graphInflater = navHostFragment.navController.navInflater
         val navGraph = graphInflater.inflate(R.navigation.auth_nav_graph)

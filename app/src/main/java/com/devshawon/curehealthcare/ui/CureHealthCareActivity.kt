@@ -99,16 +99,16 @@ class CureHealthCareActivity : BaseActivity<ActivityCureHealthCareBinding>(R.lay
     }
 
     override fun decreaseItem(data: ProductData,position : Int) {
-        Log.d("The product is 3","${data.productCount}")
         var id  =  -1
         if(data.productCount == 0){
             productListLiveData.forEachIndexed { index, productData ->
                 if(productData.id == data.id){
+                    id = index
                     productData.productCount = data.productCount
                     return@forEachIndexed
                 }
             }
-            productListLiveData.removeAt(position)
+            productListLiveData.removeAt(id)
             showBadge(this, mBinding.bottomNavView, R.id.cartFragment, productListLiveData.size.toString())
         }else{
             productListLiveData.forEach {

@@ -1,23 +1,19 @@
 package com.devshawon.curehealthcare.ui.fragments
 
-import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.switchMap
-import com.devshawon.curehealthcare.network.Status
 import com.devshawon.curehealthcare.models.BannerResponseMobile
 import com.devshawon.curehealthcare.models.CompanyResponse
-import com.devshawon.curehealthcare.models.EditProfileData
 import com.devshawon.curehealthcare.models.EditProfileGetRequest
 import com.devshawon.curehealthcare.models.Form
 import com.devshawon.curehealthcare.models.FormResponse
-import com.devshawon.curehealthcare.models.MedicinePhoto
+import com.devshawon.curehealthcare.models.NotificationResponse
+import com.devshawon.curehealthcare.models.NotificationResponseData
 import com.devshawon.curehealthcare.models.OrderData
 import com.devshawon.curehealthcare.models.OrderResponse
 import com.devshawon.curehealthcare.models.ProductData
-import com.devshawon.curehealthcare.models.ProductForms
 import com.devshawon.curehealthcare.models.ProductRequest
 import com.devshawon.curehealthcare.models.ProductResponse
 import com.devshawon.curehealthcare.models.UpdatePassword
@@ -25,6 +21,7 @@ import com.devshawon.curehealthcare.models.UpdatePasswordResponse
 import com.devshawon.curehealthcare.models.UpdateProfileRequest
 import com.devshawon.curehealthcare.models.UpdateProfileResponse
 import com.devshawon.curehealthcare.network.Resource
+import com.devshawon.curehealthcare.network.Status
 import com.devshawon.curehealthcare.ui.repository.Repository
 import com.devshawon.curehealthcare.useCase.result.Event
 import com.devshawon.curehealthcare.util.PreferenceStorage
@@ -57,10 +54,24 @@ class HomeViewModel @Inject constructor(
         repository.getProduct(it.peekContent())
     }
 
+    var searchRequest = MutableLiveData<Event<ProductRequest>>()
+    var searchList = ArrayList<ProductData>()
+    var searchListResponse : LiveData<Resource<ProductResponse>> = searchRequest.switchMap {
+        repository.getProduct(it.peekContent())
+    }
+
     var trendingRequest = MutableLiveData<Event<Int>>()
     var trendingList = ArrayList<ProductData>()
     var trendingListResponse : LiveData<Resource<ProductResponse>> = trendingRequest.switchMap {
         repository.getTrending(it.peekContent())
+    }
+
+
+    var notificationPageCount = MutableLiveData<Int>()
+    var notificationRequest = MutableLiveData<Event<Int>>()
+    var notificationList = ArrayList<NotificationResponseData>()
+    var notificationResponse : LiveData<Resource<NotificationResponse>> = notificationRequest.switchMap {
+        repository.getNotifications(it.peekContent())
     }
 
     var oldPassword = MutableLiveData<String>()
@@ -161,6 +172,35 @@ class HomeViewModel @Inject constructor(
             }
         }
 
+        searchListResponse.observeForever {
+            if(it.status == Status.SUCCESS && it.data != null){
+                it.data.data.forEach { d ->
+                    val id  = d.id
+                    preferences.productList?.forEach {pD->
+                        if(id == pD?.id){
+                            d.productCount = pD?.productCount
+                            return@forEach
+                        }
+                    }
+
+                }
+                searchList = it.data.data as ArrayList<ProductData>
+                productEvent.postValue(Event(it.status.name))
+            }else if(it.status == Status.ERROR){
+                productEvent.postValue(Event(it.status.name))
+            }
+        }
+
+        notificationResponse.observeForever {
+            if(it.status == Status.SUCCESS && it.data != null){
+                notificationPageCount.value = it.data.currentPage?:0
+                notificationList = it.data.data as ArrayList<NotificationResponseData>
+                productEvent.postValue(Event(it.status.name))
+            }else if(it.status == Status.ERROR){
+                productEvent.postValue(Event(it.status.name))
+            }
+        }
+
         updatePasswordResponse.observeForever {
             if(it.status == Status.SUCCESS && it.data != null){
                 updatePasswordEvent.postValue(Event(it.data.message))
@@ -240,5 +280,6 @@ class HomeViewModel @Inject constructor(
     fun resetData(){
         pageCount.value = 1
         orderPageCount.value = 1
+        notificationPageCount.value = 1
     }
 }

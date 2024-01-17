@@ -3,11 +3,16 @@ package com.devshawon.curehealthcare.ui.fragments.filter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.devshawon.curehealthcare.R
 import com.devshawon.curehealthcare.databinding.NotificationListItemDataBinding
+import com.devshawon.curehealthcare.models.NotificationResponseData
 
 class NotificationAdapter(private val context: Context) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    private val list :ArrayList<NotificationResponseData> = arrayListOf()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return NotificationViewHolder(
             NotificationListItemDataBinding.inflate(
@@ -18,7 +23,7 @@ class NotificationAdapter(private val context: Context) :
         )
     }
 
-    override fun getItemCount(): Int = 0
+    override fun getItemCount(): Int = list.size
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         (holder as NotificationViewHolder).bind(position)
@@ -28,8 +33,27 @@ class NotificationAdapter(private val context: Context) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(position: Int) {
             binding.apply {
-                headerTitle
+                list[position].let {
+                    headerTitle.text = it.name
+                    subHeaderTitle.text = it.description
+                    dateTitle.text = it.createdAt
+                    if(it.status == "Unread"){
+                        layout.setBackgroundColor(ContextCompat.getColor(context, R.color.gray_7))
+                    }else{
+                        layout.setBackgroundColor(ContextCompat.getColor(context, R.color.colorWhite))
+                    }
+                }
             }
         }
+    }
+
+    fun updateData(list : ArrayList<NotificationResponseData>){
+        this.list.clear()
+        this.list.addAll(list)
+        notifyItemRangeChanged(0,list.size)
+    }
+    fun updateMoreData(list : ArrayList<NotificationResponseData>){
+        this.list.addAll(list)
+        notifyItemRangeChanged(this.list.size,list.size)
     }
 }

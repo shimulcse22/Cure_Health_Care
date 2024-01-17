@@ -12,6 +12,7 @@ import com.devshawon.curehealthcare.models.Form
 import com.devshawon.curehealthcare.models.FormResponse
 import com.devshawon.curehealthcare.models.LoginRequest
 import com.devshawon.curehealthcare.models.LoginResponse
+import com.devshawon.curehealthcare.models.NotificationResponse
 import com.devshawon.curehealthcare.models.OrderResponse
 import com.devshawon.curehealthcare.models.ProductRequest
 import com.devshawon.curehealthcare.models.ProductResponse
@@ -85,6 +86,12 @@ class Repository @Inject constructor(
         Log.d("Order is called","")
         return object : NetworkBoundResourceOnlyNetwork<OrderResponse>(appExecutors) {
             override fun createCall() = apiService.getOrder(getInt(page))
+        }.asLiveData()
+    }
+
+    fun getNotifications(page: Int?=0) : LiveData<Resource<NotificationResponse>>{
+        return object : NetworkBoundResourceOnlyNetwork<NotificationResponse>(appExecutors) {
+            override fun createCall() = apiService.getNotification(page)
         }.asLiveData()
     }
 }
