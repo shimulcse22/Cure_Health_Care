@@ -51,4 +51,11 @@
         <item name="textAllCaps">false</item>
         <item name="android:textAllCaps">false</item>
     </style>
+
+    <style name="radio" parent="">
+        <item name="android:layout_width">@dimen/_48sdp</item>
+        <item name="android:layout_height">@dimen/_25sdp</item>
+        <item name="android:textColor">@color/text_color_checked</item>
+        <item name="android:textSize">15sp</item>
+    </style>
 </resources>

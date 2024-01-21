@@ -1,5 +1,6 @@
 package com.devshawon.curehealthcare.ui.fragments.home
 
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import androidx.recyclerview.widget.SnapHelper
 import com.devshawon.curehealthcare.R
 import com.devshawon.curehealthcare.base.ui.BaseFragment
@@ -169,28 +171,25 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
     private fun addRadioButtons() {
         mBinding.radioButton.orientation = LinearLayout.HORIZONTAL
         val params = RadioGroup.LayoutParams(
-            45, 50
+            RadioGroup.LayoutParams.WRAP_CONTENT,
+            RadioGroup.LayoutParams.WRAP_CONTENT
         )
-        for (i in 0 until 27) {
+        for (i in 0 until 26) {
             val radioButton = RadioButton(requireContext())
             radioButton.apply {
                 id = i
                 params.setMargins(8, 5, 8, 5)
                 setBackgroundResource(R.drawable.radio_button_background)
-                setPadding(15, 2, 15, 5)
-                text = if (i == 0) {
-                    params.width = LayoutParams.WRAP_CONTENT
-                    context.resources.getText(R.string.reset)
-                } else {
-                    ('A' + i - 1).toString()
-                }
-                setTextColor(ContextCompat.getColorStateList(context, R.color.text_color_checked))
+                //textSize = 17f
+                setPadding(10, 1, 10, 1)
+                text = ('A' + i).toString()
+                //setTextColor(ContextCompat.getColorStateList(context, R.color.text_color_checked))
                 buttonDrawable = null
                 textAlignment = View.TEXT_ALIGNMENT_CENTER
                 setOnClickListener {
                     getData(radioButton.text.toString())
                 }
-
+                setTextAppearance(R.style.radio)
                 layoutParams = params
             }
             mBinding.radioButton.addView(radioButton)
