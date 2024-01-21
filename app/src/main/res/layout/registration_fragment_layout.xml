@@ -3,303 +3,319 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="android.view.View" />
+
+        <import type="com.devshawon.curehealthcare.network.Resource" />
+
+        <import type="com.devshawon.curehealthcare.network.Status" />
         <variable
             name="viewModel"
             type="com.devshawon.curehealthcare.ui.auth.AuthViewModel" />
     </data>
-    <ScrollView
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/login_registration_background">
-        <LinearLayout
+        android:layout_height="match_parent">
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/login_registration_background">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:baselineAligned="false"
+                android:layout_margin="@dimen/_12sdp">
+
+                <ImageView
+                    android:layout_width="@dimen/_120sdp"
+                    android:layout_height="@dimen/_50sdp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/logo"
+                    android:contentDescription="@string/login" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/register_new_account"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/_18ssp"
+                    />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/first_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:text="@string/first_name"
+                        android:textSize="@dimen/_12ssp"
+                        android:layout_marginTop="@dimen/_12ssp"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        />
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toEndOf="@id/first_name"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:text="@string/star"
+                        android:textSize="@dimen/_12ssp"
+                        android:layout_marginTop="@dimen/_12ssp"
+                        android:textStyle="bold"
+                        android:textColor="@color/red"
+                        />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/_8sdp"
+                    android:hint="@string/enter_your_first_name"
+                    android:inputType="text"
+                    android:background="@drawable/input_box_background"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:text="@={viewModel.firstName}"
+                    android:autofillHints="" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/last_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:text="@string/last_name"
+                        android:textSize="@dimen/_12ssp"
+                        android:layout_marginTop="@dimen/_12ssp"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        />
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toEndOf="@id/last_name"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:text="@string/star"
+                        android:textSize="@dimen/_12ssp"
+                        android:layout_marginTop="@dimen/_12ssp"
+                        android:textStyle="bold"
+                        android:textColor="@color/red"
+                        />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/_8sdp"
+                    android:hint="@string/enter_your_last_name"
+                    android:background="@drawable/input_box_background"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:autofillHints=""
+                    android:text="@={viewModel.lastName}"
+                    android:inputType="text" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/mobile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:text="@string/mobile"
+                        android:textSize="@dimen/_12ssp"
+                        android:layout_marginTop="@dimen/_12ssp"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        />
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toEndOf="@id/mobile"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:text="@string/star"
+                        android:textSize="@dimen/_12ssp"
+                        android:layout_marginTop="@dimen/_12ssp"
+                        android:textStyle="bold"
+                        android:textColor="@color/red"
+                        />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/_8sdp"
+                    android:hint="@string/enter_your_mobile_number"
+                    android:background="@drawable/input_box_background"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:text="@={viewModel.mobile}"
+                    android:inputType="phone"
+                    android:autofillHints="" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/shop_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:text="@string/shop_name"
+                        android:textSize="@dimen/_12ssp"
+                        android:layout_marginTop="@dimen/_12ssp"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        />
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toEndOf="@id/shop_name"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:text="@string/star"
+                        android:textSize="@dimen/_12ssp"
+                        android:layout_marginTop="@dimen/_12ssp"
+                        android:textStyle="bold"
+                        android:textColor="@color/red"
+                        />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/_8sdp"
+                    android:hint="@string/enter_your_shop_name"
+                    android:background="@drawable/input_box_background"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:text="@={viewModel.shopName}"
+                    android:inputType="text"
+                    android:autofillHints="" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/shop_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:text="@string/shop_address"
+                        android:textSize="@dimen/_12ssp"
+                        android:layout_marginTop="@dimen/_12ssp"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        />
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toEndOf="@id/shop_address"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:text="@string/star"
+                        android:textSize="@dimen/_12ssp"
+                        android:layout_marginTop="@dimen/_12ssp"
+                        android:textStyle="bold"
+                        android:textColor="@color/red"
+                        />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/_8sdp"
+                    android:hint="@string/enter_your_shop_address"
+                    android:background="@drawable/input_box_background"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:text="@={viewModel.shopAddress}"
+                    android:inputType="text"
+                    android:autofillHints="" />
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/nid_number"
+                    android:textSize="@dimen/_12ssp"
+                    android:layout_marginTop="@dimen/_12ssp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/_8sdp"
+                    android:hint="@string/enter_your_nid"
+                    android:background="@drawable/input_box_background"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:text="@={viewModel.nid}"
+                    android:inputType="number"
+                    android:autofillHints=""/>
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/license"
+                    android:textSize="@dimen/_12ssp"
+                    android:layout_marginTop="@dimen/_12ssp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/_8sdp"
+                    android:hint="@string/enter_your_license_number"
+                    android:background="@drawable/bg_round"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:text="@={viewModel.license}"
+                    android:inputType="number"
+                    android:autofillHints=""/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/register_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:background="@drawable/update_submit_button"
+                    android:text="@string/register"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/cancel_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8sp"
+                    android:text="@string/cancel"
+                    android:background="@color/update_submit"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/already_registered"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:textSize="@dimen/_10ssp"
+                    android:textColor="@color/semi_dal_blue"
+                    android:text="@string/already_have_an_account"/>
+
+            </LinearLayout>
+        </ScrollView>
+        <include
+            layout="@layout/loading_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:baselineAligned="false"
-            android:layout_margin="@dimen/_12sdp">
+            android:layout_gravity="center"
+            app:resource="@{(Resource) viewModel.regResponse}" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-            <ImageView
-                android:layout_width="@dimen/_120sdp"
-                android:layout_height="@dimen/_50sdp"
-                android:layout_gravity="center"
-                android:src="@drawable/logo"
-                android:contentDescription="@string/login" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/register_new_account"
-                android:textStyle="bold"
-                android:textSize="@dimen/_18ssp"
-                />
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/first_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:text="@string/first_name"
-                    android:textSize="@dimen/_12ssp"
-                    android:layout_marginTop="@dimen/_12ssp"
-                    android:textStyle="bold"
-                    android:textColor="@color/black"
-                    />
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toEndOf="@id/first_name"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:text="@string/star"
-                    android:textSize="@dimen/_12ssp"
-                    android:layout_marginTop="@dimen/_12ssp"
-                    android:textStyle="bold"
-                    android:textColor="@color/red"
-                    />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/_8sdp"
-                android:hint="@string/enter_your_first_name"
-                android:inputType="text"
-                android:background="@drawable/input_box_background"
-                android:layout_marginTop="@dimen/_8sdp"
-                android:text="@={viewModel.firstName}"
-                android:autofillHints="" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/last_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:text="@string/last_name"
-                    android:textSize="@dimen/_12ssp"
-                    android:layout_marginTop="@dimen/_12ssp"
-                    android:textStyle="bold"
-                    android:textColor="@color/black"
-                    />
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toEndOf="@id/last_name"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:text="@string/star"
-                    android:textSize="@dimen/_12ssp"
-                    android:layout_marginTop="@dimen/_12ssp"
-                    android:textStyle="bold"
-                    android:textColor="@color/red"
-                    />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/_8sdp"
-                android:hint="@string/enter_your_last_name"
-                android:background="@drawable/input_box_background"
-                android:layout_marginTop="@dimen/_8sdp"
-                android:autofillHints=""
-                android:text="@={viewModel.lastName}"
-                android:inputType="text" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/mobile"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:text="@string/mobile"
-                    android:textSize="@dimen/_12ssp"
-                    android:layout_marginTop="@dimen/_12ssp"
-                    android:textStyle="bold"
-                    android:textColor="@color/black"
-                    />
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toEndOf="@id/mobile"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:text="@string/star"
-                    android:textSize="@dimen/_12ssp"
-                    android:layout_marginTop="@dimen/_12ssp"
-                    android:textStyle="bold"
-                    android:textColor="@color/red"
-                    />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/_8sdp"
-                android:hint="@string/enter_your_mobile_number"
-                android:background="@drawable/input_box_background"
-                android:layout_marginTop="@dimen/_8sdp"
-                android:text="@={viewModel.mobile}"
-                android:inputType="phone"
-                android:autofillHints="" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/shop_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:text="@string/shop_name"
-                    android:textSize="@dimen/_12ssp"
-                    android:layout_marginTop="@dimen/_12ssp"
-                    android:textStyle="bold"
-                    android:textColor="@color/black"
-                    />
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toEndOf="@id/shop_name"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:text="@string/star"
-                    android:textSize="@dimen/_12ssp"
-                    android:layout_marginTop="@dimen/_12ssp"
-                    android:textStyle="bold"
-                    android:textColor="@color/red"
-                    />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/_8sdp"
-                android:hint="@string/enter_your_shop_name"
-                android:background="@drawable/input_box_background"
-                android:layout_marginTop="@dimen/_8sdp"
-                android:text="@={viewModel.shopName}"
-                android:inputType="text"
-                android:autofillHints="" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/shop_address"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:text="@string/shop_address"
-                    android:textSize="@dimen/_12ssp"
-                    android:layout_marginTop="@dimen/_12ssp"
-                    android:textStyle="bold"
-                    android:textColor="@color/black"
-                    />
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toEndOf="@id/shop_address"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:text="@string/star"
-                    android:textSize="@dimen/_12ssp"
-                    android:layout_marginTop="@dimen/_12ssp"
-                    android:textStyle="bold"
-                    android:textColor="@color/red"
-                    />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/_8sdp"
-                android:hint="@string/enter_your_shop_address"
-                android:background="@drawable/input_box_background"
-                android:layout_marginTop="@dimen/_8sdp"
-                android:text="@={viewModel.shopAddress}"
-                android:inputType="text"
-                android:autofillHints="" />
-            <com.google.android.material.textview.MaterialTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/nid_number"
-                android:textSize="@dimen/_12ssp"
-                android:layout_marginTop="@dimen/_12ssp"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                />
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/_8sdp"
-                android:hint="@string/enter_your_nid"
-                android:background="@drawable/input_box_background"
-                android:layout_marginTop="@dimen/_8sdp"
-                android:text="@={viewModel.nid}"
-                android:inputType="number"
-                android:autofillHints=""/>
-            <com.google.android.material.textview.MaterialTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/license"
-                android:textSize="@dimen/_12ssp"
-                android:layout_marginTop="@dimen/_12ssp"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                />
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/_8sdp"
-                android:hint="@string/enter_your_license_number"
-                android:background="@drawable/bg_round"
-                android:layout_marginTop="@dimen/_8sdp"
-                android:text="@={viewModel.license}"
-                android:inputType="number"
-                android:autofillHints=""/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/register_btn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_8sdp"
-                android:background="@drawable/update_submit_button"
-                android:text="@string/register"
-                android:textColor="@color/black"
-                android:textStyle="bold"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/cancel_btn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8sp"
-                android:text="@string/cancel"
-                android:background="@color/update_submit"
-                android:textColor="@color/black"
-                android:textStyle="bold"/>
-
-            <TextView
-                android:id="@+id/already_registered"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/_8sdp"
-                android:textSize="@dimen/_10ssp"
-                android:textColor="@color/semi_dal_blue"
-                android:text="@string/already_have_an_account"/>
-
-        </LinearLayout>
-    </ScrollView>
 
 </layout>

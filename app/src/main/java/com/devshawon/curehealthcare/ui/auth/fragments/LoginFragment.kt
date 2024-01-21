@@ -50,9 +50,10 @@ class LoginFragment : BaseFragment<LoginFragmentLayoutBinding>(R.layout.login_fr
             if (it == com.devshawon.curehealthcare.network.Status.SUCCESS.name) {
                 activityScreenSwitcher()?.open(
                     CureHealthCareActivityScreen(
-                        true
+                        false
                     )
                 )
+                preferences.isLogin = true
             } else {
                 showDialog {
                     setTitle(getString(R.string.error_title))

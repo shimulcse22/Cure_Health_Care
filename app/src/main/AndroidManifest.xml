@@ -25,6 +25,10 @@
         </activity>
         <activity
             android:name="com.devshawon.curehealthcare.ui.auth.AuthActivity"
+            android:exported="false">
+        </activity>
+        <activity
+            android:name="com.devshawon.curehealthcare.ui.launcher.LauncherActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

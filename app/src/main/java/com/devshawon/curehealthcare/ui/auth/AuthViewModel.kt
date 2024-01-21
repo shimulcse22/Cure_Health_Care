@@ -8,6 +8,8 @@ import androidx.lifecycle.switchMap
 import com.devshawon.curehealthcare.network.Status
 import com.devshawon.curehealthcare.models.LoginRequest
 import com.devshawon.curehealthcare.models.LoginResponse
+import com.devshawon.curehealthcare.models.RegistrationRequest
+import com.devshawon.curehealthcare.models.RegistrationResponse
 import com.devshawon.curehealthcare.network.Resource
 import com.devshawon.curehealthcare.ui.repository.Repository
 import com.devshawon.curehealthcare.useCase.TokenUseCase
@@ -39,7 +41,13 @@ class AuthViewModel @Inject constructor(
         repository.login(it)
     }
 
-    var event = MutableLiveData<Event<String>>()
+    var regRequest = MutableLiveData<RegistrationRequest>()
+    var regResponse : LiveData<Resource<RegistrationResponse>> = regRequest.switchMap {
+        repository.registration(it)
+    }
+
+
+    val event = MutableLiveData<Event<String>>()
 
     init {
         loginResponse.observeForever {
@@ -56,6 +64,16 @@ class AuthViewModel @Inject constructor(
             }else if(it.status == Status.ERROR){
                 loader.value = false
                 event.postValue(Event(it.error?.message!!))
+            }
+        }
+
+        regResponse.observeForever {
+            if(it.status == Status.SUCCESS && it.data !=null){
+                loader.value = false
+                event.postValue(Event(it.data.message?:""))
+            }else if(it.status == Status.SUCCESS){
+                loader.value = false
+                event.postValue(Event("Can not created, Please contact with the helpline number"))
             }
         }
     }

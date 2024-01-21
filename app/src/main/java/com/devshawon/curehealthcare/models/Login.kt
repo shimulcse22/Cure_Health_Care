@@ -70,3 +70,28 @@ data class Customer(
     @Json(name = "zone_id")
     val zoneId: String?=""
 )
+
+
+@JsonClass(generateAdapter = true)
+data class RegistrationRequest(
+    @Json(name = "address")
+    val address: String,
+    @Json(name = "fname")
+    val fname: String,
+    @Json(name = "license")
+    val license: String,
+    @Json(name = "lname")
+    val lname: String,
+    @Json(name = "mobile")
+    val mobile: String,
+    @Json(name = "nid")
+    val nid: String,
+    @Json(name = "shop")
+    val shop: String
+)
+
+@JsonClass(generateAdapter = true)
+data class RegistrationResponse(
+    @Json(name = "message")
+    val message: String?=""
+)

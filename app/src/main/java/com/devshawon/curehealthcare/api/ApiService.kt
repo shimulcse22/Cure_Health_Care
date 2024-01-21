@@ -14,6 +14,8 @@ import com.devshawon.curehealthcare.models.ProductRequest
 import com.devshawon.curehealthcare.models.ProductResponse
 import com.devshawon.curehealthcare.models.RefreshToken
 import com.devshawon.curehealthcare.models.RefreshTokenResponse
+import com.devshawon.curehealthcare.models.RegistrationRequest
+import com.devshawon.curehealthcare.models.RegistrationResponse
 import com.devshawon.curehealthcare.models.UpdatePassword
 import com.devshawon.curehealthcare.models.UpdatePasswordResponse
 import com.devshawon.curehealthcare.models.UpdateProfileRequest
@@ -61,4 +63,7 @@ interface ApiService {
 
     @GET("api/v2/notifications")
     fun getNotification( @Query("page") search: Int?=0) : LiveData<ApiResponse<NotificationResponse>>
+
+    @POST("api/v2/registration")
+    fun registration( @Body body : RegistrationRequest) : LiveData<ApiResponse<RegistrationResponse>>
 }

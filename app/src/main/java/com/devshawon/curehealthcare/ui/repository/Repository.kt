@@ -16,6 +16,8 @@ import com.devshawon.curehealthcare.models.NotificationResponse
 import com.devshawon.curehealthcare.models.OrderResponse
 import com.devshawon.curehealthcare.models.ProductRequest
 import com.devshawon.curehealthcare.models.ProductResponse
+import com.devshawon.curehealthcare.models.RegistrationRequest
+import com.devshawon.curehealthcare.models.RegistrationResponse
 import com.devshawon.curehealthcare.models.UpdatePassword
 import com.devshawon.curehealthcare.models.UpdatePasswordResponse
 import com.devshawon.curehealthcare.models.UpdateProfileRequest
@@ -34,6 +36,12 @@ class Repository @Inject constructor(
             override fun createCall() = apiService.login(data)
         }.asLiveData()
     }
+    fun registration(data: RegistrationRequest): LiveData<Resource<RegistrationResponse>> {
+        return object : NetworkBoundResourceOnlyNetwork<RegistrationResponse>(appExecutors) {
+            override fun createCall() = apiService.registration(data)
+        }.asLiveData()
+    }
+
     fun getBannerList(): LiveData<Resource<BannerResponseMobile>> {
         return object : NetworkBoundResourceOnlyNetwork<BannerResponseMobile>(appExecutors) {
             override fun createCall() = apiService.getBanner()
