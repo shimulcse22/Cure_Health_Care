@@ -58,4 +58,9 @@
         <item name="android:textColor">@color/text_color_checked</item>
         <item name="android:textSize">15sp</item>
     </style>
+
+    <style name="BottomNavigationView" parent="@style/Widget.MaterialComponents.BottomNavigationView">
+        <item name="itemIconTint">@color/bottom_nav_view</item>
+        <item name="itemTextColor">@color/text_color_bottom_nav_view</item>
+    </style>
 </resources>

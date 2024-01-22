@@ -54,7 +54,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
 
     private val runnable = object : Runnable {
         override fun run() {
-
             if (currentPosition == (mBinding.bannerRecyclerView.adapter?.itemCount
                     ?: (1 - 1))
             ) currentPosition = -1
@@ -166,22 +165,32 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
         mBinding.filterImage.setOnClickListener {
             navigate(HomeFragmentDirections.actionHomeToFilterFragment())
         }
+
+        mBinding.resetButton.setOnClickListener {
+            homeViewModel.productRequest.postValue(
+                Event(
+                    ProductRequest(
+                        company = "", firstLatter = "", form = "", page = 1, search = ""
+                    )
+                )
+            )
+        }
     }
 
     private fun addRadioButtons() {
         mBinding.radioButton.orientation = LinearLayout.HORIZONTAL
         val params = RadioGroup.LayoutParams(
-            RadioGroup.LayoutParams.WRAP_CONTENT,
-            RadioGroup.LayoutParams.WRAP_CONTENT
+            RadioGroup.LayoutParams.MATCH_PARENT,
+            RadioGroup.LayoutParams.MATCH_PARENT
         )
         for (i in 0 until 26) {
             val radioButton = RadioButton(requireContext())
             radioButton.apply {
                 id = i
-                params.setMargins(8, 5, 8, 5)
+                params.setMargins(8, 0, 8, 0)
                 setBackgroundResource(R.drawable.radio_button_background)
                 //textSize = 17f
-                setPadding(10, 1, 10, 1)
+                setPadding(15, 10, 15, 10)
                 text = ('A' + i).toString()
                 //setTextColor(ContextCompat.getColorStateList(context, R.color.text_color_checked))
                 buttonDrawable = null
@@ -197,7 +206,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
     }
 
     private fun getData(data: String) {
-        homeViewModel.buttonApiCall.postValue(Event(data))
+        //homeViewModel.buttonApiCall.postValue(Event(data))
+        homeViewModel.productRequest.postValue(
+            Event(
+                ProductRequest(
+                    company = "", firstLatter = data, form = "", page = 1, search = ""
+                )
+            )
+        )
     }
 
     override fun onDestroyView() {

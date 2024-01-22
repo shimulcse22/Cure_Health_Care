@@ -52,6 +52,10 @@ class CureHealthCareActivity : BaseActivity<ActivityCureHealthCareBinding>(R.lay
 
         mNavController.addOnDestinationChangedListener { _, destination, _ ->
             val selectId = destination.id
+            Log.d("THE DAYA IS ","$destination")
+            if(TOP_LEVEL_DESTINATIONS.contains(selectId)){
+                //mBinding.bottomNavView.selectedItemId = destination.id
+            }
             val isTopLevelDestination = TOP_LEVEL_DESTINATIONS.contains(selectId)
         }
     }
