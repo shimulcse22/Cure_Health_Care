@@ -14,6 +14,7 @@ import com.devshawon.curehealthcare.models.LoginRequest
 import com.devshawon.curehealthcare.models.LoginResponse
 import com.devshawon.curehealthcare.models.NotificationResponse
 import com.devshawon.curehealthcare.models.OrderResponse
+import com.devshawon.curehealthcare.models.PlaceOrderRequest
 import com.devshawon.curehealthcare.models.ProductRequest
 import com.devshawon.curehealthcare.models.ProductResponse
 import com.devshawon.curehealthcare.models.RegistrationRequest
@@ -100,6 +101,12 @@ class Repository @Inject constructor(
     fun getNotifications(page: Int?=0) : LiveData<Resource<NotificationResponse>>{
         return object : NetworkBoundResourceOnlyNetwork<NotificationResponse>(appExecutors) {
             override fun createCall() = apiService.getNotification(page)
+        }.asLiveData()
+    }
+
+    fun postPlaceOrder(body : PlaceOrderRequest) : LiveData<Resource<RegistrationResponse>>{
+        return object : NetworkBoundResourceOnlyNetwork<RegistrationResponse>(appExecutors) {
+            override fun createCall() = apiService.postPlaceOrder(body)
         }.asLiveData()
     }
 }

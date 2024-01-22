@@ -10,6 +10,7 @@ import com.devshawon.curehealthcare.models.LoginRequest
 import com.devshawon.curehealthcare.models.LoginResponse
 import com.devshawon.curehealthcare.models.NotificationResponse
 import com.devshawon.curehealthcare.models.OrderResponse
+import com.devshawon.curehealthcare.models.PlaceOrderRequest
 import com.devshawon.curehealthcare.models.ProductRequest
 import com.devshawon.curehealthcare.models.ProductResponse
 import com.devshawon.curehealthcare.models.RefreshToken
@@ -66,4 +67,7 @@ interface ApiService {
 
     @POST("api/v2/registration")
     fun registration( @Body body : RegistrationRequest) : LiveData<ApiResponse<RegistrationResponse>>
+
+    @POST("api/v2/checkout")
+    fun postPlaceOrder( @Body body : PlaceOrderRequest) : LiveData<ApiResponse<RegistrationResponse>>
 }

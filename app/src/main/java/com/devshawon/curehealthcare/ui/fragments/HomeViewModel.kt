@@ -1,5 +1,6 @@
 package com.devshawon.curehealthcare.ui.fragments
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,9 +14,12 @@ import com.devshawon.curehealthcare.models.NotificationResponse
 import com.devshawon.curehealthcare.models.NotificationResponseData
 import com.devshawon.curehealthcare.models.OrderData
 import com.devshawon.curehealthcare.models.OrderResponse
+import com.devshawon.curehealthcare.models.PlaceOrderRequest
+import com.devshawon.curehealthcare.models.Product
 import com.devshawon.curehealthcare.models.ProductData
 import com.devshawon.curehealthcare.models.ProductRequest
 import com.devshawon.curehealthcare.models.ProductResponse
+import com.devshawon.curehealthcare.models.RegistrationResponse
 import com.devshawon.curehealthcare.models.UpdatePassword
 import com.devshawon.curehealthcare.models.UpdatePasswordResponse
 import com.devshawon.curehealthcare.models.UpdateProfileRequest
@@ -106,6 +110,13 @@ class HomeViewModel @Inject constructor(
     val companyOrFormEvent = MutableLiveData<Event<String>>()
     val companyResponse : LiveData<Resource<CompanyResponse>> = companyRequest.switchMap {
         repository.getCompany(it.peekContent())
+    }
+
+    val placeOrderRequest = MutableLiveData<PlaceOrderRequest>()
+    val placeOrderList = ArrayList<Product>()
+    val placeEvent = MutableLiveData<Event<String>>()
+    val placeOrderResponse : LiveData<Resource<RegistrationResponse>> = placeOrderRequest.switchMap {
+        repository.postPlaceOrder(it)
     }
 
     val formRequest = MutableLiveData<Event<String>>()
@@ -273,6 +284,15 @@ class HomeViewModel @Inject constructor(
                 }
             }else if(it.status == Status.ERROR){
                 orderEvent.postValue(Event(it.error?.message?:"Error"))
+            }
+        }
+
+        placeOrderResponse.observeForever {
+            if(it.status == Status.SUCCESS && it.data !=null){
+                placeEvent.postValue(Event(it.data.message?:""))
+            }else if(it.status == Status.SUCCESS){
+                Log.d("THE CART IS 22 ","${it.status}")
+                placeEvent.postValue(Event("Can not created, Please contact with the helpline number"))
             }
         }
     }

@@ -69,3 +69,33 @@ data class LinkData(
     @Json(name = "url")
     val url: String?=""
 )
+
+@JsonClass(generateAdapter = true)
+data class PlaceOrderRequest(
+    @Json(name = "cart")
+    val cart: Cart
+)
+
+@JsonClass(generateAdapter = true)
+data class Cart(
+    @Json(name = "products")
+    val products: List<Product>?= listOf(),
+    @Json(name = "total")
+    val total: Int?=0
+)
+
+@JsonClass(generateAdapter = true)
+data class Product(
+    @Json(name = "discount")
+    var discount: String?="",
+    @Json(name = "id")
+    var id: Int?=0,
+    @Json(name = "mrp")
+    var mrp: String?="",
+    @Json(name = "quantity")
+    var quantity: Int?=0,
+    @Json(name = "sale_price")
+    var salePrice: String?="",
+    @Json(name = "status")
+    var status: String?=""
+)

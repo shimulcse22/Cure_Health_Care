@@ -12,18 +12,23 @@ import com.devshawon.curehealthcare.R
 import com.devshawon.curehealthcare.base.ui.BaseFragment
 import com.devshawon.curehealthcare.dagger.viewModel.AppViewModelFactory
 import com.devshawon.curehealthcare.databinding.FragmentCartBinding
+import com.devshawon.curehealthcare.models.Cart
+import com.devshawon.curehealthcare.models.PlaceOrderRequest
+import com.devshawon.curehealthcare.models.Product
 import com.devshawon.curehealthcare.models.ProductData
+import com.devshawon.curehealthcare.network.Status
 import com.devshawon.curehealthcare.ui.CureHealthCareActivity
 import com.devshawon.curehealthcare.ui.adapter.ProductCartAdapter
 import com.devshawon.curehealthcare.ui.fragments.HomeViewModel
 import com.devshawon.curehealthcare.ui.fragments.OnItemClick
 import com.devshawon.curehealthcare.ui.fragments.UpdateCart
-import com.devshawon.curehealthcare.useCase.result.Event
 import com.devshawon.curehealthcare.useCase.result.EventObserver
+import com.devshawon.curehealthcare.util.positiveButton
+import com.devshawon.curehealthcare.util.showDialog
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class CartFragment : BaseFragment<FragmentCartBinding>(R.layout.fragment_cart),OnItemClick {
+class CartFragment : BaseFragment<FragmentCartBinding>(R.layout.fragment_cart), OnItemClick {
     @Inject
     lateinit var viewModelFactory: AppViewModelFactory
     private val homeViewModel: HomeViewModel by navGraphViewModels(R.id.cure_health_care_nav_host_xml) { viewModelFactory }
@@ -36,37 +41,84 @@ class CartFragment : BaseFragment<FragmentCartBinding>(R.layout.fragment_cart),O
         productAdapter = ProductCartAdapter(onItemClick = this)
         productList.value = arrayListOf()
 
-        productList.value = (activity as CureHealthCareActivity).productListLiveData  as ArrayList<ProductData>
+        productList.value =
+            (activity as CureHealthCareActivity).productListLiveData as ArrayList<ProductData>
         lifecycleScope.launch {
             productAdapter.updateContext(requireContext())
         }
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mBinding.viewModel = homeViewModel
 
         mBinding.medicineLayout.adapter = productAdapter
         mBinding.medicineLayout.itemAnimator = DefaultItemAnimator()
-        mBinding.medicineLayout.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        mBinding.medicineLayout.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+
+        visibility()
 
         productList.observe(viewLifecycleOwner) {
-            if(it.isNotEmpty()){
+            if (it.isNotEmpty()) {
                 mBinding.uniqueItemCount.text = it.size.toString()
-                mBinding.totalAmountCount.text = (activity as CureHealthCareActivity).productPrice.toString()
+                mBinding.totalAmountCount.text =
+                    (activity as CureHealthCareActivity).productPrice.toString()
                 productAdapter.updateProductList(it, 1)
             }
         }
 
-        (activity as CureHealthCareActivity).live.observe(viewLifecycleOwner,EventObserver{
-            mBinding.uniqueItemCount.text = (activity as CureHealthCareActivity).itemCount.toString()
-            mBinding.totalAmountCount.text = (activity as CureHealthCareActivity).productPrice.toString()
+        (activity as CureHealthCareActivity).live.observe(viewLifecycleOwner, EventObserver {
+            mBinding.uniqueItemCount.text =
+                (activity as CureHealthCareActivity).itemCount.toString()
+            mBinding.totalAmountCount.text =
+                (activity as CureHealthCareActivity).productPrice.toString()
+            visibility()
         })
+
+        homeViewModel.placeEvent.observe(viewLifecycleOwner,EventObserver{
+            if(it == Status.SUCCESS.name){
+                mBinding.amount.visibility = View.GONE
+                mBinding.medicineLayout.visibility = View.GONE
+            }else{
+                showDialog {
+                    setTitle(getString(R.string.error_title))
+                    setMessage(it)
+                    setIcon(R.drawable.ic_error)
+                    positiveButton(getString(R.string.ok))
+                }
+            }
+        })
+
+        mBinding.placeOrder.setOnClickListener {
+            val list = ArrayList<Product>()
+            var total = 0
+            (activity as CureHealthCareActivity).productListLiveData.forEach {
+                total += it.productCount ?: 0
+                val product = Product()
+                product.id = it.id
+                product.mrp = it.mrp
+                product.discount = it.discount
+                product.quantity = it.productCount
+                product.salePrice = it.salePrice
+                product.status = it.status
+                list.add(product)
+            }
+            Log.d("THE CART IS ","${PlaceOrderRequest(
+                Cart(products = list, total = total)
+            )}")
+            homeViewModel.placeOrderRequest.postValue(
+                PlaceOrderRequest(
+                    Cart(products = list, total = total)
+                )
+            )
+        }
     }
 
     override fun onPlusIconClick(item: ProductData) {
         homeViewModel.productCount.value = homeViewModel.productCount.value ?: (0 + 1)
         (activity as CureHealthCareActivity).productListActivity.forEach {
-            if(it.id == item.id){
+            if (it.id == item.id) {
                 it.productCount = item.productCount
                 return@forEach
             }
@@ -75,19 +127,32 @@ class CartFragment : BaseFragment<FragmentCartBinding>(R.layout.fragment_cart),O
         (activity as UpdateCart).inCreaseItem(item)
         (activity as CureHealthCareActivity).showOrHideBadge(0)
         mBinding.uniqueItemCount.text = (activity as CureHealthCareActivity).itemCount.toString()
-        mBinding.totalAmountCount.text = (activity as CureHealthCareActivity).productPrice.toString()
+        mBinding.totalAmountCount.text =
+            (activity as CureHealthCareActivity).productPrice.toString()
     }
 
-    override fun onMinusIconClick(item: ProductData,position: Int) {
+    override fun onMinusIconClick(item: ProductData, position: Int) {
         homeViewModel.productCount.value = homeViewModel.productCount.value ?: (0 - 1)
         (activity as CureHealthCareActivity).productListActivity.forEachIndexed { index, productData ->
-            if(productData.id == item.id){
+            if (productData.id == item.id) {
                 productData.productCount = item.productCount
                 return@forEachIndexed
             }
         }
 
-        (activity as UpdateCart).decreaseItem(item,position)
+        (activity as UpdateCart).decreaseItem(item, position)
         (activity as CureHealthCareActivity).showOrHideBadge(0)
+    }
+
+    private fun visibility(){
+        if((activity as CureHealthCareActivity).productListLiveData.isNotEmpty()){
+            mBinding.medicineLayout.visibility = View.VISIBLE
+            mBinding.amount.visibility = View.VISIBLE
+            mBinding.empty.visibility = View.GONE
+        }else{
+            mBinding.medicineLayout.visibility = View.GONE
+            mBinding.amount.visibility = View.GONE
+            mBinding.empty.visibility = View.VISIBLE
+        }
     }
 }

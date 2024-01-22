@@ -4,7 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View" />
 
+        <import type="com.devshawon.curehealthcare.network.Resource" />
+
+        <import type="com.devshawon.curehealthcare.network.Status" />
         <variable
             name="viewModel"
             type="com.devshawon.curehealthcare.ui.fragments.HomeViewModel" />
@@ -80,7 +84,14 @@
                 app:layout_constraintTop_toBottomOf="@id/unique_item_count" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/empty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/empty"/>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/medicine_layout"
             android:layout_width="match_parent"
@@ -107,6 +118,11 @@
             android:textSize="@dimen/_12ssp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/medicine_layout" />
-
+        <include
+            layout="@layout/loading_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            app:resource="@{(Resource) viewModel.placeOrderResponse}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
