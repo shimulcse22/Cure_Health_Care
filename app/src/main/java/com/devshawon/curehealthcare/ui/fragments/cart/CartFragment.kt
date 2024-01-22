@@ -18,6 +18,8 @@ import com.devshawon.curehealthcare.ui.adapter.ProductCartAdapter
 import com.devshawon.curehealthcare.ui.fragments.HomeViewModel
 import com.devshawon.curehealthcare.ui.fragments.OnItemClick
 import com.devshawon.curehealthcare.ui.fragments.UpdateCart
+import com.devshawon.curehealthcare.useCase.result.Event
+import com.devshawon.curehealthcare.useCase.result.EventObserver
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -48,13 +50,17 @@ class CartFragment : BaseFragment<FragmentCartBinding>(R.layout.fragment_cart),O
         mBinding.medicineLayout.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
         productList.observe(viewLifecycleOwner) {
-            Log.d("UM WORKING HERE","${it.size}")
             if(it.isNotEmpty()){
                 mBinding.uniqueItemCount.text = it.size.toString()
                 mBinding.totalAmountCount.text = (activity as CureHealthCareActivity).productPrice.toString()
                 productAdapter.updateProductList(it, 1)
             }
         }
+
+        (activity as CureHealthCareActivity).live.observe(viewLifecycleOwner,EventObserver{
+            mBinding.uniqueItemCount.text = (activity as CureHealthCareActivity).itemCount.toString()
+            mBinding.totalAmountCount.text = (activity as CureHealthCareActivity).productPrice.toString()
+        })
     }
 
     override fun onPlusIconClick(item: ProductData) {
@@ -68,6 +74,8 @@ class CartFragment : BaseFragment<FragmentCartBinding>(R.layout.fragment_cart),O
 
         (activity as UpdateCart).inCreaseItem(item)
         (activity as CureHealthCareActivity).showOrHideBadge(0)
+        mBinding.uniqueItemCount.text = (activity as CureHealthCareActivity).itemCount.toString()
+        mBinding.totalAmountCount.text = (activity as CureHealthCareActivity).productPrice.toString()
     }
 
     override fun onMinusIconClick(item: ProductData,position: Int) {
@@ -78,6 +86,7 @@ class CartFragment : BaseFragment<FragmentCartBinding>(R.layout.fragment_cart),O
                 return@forEachIndexed
             }
         }
+
         (activity as UpdateCart).decreaseItem(item,position)
         (activity as CureHealthCareActivity).showOrHideBadge(0)
     }

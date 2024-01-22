@@ -5,6 +5,8 @@ import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
+import androidx.core.view.get
+import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.devshawon.curehealthcare.CureHealthCareApplication
@@ -15,6 +17,7 @@ import com.devshawon.curehealthcare.databinding.ActivityCureHealthCareBinding
 import com.devshawon.curehealthcare.models.ProductData
 import com.devshawon.curehealthcare.ui.fragments.HomeViewModel
 import com.devshawon.curehealthcare.ui.fragments.UpdateCart
+import com.devshawon.curehealthcare.useCase.result.Event
 import com.devshawon.curehealthcare.util.PreferenceStorage
 import com.devshawon.curehealthcare.util.getAmount
 import com.devshawon.curehealthcare.util.removeBadge
@@ -32,6 +35,8 @@ class CureHealthCareActivity : BaseActivity<ActivityCureHealthCareBinding>(R.lay
     val productListActivity : ArrayList<ProductData> = arrayListOf()
     val productId : ArrayList<Int> = arrayListOf()
     var productPrice : Double = 0.00
+    var itemCount : Int = 0
+    val live  = MutableLiveData<Event<Unit>>()
 
     var item : Int = -1
     private val mNavController by lazy { (supportFragmentManager.findFragmentById(R.id.cureHealthCareNavHostFragment) as NavHostFragment).navController }
@@ -41,20 +46,32 @@ class CureHealthCareActivity : BaseActivity<ActivityCureHealthCareBinding>(R.lay
         mBinding.viewModel = viewModel
         window.statusBarColor = ContextCompat.getColor(this, R.color.update_submit)
         cureHealthCareApp = this.application as CureHealthCareApplication
+        mBinding.priceLayout.visibility = View.GONE
         if(preferences.productList!!.isNotEmpty()){
             productListLiveData.clear()
             preferences.productList!!.forEach {
                 productListLiveData.add(it!!)
+                productPrice += getAmount( it.salePrice)*it.productCount!!
             }
             showOrHideBadge(0)
+            mBinding.priceLayout.visibility = View.VISIBLE
+            itemCount = productListLiveData.size
+            mBinding.totalItemCount = itemCount.toString()
+            mBinding.totalPriceCount = productPrice.toString()
         }
         mBinding.bottomNavView.setupWithNavController(mNavController)
 
         mNavController.addOnDestinationChangedListener { _, destination, _ ->
             val selectId = destination.id
-            Log.d("THE DAYA IS ","$destination")
-            if(TOP_LEVEL_DESTINATIONS.contains(selectId)){
-                //mBinding.bottomNavView.selectedItemId = destination.id
+            //mBinding.bottomNavView.menu.getItem(TOP_LEVEL_DESTINATIONS.indexOf(selectId)).isChecked = !BACK_STACK_NOT_ENTRY.contains(selectId)
+            if(PRICE_LAYOUT_NOT_SHOWING.contains(selectId)){
+                mBinding.priceLayout.visibility = View.GONE
+            }else{
+                if(productListLiveData.isNotEmpty()){
+                    mBinding.priceLayout.visibility = View.VISIBLE
+                }else{
+                    mBinding.priceLayout.visibility = View.GONE
+                }
             }
             val isTopLevelDestination = TOP_LEVEL_DESTINATIONS.contains(selectId)
         }
@@ -81,44 +98,66 @@ class CureHealthCareActivity : BaseActivity<ActivityCureHealthCareBinding>(R.lay
             R.id.cartFragment,
             R.id.profileFragment
         )
+        private val PRICE_LAYOUT_NOT_SHOWING = setOf(
+            R.id.cartFragment,
+            R.id.filter_fragment
+        )
+        private val BACK_STACK_NOT_ENTRY = setOf(
+            R.id.filter_fragment,
+            R.id.search_fragment,
+            R.id.notification_fragment
+        )
     }
 
     override fun inCreaseItem(data: ProductData) {
         productPrice += getAmount(data.salePrice)
+        mBinding.totalPriceCount = productPrice.toString()
         var bool = false
         productListLiveData.forEach {
             if(it.id == data.id){
                 bool = true
                 it.productCount = data.productCount
+                live.postValue(Event(Unit))
                 return@forEach
             }
         }
 
         if(!bool){
             productListLiveData.add(data)
+            itemCount = productListLiveData.size
+            mBinding.totalItemCount = itemCount.toString()
         }
-        productId.add(data.id?:0)
+        if(productListLiveData.isNotEmpty()) mBinding.priceLayout.visibility = View.VISIBLE
     }
 
     override fun decreaseItem(data: ProductData,position : Int) {
+        productPrice -= getAmount(data.salePrice)
+        mBinding.totalPriceCount = productPrice.toString()
         var id  =  -1
         if(data.productCount == 0){
             productListLiveData.forEachIndexed { index, productData ->
                 if(productData.id == data.id){
                     id = index
                     productData.productCount = data.productCount
+                    live.postValue(Event(Unit))
                     return@forEachIndexed
                 }
             }
             productListLiveData.removeAt(id)
+            itemCount = productListLiveData.size
+            mBinding.totalItemCount = itemCount.toString()
+            if(productListLiveData.size == 0) mBinding.priceLayout.visibility = View.GONE
+
             showBadge(this, mBinding.bottomNavView, R.id.cartFragment, productListLiveData.size.toString())
         }else{
             productListLiveData.forEach {
                 if(it.id == data.id){
                     it.productCount = data.productCount
+                    live.postValue(Event(Unit))
                     return@forEach
                 }
             }
+
         }
     }
 

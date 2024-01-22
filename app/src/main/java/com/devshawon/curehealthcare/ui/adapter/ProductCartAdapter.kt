@@ -111,7 +111,6 @@ class ProductCartAdapter (private val onItemClick : OnItemClick) : RecyclerView.
                     binding.data = ((getInt(binding.data) - 1)).toString()
                     if (getInt(binding.data) == 0) {
                         removeItem(this,position)
-                        productList[position].productCount
                         return@setOnClickListener
                     }
                     productList[position].productCount = productList[position].productCount!! - 1

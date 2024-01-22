@@ -4,6 +4,12 @@
 
     <data>
         <variable
+            name="totalItemCount"
+            type="String" />
+        <variable
+            name="totalPriceCount"
+            type="String" />
+        <variable
             name="viewModel"
             type="com.devshawon.curehealthcare.ui.fragments.HomeViewModel" />
     </data>
@@ -30,7 +36,65 @@
                 app:defaultNavHost="true"
                 app:navGraph="@navigation/cure_health_care_nav_host" />
         </FrameLayout>
-
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/price_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@color/divider"
+            app:layout_constraintBottom_toTopOf="@id/bottom_nav_view">
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/unique_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/item_count"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:text="@string/unique_items"/>
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/item_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toEndOf="@id/unique_item"
+                app:layout_constraintEnd_toStartOf="@id/in_total"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:text="@{totalItemCount}"/>
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/in_total"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toEndOf="@id/item_count"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/total_price"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:text="@string/in_total"/>
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/total_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toEndOf="@id/in_total"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:text="@{totalPriceCount}"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_nav_view"
             android:layout_width="match_parent"
