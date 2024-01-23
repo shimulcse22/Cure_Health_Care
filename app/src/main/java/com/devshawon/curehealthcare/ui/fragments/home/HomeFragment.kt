@@ -1,6 +1,5 @@
 package com.devshawon.curehealthcare.ui.fragments.home
 
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -9,15 +8,13 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.RadioButton
 import android.widget.RadioGroup
-import android.widget.Toolbar.LayoutParams
-import androidx.core.content.ContextCompat
+import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import androidx.recyclerview.widget.SnapHelper
 import com.devshawon.curehealthcare.R
 import com.devshawon.curehealthcare.base.ui.BaseFragment
@@ -37,7 +34,6 @@ import com.devshawon.curehealthcare.useCase.result.EventObserver
 import com.devshawon.curehealthcare.util.navigate
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.math.floor
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), OnItemClick {
     @Inject
@@ -174,6 +170,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
                     )
                 )
             )
+        }
+
+        setFragmentResultListener("requestKey") { requestKey, bundle ->
+            Log.d("COMPANY IS 4455","${requestKey}  ${bundle.getBundle("company")}")
+            if(requestKey == "apply"){
+                Log.d("COMPANY IS 44","${bundle.getBundle("company")}")
+                Log.d("COMPANY IS 45","${bundle.getBundle("form")}")
+            }
         }
     }
 

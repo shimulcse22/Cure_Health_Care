@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
 import java.util.Collections
 import javax.inject.Inject
 
-class CompanyFilterFragment :
+class CompanyFilterFragment(private val companyId : ArrayList<Int>) :
     BaseFragment<CompanyFilterFragmentBinding>(R.layout.company_filter_fragment) {
 
     @Inject
@@ -55,8 +55,10 @@ class CompanyFilterFragment :
                viewModel.companyList.removeAt(i)
                if(isSelected){
                    viewModel.companyList.add(0,form)
+                   form.id?.let { companyId.add(it) }
                }else{
                    viewModel.companyList.add(viewModel.companyList.size,form)
+                   if(companyId.contains(form.id)) companyId.remove(form.id)
                }
                adapter.updateList(viewModel.companyList)
            }, 100)

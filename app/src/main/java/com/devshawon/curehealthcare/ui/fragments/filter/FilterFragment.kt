@@ -2,7 +2,8 @@ package com.devshawon.curehealthcare.ui.fragments.filter
 
 import android.os.Bundle
 import android.view.View
-import androidx.navigation.navGraphViewModels
+import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResult
 import com.devshawon.curehealthcare.R
 import com.devshawon.curehealthcare.base.ui.BaseFragment
 import com.devshawon.curehealthcare.dagger.viewModel.AppViewModelFactory
@@ -16,10 +17,13 @@ class FilterFragment : BaseFragment<FilterFragmentBinding>(R.layout.filter_fragm
     @Inject
     lateinit var viewModelFactory: AppViewModelFactory
 
+    val companyIds = ArrayList<Int>()
+    val formIds = ArrayList<Int>()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mBinding.viewPager.adapter = ViewPagerFilterFragment(this)
+        mBinding.viewPager.adapter = ViewPagerFilterFragment(this,companyIds,formIds)
 
         val titleTab: Array<String> = arrayOf(
             getString(R.string.company_filter),
@@ -30,5 +34,20 @@ class FilterFragment : BaseFragment<FilterFragmentBinding>(R.layout.filter_fragm
         TabLayoutMediator(tabLayout, mBinding.viewPager) { tab, position ->
             tab.text = titleTab[position]
         }.attach()
+
+        mBinding.applyBtn.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putIntegerArrayList("company",companyIds)
+            bundle.putIntegerArrayList("form",formIds)
+            setFragmentResult("requestKey", bundleOf("bundleKey" to bundle))
+            backToHome()
+        }
+        mBinding.resetBtn.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putIntegerArrayList("company",companyIds)
+            bundle.putIntegerArrayList("form",formIds)
+            setFragmentResult("requestKey", bundleOf("bundleKey" to bundle))
+            backToHome()
+        }
     }
 }

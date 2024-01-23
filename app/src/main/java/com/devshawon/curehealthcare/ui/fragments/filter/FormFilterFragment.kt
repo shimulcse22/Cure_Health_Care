@@ -1,6 +1,7 @@
 package com.devshawon.curehealthcare.ui.fragments.filter
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.navGraphViewModels
@@ -18,7 +19,7 @@ import com.devshawon.curehealthcare.useCase.result.EventObserver
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class FormFilterFragment : BaseFragment<FormFilterFragmentBinding>(R.layout.form_filter_fragment) {
+class FormFilterFragment(private val formId : ArrayList<Int>) : BaseFragment<FormFilterFragmentBinding>(R.layout.form_filter_fragment) {
     @Inject
     lateinit var viewModelFactory: AppViewModelFactory
     private val viewModel: HomeViewModel by navGraphViewModels(R.id.cure_health_care_nav_host_xml) { viewModelFactory }
@@ -49,8 +50,10 @@ class FormFilterFragment : BaseFragment<FormFilterFragmentBinding>(R.layout.form
                 viewModel.formList.removeAt(i)
                 if(isSelected){
                     viewModel.formList.add(0,form)
+                    form.id?.let { formId.add(it) }
                 }else{
                     viewModel.formList.add(viewModel.formList.size,form)
+                    if(formId.contains(id)) formId.remove(form.id)
                 }
                 adapter.updateList(viewModel.formList)
             }, 100)
