@@ -78,8 +78,24 @@ class CartFragment : BaseFragment<FragmentCartBinding>(R.layout.fragment_cart), 
 
         homeViewModel.placeEvent.observe(viewLifecycleOwner,EventObserver{
             if(it == Status.SUCCESS.name){
-                mBinding.amount.visibility = View.GONE
-                mBinding.medicineLayout.visibility = View.GONE
+                val data = (activity as CureHealthCareActivity).productListLiveData
+                (activity as CureHealthCareActivity).productListActivity.forEach {d->
+                    data.forEach {pd->
+                        if(d.id == pd.id){
+                            d.productCount = 0
+                        }
+                    }
+                }
+                data.clear()
+                visibility()
+                (activity as CureHealthCareActivity).showOrHideBadge(0)
+                preferences.productList = mutableListOf()
+                showDialog {
+                    setTitle(getString(R.string.success))
+                    setMessage(homeViewModel.message.value)
+                    setIcon(R.drawable.right_sign)
+                    positiveButton(getString(R.string.ok))
+                }
             }else{
                 showDialog {
                     setTitle(getString(R.string.error_title))
@@ -104,9 +120,6 @@ class CartFragment : BaseFragment<FragmentCartBinding>(R.layout.fragment_cart), 
                 product.status = it.status
                 list.add(product)
             }
-            Log.d("THE CART IS ","${PlaceOrderRequest(
-                Cart(products = list, total = total)
-            )}")
             homeViewModel.placeOrderRequest.postValue(
                 PlaceOrderRequest(
                     Cart(products = list, total = total)

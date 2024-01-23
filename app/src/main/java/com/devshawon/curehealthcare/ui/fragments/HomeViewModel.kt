@@ -15,6 +15,7 @@ import com.devshawon.curehealthcare.models.NotificationResponseData
 import com.devshawon.curehealthcare.models.OrderData
 import com.devshawon.curehealthcare.models.OrderResponse
 import com.devshawon.curehealthcare.models.PlaceOrderRequest
+import com.devshawon.curehealthcare.models.PlaceOrderResponse
 import com.devshawon.curehealthcare.models.Product
 import com.devshawon.curehealthcare.models.ProductData
 import com.devshawon.curehealthcare.models.ProductRequest
@@ -72,6 +73,7 @@ class HomeViewModel @Inject constructor(
 
 
     var notificationPageCount = MutableLiveData<Int>()
+
     var notificationRequest = MutableLiveData<Event<Int>>()
     var notificationList = ArrayList<NotificationResponseData>()
     var notificationResponse : LiveData<Resource<NotificationResponse>> = notificationRequest.switchMap {
@@ -113,9 +115,9 @@ class HomeViewModel @Inject constructor(
     }
 
     val placeOrderRequest = MutableLiveData<PlaceOrderRequest>()
-    val placeOrderList = ArrayList<Product>()
+    var message = MutableLiveData<String>()
     val placeEvent = MutableLiveData<Event<String>>()
-    val placeOrderResponse : LiveData<Resource<RegistrationResponse>> = placeOrderRequest.switchMap {
+    val placeOrderResponse : LiveData<Resource<PlaceOrderResponse>> = placeOrderRequest.switchMap {
         repository.postPlaceOrder(it)
     }
 
@@ -289,9 +291,9 @@ class HomeViewModel @Inject constructor(
 
         placeOrderResponse.observeForever {
             if(it.status == Status.SUCCESS && it.data !=null){
-                placeEvent.postValue(Event(it.data.message?:""))
-            }else if(it.status == Status.SUCCESS){
-                Log.d("THE CART IS 22 ","${it.status}")
+                message.value = it.data.message
+                placeEvent.postValue(Event(it.status.name?:""))
+            }else if(it.status == Status.ERROR){
                 placeEvent.postValue(Event("Can not created, Please contact with the helpline number"))
             }
         }

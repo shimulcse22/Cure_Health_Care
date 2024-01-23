@@ -39,6 +39,7 @@
                     app:titleTextColor="@color/semi_dal_blue" />
 
                 <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/mark_as_read"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/_12sdp"
@@ -49,6 +50,7 @@
                     android:paddingEnd="@dimen/_5sdp"
                     android:paddingBottom="@dimen/_2sdp"
                     android:text="@string/mark_as_read"
+
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="1"

@@ -51,6 +51,25 @@ class NotificationFragment : BaseFragment<NotificationFragmentBinding>(R.layout.
             }
         })
 
+        notificationAdapter.markCount.observe(viewLifecycleOwner,EventObserver{
+            Log.d("notificationssss","$it")
+            if(it == 1){
+                mBinding.markAsRead.visibility = View.VISIBLE
+            }
+        })
+
+        mBinding.markAsRead.setOnClickListener {
+            var count = 0
+            viewModel.notificationList.forEach {
+                if(it.status == "Unread" ){
+                    count++
+                    it.status = ""
+                }
+            }
+            if (count >0) mBinding.markAsRead.visibility = View.GONE
+            notificationAdapter.notifyItemRangeChanged(0,count)
+        }
+
         mBinding.notificationRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 if (!recyclerView.canScrollVertically(1)) {

@@ -1,5 +1,7 @@
 package com.devshawon.curehealthcare.ui.auth.fragments
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.lifecycleScope
@@ -36,6 +38,12 @@ class SplashFragment : BaseFragment<SplashFragmentBinding>(R.layout.splash_fragm
         }
         mBinding.loginBtn.setOnClickListener {
             navigate(SplashFragmentDirections.actionSplashFragmentToLoginFragment())
+        }
+
+        mBinding.callUs.setOnClickListener {
+            val intent = Intent(Intent.ACTION_DIAL)
+            intent.data = Uri.parse("tel:01860998499")
+            startActivity(intent)
         }
     }
 }

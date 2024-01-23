@@ -47,7 +47,7 @@ data class NotificationResponseData(
     @Json(name = "push_status")
     val pushStatus: String?="",
     @Json(name = "status")
-    val status: String?="",
+    var status: String?="",
     @Json(name = "updated_at")
     val updatedAt: String?="",
     @Json(name = "user_id")

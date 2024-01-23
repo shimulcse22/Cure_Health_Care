@@ -99,3 +99,13 @@ data class Product(
     @Json(name = "status")
     var status: String?=""
 )
+
+@JsonClass(generateAdapter = true)
+data class PlaceOrderResponse(
+    @Json(name = "code")
+    val code: String,
+    @Json(name = "message")
+    val message: String,
+    @Json(name = "status")
+    val status: String
+)

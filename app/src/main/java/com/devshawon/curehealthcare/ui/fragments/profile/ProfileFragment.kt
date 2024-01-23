@@ -9,6 +9,9 @@ import com.devshawon.curehealthcare.R
 import com.devshawon.curehealthcare.base.ui.BaseFragment
 import com.devshawon.curehealthcare.dagger.viewModel.AppViewModelFactory
 import com.devshawon.curehealthcare.databinding.FragmentProfileBinding
+import com.devshawon.curehealthcare.ui.CureHealthCareActivity
+import com.devshawon.curehealthcare.ui.auth.AuthActivity
+import com.devshawon.curehealthcare.ui.auth.AuthActivityScreen
 import com.devshawon.curehealthcare.ui.fragments.HomeViewModel
 import com.devshawon.curehealthcare.util.navigate
 import javax.inject.Inject
@@ -36,6 +39,15 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(R.layout.fragment_p
             val intent = Intent(Intent.ACTION_DIAL)
             intent.data = Uri.parse("tel:01860998499")
             startActivity(intent)
+        }
+
+        mBinding.logoutLayout.setOnClickListener {
+            preferences.isLogin = false
+            //val mScreen = AuthActivityScreen(true, R.id.login_fragment)
+            //activityScreenSwitcher()?.open(mScreen)
+            val intent = Intent(requireContext(),AuthActivity :: class.java)
+            startActivity(intent)
+            (activity as CureHealthCareActivity).finish()
         }
     }
 }

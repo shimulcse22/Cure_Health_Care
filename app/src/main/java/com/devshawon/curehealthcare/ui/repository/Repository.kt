@@ -15,6 +15,7 @@ import com.devshawon.curehealthcare.models.LoginResponse
 import com.devshawon.curehealthcare.models.NotificationResponse
 import com.devshawon.curehealthcare.models.OrderResponse
 import com.devshawon.curehealthcare.models.PlaceOrderRequest
+import com.devshawon.curehealthcare.models.PlaceOrderResponse
 import com.devshawon.curehealthcare.models.ProductRequest
 import com.devshawon.curehealthcare.models.ProductResponse
 import com.devshawon.curehealthcare.models.RegistrationRequest
@@ -104,8 +105,8 @@ class Repository @Inject constructor(
         }.asLiveData()
     }
 
-    fun postPlaceOrder(body : PlaceOrderRequest) : LiveData<Resource<RegistrationResponse>>{
-        return object : NetworkBoundResourceOnlyNetwork<RegistrationResponse>(appExecutors) {
+    fun postPlaceOrder(body : PlaceOrderRequest) : LiveData<Resource<PlaceOrderResponse>>{
+        return object : NetworkBoundResourceOnlyNetwork<PlaceOrderResponse>(appExecutors) {
             override fun createCall() = apiService.postPlaceOrder(body)
         }.asLiveData()
     }
