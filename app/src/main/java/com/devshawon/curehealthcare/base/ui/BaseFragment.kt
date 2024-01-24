@@ -31,9 +31,16 @@ abstract class BaseFragment<T : ViewDataBinding> constructor(@LayoutRes private 
     @Inject
     lateinit var viewModelFactoryBase: AppViewModelFactory
 
+    lateinit var mActivity: CureHealthCareActivity
+
     override fun onAttach(newBase: Context) {
         super.onAttach(newBase)
         navigationHost = newBase as NavigationHost
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        mActivity = CureHealthCareActivity()
     }
 
     override fun onCreateView(

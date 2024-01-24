@@ -1,5 +1,6 @@
 package com.devshawon.curehealthcare.ui.fragments.filter
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -13,6 +14,7 @@ import com.devshawon.curehealthcare.dagger.viewModel.AppViewModelFactory
 import com.devshawon.curehealthcare.databinding.CompanyFilterFragmentBinding
 import com.devshawon.curehealthcare.models.Form
 import com.devshawon.curehealthcare.network.Status
+import com.devshawon.curehealthcare.ui.CureHealthCareActivity
 import com.devshawon.curehealthcare.ui.fragments.HomeViewModel
 import com.devshawon.curehealthcare.useCase.result.Event
 import com.devshawon.curehealthcare.useCase.result.EventObserver
@@ -20,7 +22,7 @@ import kotlinx.coroutines.launch
 import java.util.Collections
 import javax.inject.Inject
 
-class CompanyFilterFragment(private val companyId : ArrayList<Int>) :
+class CompanyFilterFragment :
     BaseFragment<CompanyFilterFragmentBinding>(R.layout.company_filter_fragment) {
 
     @Inject
@@ -55,10 +57,10 @@ class CompanyFilterFragment(private val companyId : ArrayList<Int>) :
                viewModel.companyList.removeAt(i)
                if(isSelected){
                    viewModel.companyList.add(0,form)
-                   form.id?.let { companyId.add(it) }
+                   form.id?.let { mActivity.companyListLiveData.add(it) }
                }else{
                    viewModel.companyList.add(viewModel.companyList.size,form)
-                   if(companyId.contains(form.id)) companyId.remove(form.id)
+                   if(mActivity.companyListLiveData.contains(form.id)) mActivity.companyListLiveData.remove(form.id)
                }
                adapter.updateList(viewModel.companyList)
            }, 100)

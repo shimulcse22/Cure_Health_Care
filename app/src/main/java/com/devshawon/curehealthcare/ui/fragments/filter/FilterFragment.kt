@@ -8,6 +8,7 @@ import com.devshawon.curehealthcare.R
 import com.devshawon.curehealthcare.base.ui.BaseFragment
 import com.devshawon.curehealthcare.dagger.viewModel.AppViewModelFactory
 import com.devshawon.curehealthcare.databinding.FilterFragmentBinding
+import com.devshawon.curehealthcare.models.Form
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import javax.inject.Inject
@@ -17,13 +18,10 @@ class FilterFragment : BaseFragment<FilterFragmentBinding>(R.layout.filter_fragm
     @Inject
     lateinit var viewModelFactory: AppViewModelFactory
 
-    val companyIds = ArrayList<Int>()
-    val formIds = ArrayList<Int>()
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mBinding.viewPager.adapter = ViewPagerFilterFragment(this,companyIds,formIds)
+        mBinding.viewPager.adapter = ViewPagerFilterFragment(this)
 
         val titleTab: Array<String> = arrayOf(
             getString(R.string.company_filter),
@@ -36,18 +34,16 @@ class FilterFragment : BaseFragment<FilterFragmentBinding>(R.layout.filter_fragm
         }.attach()
 
         mBinding.applyBtn.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putIntegerArrayList("company",companyIds)
-            bundle.putIntegerArrayList("form",formIds)
-            setFragmentResult("requestKey", bundleOf("bundleKey" to bundle))
+            execute.invoke("apply",mActivity.companyListLiveData as ArrayList<Int>,mActivity.formListLiveData as ArrayList<Int>)
             backToHome()
         }
         mBinding.resetBtn.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putIntegerArrayList("company",companyIds)
-            bundle.putIntegerArrayList("form",formIds)
-            setFragmentResult("requestKey", bundleOf("bundleKey" to bundle))
+            execute.invoke("reset", arrayListOf(), arrayListOf())
             backToHome()
         }
+    }
+
+    companion object{
+        var execute : (data: String, cList : ArrayList<Int>, fList :ArrayList<Int>) -> Unit = { data: String, sList: ArrayList<Int>, fList :ArrayList<Int>-> }
     }
 }

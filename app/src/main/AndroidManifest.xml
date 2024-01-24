@@ -18,7 +18,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/CureHealthCare"
-        tools:targetApi="n">
+        tools:targetApi="s">
         <activity
             android:name="com.devshawon.curehealthcare.ui.CureHealthCareActivity"
             android:exported="false">

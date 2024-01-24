@@ -3,12 +3,10 @@ package com.devshawon.curehealthcare.ui.fragments.home
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.RadioButton
 import android.widget.RadioGroup
-import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -29,9 +27,11 @@ import com.devshawon.curehealthcare.ui.adapter.ProductAdapter
 import com.devshawon.curehealthcare.ui.fragments.HomeViewModel
 import com.devshawon.curehealthcare.ui.fragments.OnItemClick
 import com.devshawon.curehealthcare.ui.fragments.UpdateCart
+import com.devshawon.curehealthcare.ui.fragments.filter.FilterFragment
 import com.devshawon.curehealthcare.useCase.result.Event
 import com.devshawon.curehealthcare.useCase.result.EventObserver
 import com.devshawon.curehealthcare.util.navigate
+import com.devshawon.curehealthcare.util.returnString
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -76,7 +76,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
             homeViewModel.productRequest.postValue(
                 Event(
                     ProductRequest(
-                        company = "", firstLatter = "", form = "", page = 1, search = ""
+                        company = returnString(mActivity.companyListLiveData as ArrayList<Int>),
+                        firstLatter = "",
+                        form = returnString(mActivity.formListLiveData as ArrayList<Int>),
+                        page = 1,
+                        search = ""
                     )
                 )
             )
@@ -118,8 +122,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
             (activity as CureHealthCareActivity).productListActivity.addAll(homeViewModel.productList)
             if (it == Status.SUCCESS.name && homeViewModel.pageCount.value == 1) {
                 productAdapter.updateProductList(homeViewModel.productList, 1)
-            }
-            else{
+            } else {
                 productAdapter.addProductList(homeViewModel.productList)
             }
         })
@@ -145,12 +148,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
         mBinding.medicineLayout.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 if (!recyclerView.canScrollVertically(1)) {
-                    val request = ProductRequest(
-                        company = "", firstLatter = "", form = "", page = (homeViewModel.pageCount.value!!+1) , search = ""
-                    )
+
                     homeViewModel.productRequest.postValue(
                         Event(
-                            request
+                            ProductRequest(
+                                company = returnString(mActivity.companyListLiveData as ArrayList<Int>),
+                                firstLatter = "",
+                                form = returnString(mActivity.formListLiveData as ArrayList<Int>),
+                                page = (homeViewModel.pageCount.value!! + 1),
+                                search = ""
+                            )
                         )
                     )
                 }
@@ -163,29 +170,91 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
         }
 
         mBinding.resetButton.setOnClickListener {
+            mActivity.companyListLiveData.clear()
+            mActivity.formListLiveData.clear()
+            preferences.companyList?.clear()
+            preferences.formList?.clear()
             homeViewModel.productRequest.postValue(
                 Event(
                     ProductRequest(
-                        company = "", firstLatter = "", form = "", page = 1, search = ""
+                        company = returnString(mActivity.companyListLiveData as ArrayList<Int>),
+                        firstLatter = "",
+                        form = returnString(mActivity.formListLiveData as ArrayList<Int>),
+                        page = 1,
+                        search = ""
                     )
                 )
             )
         }
 
-        setFragmentResultListener("requestKey") { requestKey, bundle ->
-            Log.d("COMPANY IS 4455","${requestKey}  ${bundle.getBundle("company")}")
-            if(requestKey == "apply"){
-                Log.d("COMPANY IS 44","${bundle.getBundle("company")}")
-                Log.d("COMPANY IS 45","${bundle.getBundle("form")}")
+        FilterFragment.execute = { data, cList, fList ->
+            if (data == "apply") {
+                val productRequest = ProductRequest(
+                    company = returnString(mActivity.companyListLiveData as ArrayList<Int>),
+                    firstLatter = "",
+                    form = returnString(mActivity.formListLiveData as ArrayList<Int>),
+                    page = 1,
+                    search = ""
+                )
+                homeViewModel.productRequest.postValue(
+                    Event(
+                        productRequest
+                    )
+                )
+            } else {
+                homeViewModel.productRequest.postValue(
+                    Event(
+                        ProductRequest(
+                            company = returnString(mActivity.companyListLiveData as ArrayList<Int>),
+                            firstLatter = "",
+                            form = returnString(mActivity.formListLiveData as ArrayList<Int>),
+                            page = 1,
+                            search = ""
+                        )
+                    )
+                )
             }
         }
+
+//        setFragmentResultListener("apply") { requestKey, bundle ->
+//            Log.d("COMPANY IS 4455","${requestKey}  ${bundle.getBundle("company")}")
+//            val form = bundle.getBundle("form")?.getIntegerArrayList("form")
+//            val company = bundle.getBundle("company")?.getIntegerArrayList("company")
+//            form?.forEach {
+//                formList.append(it.toString()).append(",")
+//            }
+//            company?.forEach{
+//                companyList.append(it.toString()).append(",")
+//            }
+//            val productRequest = ProductRequest(
+//                company = companyList.toString(), firstLatter = "", form = formList.toString(), page = 1, search = ""
+//            )
+//
+//            Log.d("COMPANY IS 777","$productRequest")
+//            homeViewModel.productRequest.postValue(
+//                Event(
+//                    productRequest
+//                )
+//            )
+//        }
+
+//        setFragmentResultListener("reset") { _, _ ->
+//            formList.clear()
+//            companyList.clear()
+//            homeViewModel.productRequest.postValue(
+//                Event(
+//                    ProductRequest(
+//                        company = companyList.toString(), firstLatter = "", form = formList.toString(), page = 1, search = ""
+//                    )
+//                )
+//            )
+//        }
     }
 
     private fun addRadioButtons() {
         mBinding.radioButton.orientation = LinearLayout.HORIZONTAL
         val params = RadioGroup.LayoutParams(
-            RadioGroup.LayoutParams.MATCH_PARENT,
-            RadioGroup.LayoutParams.MATCH_PARENT
+            RadioGroup.LayoutParams.MATCH_PARENT, RadioGroup.LayoutParams.MATCH_PARENT
         )
         for (i in 0 until 26) {
             val radioButton = RadioButton(requireContext())
@@ -214,7 +283,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
         homeViewModel.productRequest.postValue(
             Event(
                 ProductRequest(
-                    company = "", firstLatter = data, form = "", page = 1, search = ""
+                    company = returnString(mActivity.companyListLiveData as ArrayList<Int>),
+                    firstLatter = "",
+                    form = returnString(mActivity.formListLiveData as ArrayList<Int>),
+                    page = 1,
+                    search = ""
                 )
             )
         )
@@ -231,14 +304,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
         (activity as CureHealthCareActivity).showOrHideBadge(0)
     }
 
-    override fun onMinusIconClick(item: ProductData,position:Int) {
+    override fun onMinusIconClick(item: ProductData, position: Int) {
         homeViewModel.productCount.value = homeViewModel.productCount.value ?: (0 - 1)
-        (activity as UpdateCart).decreaseItem(item,position)
+        (activity as UpdateCart).decreaseItem(item, position)
         (activity as CureHealthCareActivity).showOrHideBadge(0)
     }
 
-    inner class WrapContentLinearLayoutManager : LinearLayoutManager(requireContext(),VERTICAL,false) {
-        override fun onLayoutChildren(recycler: RecyclerView.Recycler?, state: RecyclerView.State?) {
+    inner class WrapContentLinearLayoutManager :
+        LinearLayoutManager(requireContext(), VERTICAL, false) {
+        override fun onLayoutChildren(
+            recycler: RecyclerView.Recycler?, state: RecyclerView.State?
+        ) {
             try {
                 super.onLayoutChildren(recycler, state)
             } catch (_: IndexOutOfBoundsException) {

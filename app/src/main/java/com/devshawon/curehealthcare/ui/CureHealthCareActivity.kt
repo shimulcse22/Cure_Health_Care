@@ -14,6 +14,7 @@ import com.devshawon.curehealthcare.R
 import com.devshawon.curehealthcare.base.ui.BaseActivity
 import com.devshawon.curehealthcare.dagger.viewModel.AppViewModelFactory
 import com.devshawon.curehealthcare.databinding.ActivityCureHealthCareBinding
+import com.devshawon.curehealthcare.models.Form
 import com.devshawon.curehealthcare.models.ProductData
 import com.devshawon.curehealthcare.ui.fragments.HomeViewModel
 import com.devshawon.curehealthcare.ui.fragments.UpdateCart
@@ -33,13 +34,15 @@ class CureHealthCareActivity : BaseActivity<ActivityCureHealthCareBinding>(R.lay
     private lateinit var cureHealthCareApp : CureHealthCareApplication
     val productListLiveData : MutableList<ProductData> = mutableListOf()
     val productListActivity : ArrayList<ProductData> = arrayListOf()
+    val companyListLiveData : MutableList<Int> = mutableListOf()
+    val formListLiveData : MutableList<Int> = mutableListOf()
     val productId : ArrayList<Int> = arrayListOf()
     var productPrice : Double = 0.00
     var itemCount : Int = 0
     val live  = MutableLiveData<Event<Unit>>()
 
     var item : Int = -1
-    private val mNavController by lazy { (supportFragmentManager.findFragmentById(R.id.cureHealthCareNavHostFragment) as NavHostFragment).navController }
+    val mNavController by lazy { (supportFragmentManager.findFragmentById(R.id.cureHealthCareNavHostFragment) as NavHostFragment).navController }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBinding.lifecycleOwner = this
@@ -73,7 +76,6 @@ class CureHealthCareActivity : BaseActivity<ActivityCureHealthCareBinding>(R.lay
                     mBinding.priceLayout.visibility = View.GONE
                 }
             }
-            val isTopLevelDestination = TOP_LEVEL_DESTINATIONS.contains(selectId)
         }
     }
 
@@ -102,7 +104,7 @@ class CureHealthCareActivity : BaseActivity<ActivityCureHealthCareBinding>(R.lay
             R.id.cartFragment,
             R.id.filter_fragment
         )
-        private val BACK_STACK_NOT_ENTRY = setOf(
+        val BACK_STACK_NOT_ENTRY = setOf(
             R.id.filter_fragment,
             R.id.search_fragment,
             R.id.notification_fragment

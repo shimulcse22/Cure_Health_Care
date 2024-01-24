@@ -13,17 +13,19 @@ import com.devshawon.curehealthcare.dagger.viewModel.AppViewModelFactory
 import com.devshawon.curehealthcare.databinding.FormFilterFragmentBinding
 import com.devshawon.curehealthcare.models.Form
 import com.devshawon.curehealthcare.network.Status
+import com.devshawon.curehealthcare.ui.CureHealthCareActivity
 import com.devshawon.curehealthcare.ui.fragments.HomeViewModel
 import com.devshawon.curehealthcare.useCase.result.Event
 import com.devshawon.curehealthcare.useCase.result.EventObserver
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class FormFilterFragment(private val formId : ArrayList<Int>) : BaseFragment<FormFilterFragmentBinding>(R.layout.form_filter_fragment) {
+class FormFilterFragment : BaseFragment<FormFilterFragmentBinding>(R.layout.form_filter_fragment) {
     @Inject
     lateinit var viewModelFactory: AppViewModelFactory
     private val viewModel: HomeViewModel by navGraphViewModels(R.id.cure_health_care_nav_host_xml) { viewModelFactory }
     lateinit var adapter: SingleItemAdapterForm
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         lifecycleScope.launch {
@@ -50,10 +52,10 @@ class FormFilterFragment(private val formId : ArrayList<Int>) : BaseFragment<For
                 viewModel.formList.removeAt(i)
                 if(isSelected){
                     viewModel.formList.add(0,form)
-                    form.id?.let { formId.add(it) }
+                    form.id?.let { mActivity.formListLiveData.add(it) }
                 }else{
                     viewModel.formList.add(viewModel.formList.size,form)
-                    if(formId.contains(id)) formId.remove(form.id)
+                    if(mActivity.formListLiveData.contains(id)) mActivity.formListLiveData.remove(form.id)
                 }
                 adapter.updateList(viewModel.formList)
             }, 100)

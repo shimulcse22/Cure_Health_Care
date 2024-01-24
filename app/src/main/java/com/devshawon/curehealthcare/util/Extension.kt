@@ -22,6 +22,7 @@ import com.devshawon.curehealthcare.R
 import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import java.lang.StringBuilder
 
 fun Fragment.navigateUp() = this.findNavController().navigateUp()
 fun Fragment.navigate(direction: NavDirections) = this.findNavController().navigate(direction)
@@ -120,4 +121,12 @@ fun removeBadge(bottomNavigationView: BottomNavigationView, @IdRes itemId: Int) 
 @BindingAdapter("goneUnless")
 fun View.goneUnless(visible: Boolean) {
     this.visibility = if (visible) View.VISIBLE else View.GONE
+}
+
+fun returnString( list : ArrayList<Int>) : String{
+    val data = StringBuilder()
+    list.forEach {
+        data.append(it).append(",")
+    }
+    return data.toString()
 }
