@@ -1,11 +1,13 @@
 package com.devshawon.curehealthcare.ui.fragments.trending
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.devshawon.curehealthcare.R
 import com.devshawon.curehealthcare.base.ui.BaseFragment
 import com.devshawon.curehealthcare.dagger.viewModel.AppViewModelFactory
@@ -20,6 +22,8 @@ import com.devshawon.curehealthcare.ui.fragments.OnItemClick
 import com.devshawon.curehealthcare.ui.fragments.UpdateCart
 import com.devshawon.curehealthcare.useCase.result.Event
 import com.devshawon.curehealthcare.useCase.result.EventObserver
+import com.devshawon.curehealthcare.util.WrapContentLinearLayoutManager
+import com.devshawon.curehealthcare.util.returnString
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -40,18 +44,36 @@ class TrendingFragment : BaseFragment<FragmentTrendingBinding>(R.layout.fragment
         lifecycleScope.launch {
             productAdapter.updateContext(requireContext())
         }
+
+        homeViewModel.trendingPageCount.value = 0
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mBinding.viewModel = homeViewModel
         mBinding.trending.adapter = productAdapter
         mBinding.trending.itemAnimator = DefaultItemAnimator()
-        mBinding.trending.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        mBinding.trending.layoutManager = WrapContentLinearLayoutManager(requireContext())
 
         homeViewModel.productEvent.observe(viewLifecycleOwner, EventObserver {
             (activity as CureHealthCareActivity).productListActivity.addAll(homeViewModel.trendingList)
-            if (it == Status.SUCCESS.name) {
+            if (it == Status.SUCCESS.name && homeViewModel.trendingPageCount.value == 1) {
                 productAdapter.updateProductList(homeViewModel.trendingList,1)
+            }else{
+                productAdapter.addProductList(homeViewModel.trendingList)
+            }
+        })
+
+        mBinding.trending.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                if (!recyclerView.canScrollVertically(1) ) {
+                    Log.d("THE DATA IS ^#^&^^","${homeViewModel.trendingPageCount.value}")
+                    homeViewModel.trendingRequest.postValue(
+                        Event(
+                            homeViewModel.trendingPageCount.value!! + 1
+                        )
+                    )
+                }
+                super.onScrolled(recyclerView, dx, dy)
             }
         })
     }

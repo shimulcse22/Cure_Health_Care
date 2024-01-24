@@ -34,7 +34,7 @@ class FilterFragment : BaseFragment<FilterFragmentBinding>(R.layout.filter_fragm
         }.attach()
 
         mBinding.applyBtn.setOnClickListener {
-            execute.invoke("apply",mActivity.companyListLiveData as ArrayList<Int>,mActivity.formListLiveData as ArrayList<Int>)
+            execute.invoke("apply",mActivity.companyListLiveData as ArrayList<String>,mActivity.formListLiveData as ArrayList<String>)
             backToHome()
         }
         mBinding.resetBtn.setOnClickListener {
@@ -44,6 +44,6 @@ class FilterFragment : BaseFragment<FilterFragmentBinding>(R.layout.filter_fragm
     }
 
     companion object{
-        var execute : (data: String, cList : ArrayList<Int>, fList :ArrayList<Int>) -> Unit = { data: String, sList: ArrayList<Int>, fList :ArrayList<Int>-> }
+        var execute : (data: String, cList : ArrayList<String>, fList :ArrayList<String>) -> Unit = { data: String, sList: ArrayList<String>, fList :ArrayList<String>-> }
     }
 }

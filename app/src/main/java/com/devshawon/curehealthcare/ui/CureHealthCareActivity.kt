@@ -34,8 +34,8 @@ class CureHealthCareActivity : BaseActivity<ActivityCureHealthCareBinding>(R.lay
     private lateinit var cureHealthCareApp : CureHealthCareApplication
     val productListLiveData : MutableList<ProductData> = mutableListOf()
     val productListActivity : ArrayList<ProductData> = arrayListOf()
-    val companyListLiveData : MutableList<Int> = mutableListOf()
-    val formListLiveData : MutableList<Int> = mutableListOf()
+    val companyListLiveData : MutableList<String> = mutableListOf()
+    val formListLiveData : MutableList<String> = mutableListOf()
     val productId : ArrayList<Int> = arrayListOf()
     var productPrice : Double = 0.00
     var itemCount : Int = 0
@@ -82,6 +82,12 @@ class CureHealthCareActivity : BaseActivity<ActivityCureHealthCareBinding>(R.lay
     override fun onStop() {
         if(productListLiveData.isNotEmpty()){
             preferences.productList = productListLiveData.toMutableList()
+        }
+        if(companyListLiveData.isNotEmpty()){
+            preferences.companyList = companyListLiveData.toMutableList()
+        }
+        if(formListLiveData.isNotEmpty()){
+            preferences.formList = formListLiveData.toMutableList()
         }
         super.onStop()
     }

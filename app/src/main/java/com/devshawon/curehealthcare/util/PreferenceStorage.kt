@@ -20,8 +20,8 @@ interface PreferenceStorage {
     var shopAddress: String
     var isLogin: Boolean
     var productList: MutableList<ProductData?>?
-    var companyList: MutableList<Int?>?
-    var formList: MutableList<Int?>?
+    var companyList: MutableList<String?>?
+    var formList: MutableList<String?>?
 }
 
 class SharedPreferenceStorage(context: Context) : PreferenceStorage {
@@ -131,14 +131,14 @@ class CompanyOrFormListPreference(
     private val preferences: Lazy<SharedPreferences>,
     private val name: String,
     private val defaultValue: String
-) : ReadWriteProperty<Any, MutableList<Int?>?> {
+) : ReadWriteProperty<Any, MutableList<String?>?> {
     @WorkerThread
-    override fun getValue(thisRef: Any, property: KProperty<*>): MutableList<Int?>? {
+    override fun getValue(thisRef: Any, property: KProperty<*>): MutableList<String?>? {
         val moshi = Moshi.Builder().build()
         val value = preferences.value.getString(name, defaultValue) ?: defaultValue
         val listOfCardsType: Type =
-            Types.newParameterizedType(MutableList::class.java, Int::class.java)
-        val jsonAdapter: JsonAdapter<MutableList<Int?>?> = moshi.adapter(listOfCardsType)
+            Types.newParameterizedType(MutableList::class.java, String::class.java)
+        val jsonAdapter: JsonAdapter<MutableList<String?>?> = moshi.adapter(listOfCardsType)
         return try {
             jsonAdapter.fromJson(value) ?: mutableListOf()
         } catch (e: Exception) {
@@ -146,11 +146,11 @@ class CompanyOrFormListPreference(
         }
     }
 
-    override fun setValue(thisRef: Any, property: KProperty<*>, value: MutableList<Int?>?) {
+    override fun setValue(thisRef: Any, property: KProperty<*>, value: MutableList<String?>?) {
         val moshi = Moshi.Builder().build()
         val listOfCardsType: Type =
-            Types.newParameterizedType(MutableList::class.java, Int::class.java)
-        val jsonAdapter: JsonAdapter<MutableList<Int?>?> =
+            Types.newParameterizedType(MutableList::class.java, String::class.java)
+        val jsonAdapter: JsonAdapter<MutableList<String?>?> =
             moshi.adapter(listOfCardsType)
         val json = jsonAdapter.toJson(value)
         preferences.value.edit { putString(name, json) }

@@ -3,6 +3,7 @@ package com.devshawon.curehealthcare.ui.fragments.home
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.RadioButton
@@ -76,9 +77,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
             homeViewModel.productRequest.postValue(
                 Event(
                     ProductRequest(
-                        company = returnString(mActivity.companyListLiveData as ArrayList<Int>),
+                        company = returnString(mActivity.companyListLiveData as ArrayList<String>),
                         firstLatter = "",
-                        form = returnString(mActivity.formListLiveData as ArrayList<Int>),
+                        form = returnString(mActivity.formListLiveData as ArrayList<String>),
                         page = 1,
                         search = ""
                     )
@@ -152,9 +153,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
                     homeViewModel.productRequest.postValue(
                         Event(
                             ProductRequest(
-                                company = returnString(mActivity.companyListLiveData as ArrayList<Int>),
+                                company = returnString(mActivity.companyListLiveData as ArrayList<String>),
                                 firstLatter = "",
-                                form = returnString(mActivity.formListLiveData as ArrayList<Int>),
+                                form = returnString(mActivity.formListLiveData as ArrayList<String>),
                                 page = (homeViewModel.pageCount.value!! + 1),
                                 search = ""
                             )
@@ -177,9 +178,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
             homeViewModel.productRequest.postValue(
                 Event(
                     ProductRequest(
-                        company = returnString(mActivity.companyListLiveData as ArrayList<Int>),
+                        company = returnString(mActivity.companyListLiveData as ArrayList<String>),
                         firstLatter = "",
-                        form = returnString(mActivity.formListLiveData as ArrayList<Int>),
+                        form = returnString(mActivity.formListLiveData as ArrayList<String>),
                         page = 1,
                         search = ""
                     )
@@ -189,10 +190,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
 
         FilterFragment.execute = { data, cList, fList ->
             if (data == "apply") {
+                Log.d("THE FILTERIS ","$data")
                 val productRequest = ProductRequest(
-                    company = returnString(mActivity.companyListLiveData as ArrayList<Int>),
+                    company = returnString(mActivity.companyListLiveData as ArrayList<String>),
                     firstLatter = "",
-                    form = returnString(mActivity.formListLiveData as ArrayList<Int>),
+                    form = returnString(mActivity.formListLiveData as ArrayList<String>),
                     page = 1,
                     search = ""
                 )
@@ -205,9 +207,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
                 homeViewModel.productRequest.postValue(
                     Event(
                         ProductRequest(
-                            company = returnString(mActivity.companyListLiveData as ArrayList<Int>),
+                            company = returnString(mActivity.companyListLiveData as ArrayList<String>),
                             firstLatter = "",
-                            form = returnString(mActivity.formListLiveData as ArrayList<Int>),
+                            form = returnString(mActivity.formListLiveData as ArrayList<String>),
                             page = 1,
                             search = ""
                         )
@@ -283,9 +285,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
         homeViewModel.productRequest.postValue(
             Event(
                 ProductRequest(
-                    company = returnString(mActivity.companyListLiveData as ArrayList<Int>),
+                    company = returnString(mActivity.companyListLiveData as ArrayList<String>),
                     firstLatter = "",
-                    form = returnString(mActivity.formListLiveData as ArrayList<Int>),
+                    form = returnString(mActivity.formListLiveData as ArrayList<String>),
                     page = 1,
                     search = ""
                 )

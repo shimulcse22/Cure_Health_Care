@@ -1,5 +1,6 @@
 package com.devshawon.curehealthcare.ui.fragments
 
+import android.icu.number.IntegerWidth
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -45,6 +46,7 @@ class HomeViewModel @Inject constructor(
     var mobile = MutableLiveData<String>()
     var shopAddress = MutableLiveData<String>()
     var pageCount = MutableLiveData<Int>()
+    var trendingPageCount = MutableLiveData<Int>()
 
     var bannerRequest = MutableLiveData<Event<Unit>>()
     var bannerList = ArrayList<String>()
@@ -168,6 +170,8 @@ class HomeViewModel @Inject constructor(
 
         trendingListResponse.observeForever {
             if(it.status == Status.SUCCESS && it.data != null){
+                trendingList.clear()
+                trendingPageCount.value = it.data.currentPage?:1
                 it.data.data.forEach { d ->
                     val id  = d.id
                     preferences.productList?.forEach {pD->
@@ -178,6 +182,7 @@ class HomeViewModel @Inject constructor(
                     }
 
                 }
+                Log.d("THE DATA IS ^#^&^^ ","${trendingList}")
                 trendingList = it.data.data as ArrayList<ProductData>
                 productEvent.postValue(Event(it.status.name))
             }else if(it.status == Status.ERROR){
@@ -258,7 +263,17 @@ class HomeViewModel @Inject constructor(
             if(it.status == Status.SUCCESS && it.data != null){
                 companyList.clear()
                 it.data.let { d->
-                    companyList.addAll(d.forms)
+                    d.forms.forEach { id ->
+                        if(preferences.companyList?.contains(id.id.toString()) == true){
+                            val form = Form()
+                            form.checkBox = true
+                            form.id = id.id
+                            form.name = id.name
+                            companyList.add(id)
+                        }else{
+                            companyList.add(id)
+                        }
+                    }
                     companyOrFormEvent.postValue(Event(it.status.name))
                 }
             }else if(it.status == Status.ERROR){
@@ -269,7 +284,17 @@ class HomeViewModel @Inject constructor(
             if(it.status == Status.SUCCESS && it.data != null){
                 formList.clear()
                 it.data.let { d->
-                    formList.addAll(d.forms)
+                    d.forms.forEach { id ->
+                        if(preferences.formList?.contains(id.id.toString()) == true){
+                            val form = Form()
+                            form.checkBox = true
+                            form.id = id.id
+                            form.name = id.name
+                            formList.add(id)
+                        }else{
+                            formList.add(id)
+                        }
+                    }
                     formEvent.postValue(Event(it.status.name))
                 }
             }else if(it.status == Status.ERROR){
@@ -303,5 +328,6 @@ class HomeViewModel @Inject constructor(
         pageCount.value = 1
         orderPageCount.value = 1
         notificationPageCount.value = 1
+        trendingPageCount.value = 1
     }
 }

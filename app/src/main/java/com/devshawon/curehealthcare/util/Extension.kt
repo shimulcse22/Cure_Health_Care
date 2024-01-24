@@ -16,6 +16,8 @@ import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import com.devshawon.curehealthcare.R
@@ -123,10 +125,19 @@ fun View.goneUnless(visible: Boolean) {
     this.visibility = if (visible) View.VISIBLE else View.GONE
 }
 
-fun returnString( list : ArrayList<Int>) : String{
+fun returnString( list : ArrayList<String>) : String{
     val data = StringBuilder()
     list.forEach {
         data.append(it).append(",")
     }
     return data.toString()
+}
+ class WrapContentLinearLayoutManager(mContext: Context) : LinearLayoutManager(mContext) {
+    //... constructor
+    override fun onLayoutChildren(recycler: RecyclerView.Recycler, state: RecyclerView.State) {
+        try {
+            super.onLayoutChildren(recycler, state)
+        } catch (e: IndexOutOfBoundsException) {
+        }
+    }
 }

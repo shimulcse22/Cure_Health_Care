@@ -57,10 +57,10 @@ class CompanyFilterFragment :
                viewModel.companyList.removeAt(i)
                if(isSelected){
                    viewModel.companyList.add(0,form)
-                   form.id?.let { mActivity.companyListLiveData.add(it) }
+                   form.id?.let { mActivity.companyListLiveData.add(it.toString()) }
                }else{
                    viewModel.companyList.add(viewModel.companyList.size,form)
-                   if(mActivity.companyListLiveData.contains(form.id)) mActivity.companyListLiveData.remove(form.id)
+                   if(mActivity.companyListLiveData.contains(form.id.toString())) mActivity.companyListLiveData.remove(form.id.toString())
                }
                adapter.updateList(viewModel.companyList)
            }, 100)

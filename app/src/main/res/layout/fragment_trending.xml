@@ -60,7 +60,12 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:resource="@{(Resource) viewModel.orderResponse}" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-
+        <include
+            layout="@layout/loading_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            app:resource="@{(Resource) viewModel.trendingListResponse}" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </layout>
