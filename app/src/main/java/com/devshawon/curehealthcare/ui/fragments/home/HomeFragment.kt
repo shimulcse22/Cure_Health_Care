@@ -282,12 +282,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
     }
 
     private fun getData(data: String) {
-        //homeViewModel.buttonApiCall.postValue(Event(data))
         homeViewModel.productRequest.postValue(
             Event(
                 ProductRequest(
                     company = returnString((activity as CureHealthCareActivity).companyListLiveData as ArrayList<String>),
-                    firstLatter = "",
+                    firstLatter = data,
                     form = returnString((activity as CureHealthCareActivity).formListLiveData as ArrayList<String>),
                     page = 1,
                     search = ""
