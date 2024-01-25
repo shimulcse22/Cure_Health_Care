@@ -77,9 +77,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
             homeViewModel.productRequest.postValue(
                 Event(
                     ProductRequest(
-                        company = returnString(mActivity.companyListLiveData as ArrayList<String>),
+                        company = returnString((activity as CureHealthCareActivity).companyListLiveData as ArrayList<String>),
                         firstLatter = "",
-                        form = returnString(mActivity.formListLiveData as ArrayList<String>),
+                        form = returnString((activity as CureHealthCareActivity).formListLiveData as ArrayList<String>),
                         page = 1,
                         search = ""
                     )
@@ -96,6 +96,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
 
         addRadioButtons()
 
+        Log.d("THE LIST IS ","${(activity as CureHealthCareActivity).companyListLiveData} and ${(activity as CureHealthCareActivity).companyListLiveData}")
         mBinding.bannerRecyclerView.adapter = homeBannerAdapter
         mBinding.bannerRecyclerView.itemAnimator = DefaultItemAnimator()
         var layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -153,9 +154,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
                     homeViewModel.productRequest.postValue(
                         Event(
                             ProductRequest(
-                                company = returnString(mActivity.companyListLiveData as ArrayList<String>),
+                                company = returnString((activity as CureHealthCareActivity).companyListLiveData as ArrayList<String>),
                                 firstLatter = "",
-                                form = returnString(mActivity.formListLiveData as ArrayList<String>),
+                                form = returnString((activity as CureHealthCareActivity).formListLiveData as ArrayList<String>),
                                 page = (homeViewModel.pageCount.value!! + 1),
                                 search = ""
                             )
@@ -171,16 +172,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
         }
 
         mBinding.resetButton.setOnClickListener {
-            mActivity.companyListLiveData.clear()
-            mActivity.formListLiveData.clear()
+            (activity as CureHealthCareActivity).companyListLiveData.clear()
+            (activity as CureHealthCareActivity).formListLiveData.clear()
             preferences.companyList?.clear()
             preferences.formList?.clear()
             homeViewModel.productRequest.postValue(
                 Event(
                     ProductRequest(
-                        company = returnString(mActivity.companyListLiveData as ArrayList<String>),
+                        company = returnString((activity as CureHealthCareActivity).companyListLiveData as ArrayList<String>),
                         firstLatter = "",
-                        form = returnString(mActivity.formListLiveData as ArrayList<String>),
+                        form = returnString((activity as CureHealthCareActivity).formListLiveData as ArrayList<String>),
                         page = 1,
                         search = ""
                     )
@@ -192,9 +193,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
             if (data == "apply") {
                 Log.d("THE FILTERIS ","$data")
                 val productRequest = ProductRequest(
-                    company = returnString(mActivity.companyListLiveData as ArrayList<String>),
+                    company = returnString((activity as CureHealthCareActivity).companyListLiveData as ArrayList<String>),
                     firstLatter = "",
-                    form = returnString(mActivity.formListLiveData as ArrayList<String>),
+                    form = returnString((activity as CureHealthCareActivity).formListLiveData as ArrayList<String>),
                     page = 1,
                     search = ""
                 )
@@ -207,9 +208,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
                 homeViewModel.productRequest.postValue(
                     Event(
                         ProductRequest(
-                            company = returnString(mActivity.companyListLiveData as ArrayList<String>),
+                            company = returnString((activity as CureHealthCareActivity).companyListLiveData as ArrayList<String>),
                             firstLatter = "",
-                            form = returnString(mActivity.formListLiveData as ArrayList<String>),
+                            form = returnString((activity as CureHealthCareActivity).formListLiveData as ArrayList<String>),
                             page = 1,
                             search = ""
                         )
@@ -285,9 +286,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
         homeViewModel.productRequest.postValue(
             Event(
                 ProductRequest(
-                    company = returnString(mActivity.companyListLiveData as ArrayList<String>),
+                    company = returnString((activity as CureHealthCareActivity).companyListLiveData as ArrayList<String>),
                     firstLatter = "",
-                    form = returnString(mActivity.formListLiveData as ArrayList<String>),
+                    form = returnString((activity as CureHealthCareActivity).formListLiveData as ArrayList<String>),
                     page = 1,
                     search = ""
                 )

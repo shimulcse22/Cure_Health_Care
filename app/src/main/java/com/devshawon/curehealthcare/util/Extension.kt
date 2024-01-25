@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Build
 import android.provider.Settings.Global.getString
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
@@ -126,14 +127,15 @@ fun View.goneUnless(visible: Boolean) {
 }
 
 fun returnString( list : ArrayList<String>) : String{
+    if(list.isEmpty()) return  ""
     val data = StringBuilder()
     list.forEach {
         data.append(it).append(",")
     }
+    Log.d("THE LIST IS STRING","${data}")
     return data.toString()
 }
  class WrapContentLinearLayoutManager(mContext: Context) : LinearLayoutManager(mContext) {
-    //... constructor
     override fun onLayoutChildren(recycler: RecyclerView.Recycler, state: RecyclerView.State) {
         try {
             super.onLayoutChildren(recycler, state)

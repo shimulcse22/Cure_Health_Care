@@ -31,6 +31,7 @@ class SingleItemAdapter(private val context : Context) : RecyclerView.Adapter<Re
     inner class SingleItemViewHolder(private val binding: SingleItemViewWithTextBoxBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(position: Int){
             binding.apply {
+                Log.d("THE LIST IS 55","${list[position].checkBox}")
                 checkBox.text = list[position].name
                 checkBox.isChecked = list[position].checkBox?:false
                 checkBox.setOnClickListener {

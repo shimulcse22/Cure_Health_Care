@@ -264,12 +264,13 @@ class HomeViewModel @Inject constructor(
                 companyList.clear()
                 it.data.let { d->
                     d.forms.forEach { id ->
+                        //Log.d("THE LIST IS 2","${preferences.formList?.contains(id.id.toString())} and ${preferences.formList} and id ${id.id}")
                         if(preferences.companyList?.contains(id.id.toString()) == true){
                             val form = Form()
                             form.checkBox = true
                             form.id = id.id
                             form.name = id.name
-                            companyList.add(id)
+                            companyList.add(0,form)
                         }else{
                             companyList.add(id)
                         }
@@ -285,12 +286,13 @@ class HomeViewModel @Inject constructor(
                 formList.clear()
                 it.data.let { d->
                     d.forms.forEach { id ->
+                        //Log.d("THE LIST IS 1","${preferences.formList?.contains(id.id.toString())} and ${preferences.formList} and id ${id.id}")
                         if(preferences.formList?.contains(id.id.toString()) == true){
                             val form = Form()
                             form.checkBox = true
                             form.id = id.id
                             form.name = id.name
-                            formList.add(id)
+                            formList.add(0,form)
                         }else{
                             formList.add(id)
                         }

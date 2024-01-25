@@ -9,6 +9,7 @@ import com.devshawon.curehealthcare.base.ui.BaseFragment
 import com.devshawon.curehealthcare.dagger.viewModel.AppViewModelFactory
 import com.devshawon.curehealthcare.databinding.FilterFragmentBinding
 import com.devshawon.curehealthcare.models.Form
+import com.devshawon.curehealthcare.ui.CureHealthCareActivity
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import javax.inject.Inject
@@ -34,7 +35,7 @@ class FilterFragment : BaseFragment<FilterFragmentBinding>(R.layout.filter_fragm
         }.attach()
 
         mBinding.applyBtn.setOnClickListener {
-            execute.invoke("apply",mActivity.companyListLiveData as ArrayList<String>,mActivity.formListLiveData as ArrayList<String>)
+            execute.invoke("apply",(activity as CureHealthCareActivity).companyListLiveData as ArrayList<String>,(activity as CureHealthCareActivity).formListLiveData as ArrayList<String>)
             backToHome()
         }
         mBinding.resetBtn.setOnClickListener {

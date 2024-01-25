@@ -9,6 +9,7 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.fragment.app.FragmentActivity
 import com.devshawon.curehealthcare.dagger.viewModel.AppViewModelFactory
 import com.devshawon.curehealthcare.ui.CureHealthCareActivity
 import com.devshawon.curehealthcare.util.PreferenceStorage
@@ -31,16 +32,22 @@ abstract class BaseFragment<T : ViewDataBinding> constructor(@LayoutRes private 
     @Inject
     lateinit var viewModelFactoryBase: AppViewModelFactory
 
-    lateinit var mActivity: CureHealthCareActivity
+    lateinit var mActivity: FragmentActivity
 
     override fun onAttach(newBase: Context) {
         super.onAttach(newBase)
         navigationHost = newBase as NavigationHost
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        activity?.let {
+            mActivity = it as CureHealthCareActivity
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mActivity = CureHealthCareActivity()
+
     }
 
     override fun onCreateView(

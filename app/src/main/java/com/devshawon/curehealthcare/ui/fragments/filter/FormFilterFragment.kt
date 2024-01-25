@@ -52,10 +52,10 @@ class FormFilterFragment : BaseFragment<FormFilterFragmentBinding>(R.layout.form
                 viewModel.formList.removeAt(i)
                 if(isSelected){
                     viewModel.formList.add(0,form)
-                    form.id?.let { mActivity.formListLiveData.add(it.toString()) }
+                    form.id?.let { (activity as CureHealthCareActivity).formListLiveData.add(it.toString()) }
                 }else{
                     viewModel.formList.add(viewModel.formList.size,form)
-                    if(mActivity.formListLiveData.contains(id.toString())) mActivity.formListLiveData.remove(form.id.toString())
+                    if((activity as CureHealthCareActivity).formListLiveData.contains(id.toString())) (activity as CureHealthCareActivity).formListLiveData.remove(form.id.toString())
                 }
                 adapter.updateList(viewModel.formList)
             }, 100)
