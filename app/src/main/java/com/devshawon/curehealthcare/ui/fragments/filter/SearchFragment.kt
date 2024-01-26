@@ -11,7 +11,6 @@ import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.Recycler
 import com.devshawon.curehealthcare.R
 import com.devshawon.curehealthcare.base.ui.BaseFragment
 import com.devshawon.curehealthcare.dagger.viewModel.AppViewModelFactory
@@ -25,7 +24,6 @@ import com.devshawon.curehealthcare.ui.fragments.OnItemClick
 import com.devshawon.curehealthcare.ui.fragments.UpdateCart
 import com.devshawon.curehealthcare.useCase.result.Event
 import com.devshawon.curehealthcare.useCase.result.EventObserver
-import com.devshawon.curehealthcare.util.WrapContentLinearLayoutManager
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -50,9 +48,11 @@ class SearchFragment : BaseFragment<SearchFragmentBinding>(R.layout.search_fragm
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        mBinding.searchView.requestFocus()
+
         mBinding.medicineCompany.adapter = productAdapter
         mBinding.medicineCompany.itemAnimator = DefaultItemAnimator()
-        mBinding.medicineCompany.layoutManager = WrapContentLinearLayoutManager(requireContext())
+        mBinding.medicineCompany.layoutManager = WrapContentLinearLayoutManager()
 
         viewModel.productEvent.observe(viewLifecycleOwner, EventObserver {
             (activity as CureHealthCareActivity).productListActivity.addAll(viewModel.searchList)
@@ -121,4 +121,16 @@ class SearchFragment : BaseFragment<SearchFragmentBinding>(R.layout.search_fragm
         (activity as CureHealthCareActivity).showOrHideBadge(0)
     }
 
+    inner class WrapContentLinearLayoutManager :
+        LinearLayoutManager(requireContext(), VERTICAL, false) {
+        override fun onLayoutChildren(
+            recycler: RecyclerView.Recycler?, state: RecyclerView.State?
+        ) {
+            try {
+                super.onLayoutChildren(recycler, state)
+            } catch (_: IndexOutOfBoundsException) {
+
+            }
+        }
+    }
 }

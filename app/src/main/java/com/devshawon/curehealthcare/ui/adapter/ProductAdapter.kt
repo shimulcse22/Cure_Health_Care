@@ -100,12 +100,17 @@ class ProductAdapter(private val onItemClick: OnItemClick) :
 
                 plusIcon.setOnClickListener {
                     binding.data = ((getInt(binding.data) + 1)).toString()
+
                     if (getInt(binding.data) > 0) {
                         minusIcon.visibility = View.VISIBLE
                         deleteIcon.visibility = View.VISIBLE
                         numberTitle.visibility = View.VISIBLE
                     }
                     productList[position].productCount = productList[position].productCount!! + 1
+                    if(getInt( binding.data) >= getInt( productList[position].productLimits)){
+                        plusIcon.setBackgroundResource(R.drawable.plus_icon_bacground_limit)
+                        plusIcon.isClickable = false
+                    }
                     onItemClick.onPlusIconClick(productList[position])
                     executePendingBindings()
                 }
@@ -118,10 +123,16 @@ class ProductAdapter(private val onItemClick: OnItemClick) :
                     }
                     productList[position].productCount = productList[position].productCount!! - 1
                     onItemClick.onMinusIconClick(productList[position],position)
+                    if(getInt( binding.data) <= getInt( productList[position].productLimits)){
+                        plusIcon.setBackgroundResource(R.drawable.plus_icon_background)
+                        plusIcon.isClickable = true
+                    }
                     executePendingBindings()
                 }
 
                 deleteIcon.setOnClickListener {
+                    plusIcon.setBackgroundResource(R.drawable.plus_icon_background)
+                    plusIcon.isClickable = true
                     removeItem(this,position)
                 }
             }

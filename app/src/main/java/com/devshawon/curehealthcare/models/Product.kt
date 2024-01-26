@@ -112,7 +112,7 @@ data class ProductData(
     @Json(name = "status")
     val status: String?="",
     @Json(name = "stock")
-    val stock: Stock,
+    val stock: Stock?,
     @Json(name = "strength")
     val strength: String?="",
     @Json(name = "unit_type")

@@ -52,7 +52,7 @@ class TrendingFragment : BaseFragment<FragmentTrendingBinding>(R.layout.fragment
         mBinding.viewModel = homeViewModel
         mBinding.trending.adapter = productAdapter
         mBinding.trending.itemAnimator = DefaultItemAnimator()
-        mBinding.trending.layoutManager = WrapContentLinearLayoutManager(requireContext())
+        mBinding.trending.layoutManager = WrapContentLinearLayoutManager()
 
         homeViewModel.productEvent.observe(viewLifecycleOwner, EventObserver {
             (activity as CureHealthCareActivity).productListActivity.addAll(homeViewModel.trendingList)
@@ -88,5 +88,18 @@ class TrendingFragment : BaseFragment<FragmentTrendingBinding>(R.layout.fragment
         homeViewModel.productCount.value = homeViewModel.productCount.value ?: (0 - 1)
         (activity as UpdateCart).decreaseItem(item,position)
         (activity as CureHealthCareActivity).showOrHideBadge(0)
+    }
+
+    inner class WrapContentLinearLayoutManager :
+        LinearLayoutManager(requireContext(), VERTICAL, false) {
+        override fun onLayoutChildren(
+            recycler: RecyclerView.Recycler?, state: RecyclerView.State?
+        ) {
+            try {
+                super.onLayoutChildren(recycler, state)
+            } catch (_: IndexOutOfBoundsException) {
+
+            }
+        }
     }
 }

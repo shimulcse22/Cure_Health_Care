@@ -163,7 +163,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
         mBinding.medicineLayout.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 if (!recyclerView.canScrollVertically(1) && !homeViewModel.nextPage.value.isNullOrEmpty()) {
-                    Log.d("THE PRODUCT REQUEST 89","${homeViewModel.nextPage.value}")
                     homeViewModel.productRequest.postValue(
                         Event(
                             ProductRequest(
