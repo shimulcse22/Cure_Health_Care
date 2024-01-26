@@ -39,16 +39,6 @@ abstract class BaseFragment<T : ViewDataBinding> constructor(@LayoutRes private 
         navigationHost = newBase as NavigationHost
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        activity?.let {
-            mActivity = it as CureHealthCareActivity
-        }
-    }
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?

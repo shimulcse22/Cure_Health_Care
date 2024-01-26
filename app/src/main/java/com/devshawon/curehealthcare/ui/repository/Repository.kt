@@ -51,6 +51,7 @@ class Repository @Inject constructor(
     }
 
     fun getProduct(search : ProductRequest) : LiveData<Resource<ProductResponse>>{
+        Log.d("THE PRODUCT REQUEST IS","$search")
         return object : NetworkBoundResourceOnlyNetwork<ProductResponse>(appExecutors) {
             override fun createCall() = apiService.getProduct(search)
         }.asLiveData()

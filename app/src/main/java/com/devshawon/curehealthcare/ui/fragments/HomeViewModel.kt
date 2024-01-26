@@ -105,6 +105,7 @@ class HomeViewModel @Inject constructor(
     var event = MutableLiveData<Event<String>>()
     var productEvent = MutableLiveData<Event<String>>()
     var productCount = MutableLiveData<Int>()
+    var nextPage = MutableLiveData<String>()
 
     val buttonApiCall = MutableLiveData<Event<String>>()
 
@@ -149,6 +150,7 @@ class HomeViewModel @Inject constructor(
         }
 
         productListResponse.observeForever {
+            Log.d("THE PRODUCT REQUEST 68","${nextPage.value} and ${it.data?.nextPageUrl}")
             if(it.status == Status.SUCCESS && it.data != null){
                 pageCount.value = it.data.currentPage?:1
                 it.data.data.forEach { d ->
@@ -162,6 +164,8 @@ class HomeViewModel @Inject constructor(
 
                 }
                 productList = it.data.data as ArrayList<ProductData>
+                nextPage.value = it.data.nextPageUrl?:""
+                Log.d("THE PRODUCT REQUEST 67","${nextPage.value} and ${it.data.nextPageUrl}")
                 productEvent.postValue(Event(it.status.name))
             }else if(it.status == Status.ERROR){
                 productEvent.postValue(Event(it.status.name))

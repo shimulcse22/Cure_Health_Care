@@ -170,7 +170,6 @@
                                 app:layout_constraintEnd_toStartOf="@id/horizontal"
                                 app:layout_constraintHorizontal_bias="0"
                                 app:layout_constraintBottom_toBottomOf="parent"
-                                android:textSize="@dimen/_12ssp"
                                 android:textStyle="bold"
                                 android:textColor="@color/black"
                                 android:paddingTop="@dimen/_3sdp"
@@ -190,11 +189,12 @@
                                 app:layout_constraintEnd_toEndOf="parent"
                                 android:scrollbars="none"
                                 >
-                                <RadioGroup
+                                <LinearLayout
                                     android:id="@+id/radio_button"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:orientation="horizontal" />
+                                    android:orientation="horizontal"
+                                    />
                             </HorizontalScrollView>
                         </androidx.constraintlayout.widget.ConstraintLayout>
 

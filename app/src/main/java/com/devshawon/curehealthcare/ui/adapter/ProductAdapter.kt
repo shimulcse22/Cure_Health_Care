@@ -24,7 +24,7 @@ import java.lang.StringBuilder
 
 class ProductAdapter(private val onItemClick: OnItemClick) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    private val productList = ArrayList<ProductData>()
+    val productList = ArrayList<ProductData>()
     private var itemViewType = 0
     lateinit var context: Context
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -132,17 +132,21 @@ class ProductAdapter(private val onItemClick: OnItemClick) :
         this.context = context
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateProductList(updateList: ArrayList<ProductData>, itemViewType: Int) {
         this.itemViewType = itemViewType
         productList.clear()
         productList.addAll(updateList)
         notifyItemChanged(0, updateList)
+        notifyDataSetChanged()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun addProductList(updateList: ArrayList<ProductData>) {
         Log.e("DTASSSSSS","${updateList.size}")
         productList.addAll(updateList)
         notifyItemChanged(this.productList.size, updateList)
+        notifyDataSetChanged()
     }
 
     @SuppressLint("NotifyDataSetChanged")

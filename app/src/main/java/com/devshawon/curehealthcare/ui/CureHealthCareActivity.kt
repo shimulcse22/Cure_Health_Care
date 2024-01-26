@@ -33,7 +33,7 @@ class CureHealthCareActivity : BaseActivity<ActivityCureHealthCareBinding>(R.lay
     private val viewModel by viewModels<HomeViewModel> { viewModelFactory }
     private lateinit var cureHealthCareApp : CureHealthCareApplication
     val productListLiveData : MutableList<ProductData> = mutableListOf()
-    val productListActivity : ArrayList<ProductData> = arrayListOf()
+    var productListActivity : ArrayList<ProductData> = arrayListOf()
     val companyListLiveData : MutableList<String> = mutableListOf()
     val formListLiveData : MutableList<String> = mutableListOf()
     val productId : ArrayList<Int> = arrayListOf()

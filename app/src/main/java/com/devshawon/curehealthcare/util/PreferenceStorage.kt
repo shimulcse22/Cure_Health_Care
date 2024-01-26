@@ -17,6 +17,7 @@ interface PreferenceStorage {
     var token: String
     var mobileNumber: String
     var customerName: String
+    var radioData : String
     var shopAddress: String
     var isLogin: Boolean
     var productList: MutableList<ProductData?>?
@@ -32,6 +33,7 @@ class SharedPreferenceStorage(context: Context) : PreferenceStorage {
     override var token by StringPreference(prefs, PREF_TOKEN, "")
     override var refreshToken by StringPreference(prefs, PREF_REFRESH_TOKEN, "")
     override var mobileNumber by StringPreference(prefs, MOBILE_NUMBER, "")
+    override var radioData by StringPreference(prefs, RADIO_DATA, "")
     override var customerName by StringPreference(prefs, CUSTOMER_NAME, "")
     override var shopAddress by StringPreference(prefs, SHOP_ADDRESS, "")
     override var productList by ProductListPreference(
@@ -61,6 +63,7 @@ class SharedPreferenceStorage(context: Context) : PreferenceStorage {
         const val COMPANY_DATA = "company_data"
         const val FORM_DATA = "form_data"
         const val IS_LOGGED_IN = "logged_in"
+        const val RADIO_DATA = "radio_data"
     }
 }
 

@@ -57,12 +57,10 @@ class SearchFragment : BaseFragment<SearchFragmentBinding>(R.layout.search_fragm
         viewModel.productEvent.observe(viewLifecycleOwner, EventObserver {
             (activity as CureHealthCareActivity).productListActivity.addAll(viewModel.searchList)
             if (viewModel.searchList.isNotEmpty()) {
-                Log.d("SEARCH LIST","${viewModel.searchList.size}")
                 mBinding.medicineCompany.visibility = View.VISIBLE
                 mBinding.noTitleText.visibility = View.GONE
                 productAdapter.updateProductList(viewModel.searchList, 1)
             }else{
-                Log.d("SEARCH LIST 2","${viewModel.searchList.size}")
                 mBinding.medicineCompany.visibility = View.GONE
                 mBinding.noTitleText.visibility = View.VISIBLE
             }

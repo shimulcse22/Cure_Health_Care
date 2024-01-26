@@ -129,8 +129,13 @@ fun View.goneUnless(visible: Boolean) {
 fun returnString( list : ArrayList<String>) : String{
     if(list.isEmpty()) return  ""
     val data = StringBuilder()
-    list.forEach {
-        data.append(it).append(",")
+    list.forEachIndexed { id, d->
+        if(id == list.size - 1){
+            data.append(d)
+        }else{
+            data.append(d).append(",")
+        }
+
     }
     Log.d("THE LIST IS STRING","${data}")
     return data.toString()

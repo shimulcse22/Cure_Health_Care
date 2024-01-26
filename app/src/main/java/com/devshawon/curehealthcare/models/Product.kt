@@ -100,7 +100,7 @@ data class ProductData(
     @Json(name = "product_forms_id")
     val productFormsId: String?="",
     @Json(name = "product_generics")
-    val productGenerics: ProductGenerics,
+    val productGenerics: ProductGenerics?,
     @Json(name = "product_generics_id")
     val productGenericsId: String?="",
     @Json(name = "product_limits")

@@ -6,8 +6,7 @@ import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
-import android.widget.RadioButton
-import android.widget.RadioGroup
+import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -36,6 +35,7 @@ import com.devshawon.curehealthcare.util.returnString
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), OnItemClick {
     @Inject
     lateinit var viewModelFactory: AppViewModelFactory
@@ -48,6 +48,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
     private val handler = Handler(Looper.getMainLooper())
     private var interval = 0
     private var currentPosition = 0
+
+    private val radioDataList = ArrayList<Boolean>()
 
     private val runnable = object : Runnable {
         override fun run() {
@@ -78,13 +80,19 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
                 Event(
                     ProductRequest(
                         company = returnString((activity as CureHealthCareActivity).companyListLiveData as ArrayList<String>),
-                        firstLatter = "",
+                        firstLatter = preferences.radioData,
                         form = returnString((activity as CureHealthCareActivity).formListLiveData as ArrayList<String>),
-                        page = 1,
+                        page = homeViewModel.pageCount.value ?: (0 + 1),
                         search = ""
                     )
                 )
             )
+        }
+
+        lifecycleScope.launch {
+            for (i in 0 until 26) {
+                radioDataList.add(false)
+            }
         }
     }
 
@@ -96,7 +104,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
 
         addRadioButtons()
 
-        Log.d("THE LIST IS ","${(activity as CureHealthCareActivity).companyListLiveData} and ${(activity as CureHealthCareActivity).companyListLiveData}")
+        mBinding.resetButton.textSize = 18f
+
+        Log.d(
+            "THE LIST IS ",
+            "${(activity as CureHealthCareActivity).companyListLiveData} and ${(activity as CureHealthCareActivity).companyListLiveData}"
+        )
         mBinding.bannerRecyclerView.adapter = homeBannerAdapter
         mBinding.bannerRecyclerView.itemAnimator = DefaultItemAnimator()
         var layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -149,13 +162,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
 
         mBinding.medicineLayout.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                if (!recyclerView.canScrollVertically(1)) {
-
+                if (!recyclerView.canScrollVertically(1) && !homeViewModel.nextPage.value.isNullOrEmpty()) {
+                    Log.d("THE PRODUCT REQUEST 89","${homeViewModel.nextPage.value}")
                     homeViewModel.productRequest.postValue(
                         Event(
                             ProductRequest(
                                 company = returnString((activity as CureHealthCareActivity).companyListLiveData as ArrayList<String>),
-                                firstLatter = "",
+                                firstLatter = preferences.radioData,
                                 form = returnString((activity as CureHealthCareActivity).formListLiveData as ArrayList<String>),
                                 page = (homeViewModel.pageCount.value!! + 1),
                                 search = ""
@@ -172,15 +185,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
         }
 
         mBinding.resetButton.setOnClickListener {
-            (activity as CureHealthCareActivity).companyListLiveData.clear()
-            (activity as CureHealthCareActivity).formListLiveData.clear()
-            preferences.companyList?.clear()
-            preferences.formList?.clear()
+//            (activity as CureHealthCareActivity).companyListLiveData.clear()
+//            (activity as CureHealthCareActivity).formListLiveData.clear()
+            preferences.radioData = ""
             homeViewModel.productRequest.postValue(
                 Event(
                     ProductRequest(
                         company = returnString((activity as CureHealthCareActivity).companyListLiveData as ArrayList<String>),
-                        firstLatter = "",
+                        firstLatter = preferences.radioData,
                         form = returnString((activity as CureHealthCareActivity).formListLiveData as ArrayList<String>),
                         page = 1,
                         search = ""
@@ -191,12 +203,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
 
         FilterFragment.execute = { data, cList, fList ->
             if (data == "apply") {
-                Log.d("THE FILTERIS ","$data")
+                (activity as CureHealthCareActivity).productListActivity.clear()
                 val productRequest = ProductRequest(
                     company = returnString((activity as CureHealthCareActivity).companyListLiveData as ArrayList<String>),
-                    firstLatter = "",
+                    firstLatter = preferences.radioData,
                     form = returnString((activity as CureHealthCareActivity).formListLiveData as ArrayList<String>),
-                    page = 1,
+                    page = homeViewModel.pageCount.value ?: (0 + 1),
                     search = ""
                 )
                 homeViewModel.productRequest.postValue(
@@ -205,11 +217,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
                     )
                 )
             } else {
+                (activity as CureHealthCareActivity).companyListLiveData.clear()
+                (activity as CureHealthCareActivity).formListLiveData.clear()
+                preferences.formList = mutableListOf()
+                preferences.companyList = mutableListOf()
                 homeViewModel.productRequest.postValue(
                     Event(
                         ProductRequest(
                             company = returnString((activity as CureHealthCareActivity).companyListLiveData as ArrayList<String>),
-                            firstLatter = "",
+                            firstLatter = preferences.radioData,
                             form = returnString((activity as CureHealthCareActivity).formListLiveData as ArrayList<String>),
                             page = 1,
                             search = ""
@@ -218,77 +234,67 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
                 )
             }
         }
-
-//        setFragmentResultListener("apply") { requestKey, bundle ->
-//            Log.d("COMPANY IS 4455","${requestKey}  ${bundle.getBundle("company")}")
-//            val form = bundle.getBundle("form")?.getIntegerArrayList("form")
-//            val company = bundle.getBundle("company")?.getIntegerArrayList("company")
-//            form?.forEach {
-//                formList.append(it.toString()).append(",")
-//            }
-//            company?.forEach{
-//                companyList.append(it.toString()).append(",")
-//            }
-//            val productRequest = ProductRequest(
-//                company = companyList.toString(), firstLatter = "", form = formList.toString(), page = 1, search = ""
-//            )
-//
-//            Log.d("COMPANY IS 777","$productRequest")
-//            homeViewModel.productRequest.postValue(
-//                Event(
-//                    productRequest
-//                )
-//            )
-//        }
-
-//        setFragmentResultListener("reset") { _, _ ->
-//            formList.clear()
-//            companyList.clear()
-//            homeViewModel.productRequest.postValue(
-//                Event(
-//                    ProductRequest(
-//                        company = companyList.toString(), firstLatter = "", form = formList.toString(), page = 1, search = ""
-//                    )
-//                )
-//            )
-//        }
     }
 
     private fun addRadioButtons() {
-        mBinding.radioButton.orientation = LinearLayout.HORIZONTAL
-        val params = RadioGroup.LayoutParams(
-            RadioGroup.LayoutParams.MATCH_PARENT, RadioGroup.LayoutParams.MATCH_PARENT
+        val params = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT
         )
+        val myTextViews = arrayOfNulls<TextView>(26)
         for (i in 0 until 26) {
-            val radioButton = RadioButton(requireContext())
-            radioButton.apply {
-                id = i
-                params.setMargins(8, 0, 8, 0)
-                setBackgroundResource(R.drawable.radio_button_background)
-                //textSize = 17f
-                setPadding(15, 10, 15, 10)
-                text = ('A' + i).toString()
-                //setTextColor(ContextCompat.getColorStateList(context, R.color.text_color_checked))
-                buttonDrawable = null
-                textAlignment = View.TEXT_ALIGNMENT_CENTER
-                setOnClickListener {
-                    getData(radioButton.text.toString())
-                }
-                setTextAppearance(R.style.radio)
-                layoutParams = params
+            val rowTextView = TextView(requireContext())
+            rowTextView.text = "${('A' + i)}"
+            rowTextView.textSize = 18f
+            rowTextView.setPadding(20, 10, 20, 10)
+            params.setMargins(8, 0, 8, 0)
+            if(preferences.radioData == "${('A' + i)}"){
+                rowTextView.setBackgroundResource(R.drawable.rect_angle_shape_black)
+                rowTextView.setTextColor(resources.getColor(R.color.white))
+                radioDataList[i] = true
+            }else{
+                rowTextView.setBackgroundResource(R.drawable.rect_angle_shape_white)
+                rowTextView.setTextColor(resources.getColor(R.color.black))
             }
-            mBinding.radioButton.addView(radioButton)
+
+
+            mBinding.radioButton.addView(rowTextView)
+            rowTextView.setOnClickListener {
+                if (!radioDataList[i]) {
+                    rowTextView.setBackgroundResource(R.drawable.rect_angle_shape_black)
+                    rowTextView.setTextColor(resources.getColor(R.color.white))
+                    radioDataList[i] = true
+                    radioDataList.forEachIndexed { index, b ->
+                        if (i != index && radioDataList[index]) {
+                            radioDataList[index] = false
+                            myTextViews[index]?.setBackgroundResource(R.drawable.rect_angle_shape_white)
+                            myTextViews[index]?.setTextColor(resources.getColor(R.color.black))
+                        }
+                    }
+                    getData("${('A' + i)}")
+                } else {
+                    rowTextView.setBackgroundResource(R.drawable.rect_angle_shape_white)
+                    rowTextView.setTextColor(resources.getColor(R.color.black))
+                    radioDataList[i] = false
+                    getData("")
+                }
+            }
+            myTextViews[i] = rowTextView
+            rowTextView.layoutParams = params
         }
     }
 
     private fun getData(data: String) {
+        homeViewModel.pageCount.value = 1
+        if (data.isEmpty()) (activity as CureHealthCareActivity).productListActivity = arrayListOf()
+        //productAdapter.productList.clear()
+        preferences.radioData = data
         homeViewModel.productRequest.postValue(
             Event(
                 ProductRequest(
                     company = returnString((activity as CureHealthCareActivity).companyListLiveData as ArrayList<String>),
-                    firstLatter = data,
+                    firstLatter = preferences.radioData,
                     form = returnString((activity as CureHealthCareActivity).formListLiveData as ArrayList<String>),
-                    page = 1,
+                    page = homeViewModel.pageCount.value ?: (0 + 1),
                     search = ""
                 )
             )
