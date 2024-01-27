@@ -66,4 +66,7 @@
     <string name="unique_items">Unique items :</string>
     <string name="in_total">in total ৳</string>
     <string name="success">Success</string>
+    <string name="status">Status</string>
+    <string name="pending">Pending</string>
+    <string name="total">Total :</string>
 </resources>

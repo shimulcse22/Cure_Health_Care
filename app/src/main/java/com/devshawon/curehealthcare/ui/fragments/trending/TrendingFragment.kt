@@ -13,7 +13,6 @@ import com.devshawon.curehealthcare.base.ui.BaseFragment
 import com.devshawon.curehealthcare.dagger.viewModel.AppViewModelFactory
 import com.devshawon.curehealthcare.databinding.FragmentTrendingBinding
 import com.devshawon.curehealthcare.models.ProductData
-import com.devshawon.curehealthcare.models.ProductRequest
 import com.devshawon.curehealthcare.network.Status
 import com.devshawon.curehealthcare.ui.CureHealthCareActivity
 import com.devshawon.curehealthcare.ui.adapter.ProductAdapter
@@ -22,8 +21,6 @@ import com.devshawon.curehealthcare.ui.fragments.OnItemClick
 import com.devshawon.curehealthcare.ui.fragments.UpdateCart
 import com.devshawon.curehealthcare.useCase.result.Event
 import com.devshawon.curehealthcare.useCase.result.EventObserver
-import com.devshawon.curehealthcare.util.WrapContentLinearLayoutManager
-import com.devshawon.curehealthcare.util.returnString
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

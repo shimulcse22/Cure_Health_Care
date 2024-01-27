@@ -31,8 +31,8 @@ import com.devshawon.curehealthcare.ui.fragments.filter.FilterFragment
 import com.devshawon.curehealthcare.useCase.result.Event
 import com.devshawon.curehealthcare.useCase.result.EventObserver
 import com.devshawon.curehealthcare.util.navigate
-import com.devshawon.curehealthcare.util.returnString
 import kotlinx.coroutines.launch
+import java.lang.StringBuilder
 import javax.inject.Inject
 
 
@@ -75,19 +75,20 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
             homeBannerAdapter.updateContext(requireContext())
             productAdapter.updateContext(requireContext())
         }
-        lifecycleScope.launch {
+        //lifecycleScope.launch {
+            Log.d("THE PRODUCT REQUEST IS 53","${preferences.companyList} and ${preferences.formList}")
             homeViewModel.productRequest.postValue(
                 Event(
                     ProductRequest(
-                        company = returnString((activity as CureHealthCareActivity).companyListLiveData as ArrayList<String>),
+                        company = returnString(preferences.companyList),
                         firstLatter = preferences.radioData,
-                        form = returnString((activity as CureHealthCareActivity).formListLiveData as ArrayList<String>),
+                        form = returnString(preferences.formList),
                         page = homeViewModel.pageCount.value ?: (0 + 1),
                         search = ""
                     )
                 )
             )
-        }
+        //}
 
         lifecycleScope.launch {
             for (i in 0 until 26) {
@@ -166,9 +167,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
                     homeViewModel.productRequest.postValue(
                         Event(
                             ProductRequest(
-                                company = returnString((activity as CureHealthCareActivity).companyListLiveData as ArrayList<String>),
+                                company = returnString(preferences.companyList),
                                 firstLatter = preferences.radioData,
-                                form = returnString((activity as CureHealthCareActivity).formListLiveData as ArrayList<String>),
+                                form = returnString(preferences.formList),
                                 page = (homeViewModel.pageCount.value!! + 1),
                                 search = ""
                             )
@@ -190,9 +191,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
             homeViewModel.productRequest.postValue(
                 Event(
                     ProductRequest(
-                        company = returnString((activity as CureHealthCareActivity).companyListLiveData as ArrayList<String>),
+                        company = returnString(preferences.companyList),
                         firstLatter = preferences.radioData,
-                        form = returnString((activity as CureHealthCareActivity).formListLiveData as ArrayList<String>),
+                        form = returnString(preferences.formList),
                         page = 1,
                         search = ""
                     )
@@ -200,13 +201,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
             )
         }
 
-        FilterFragment.execute = { data, cList, fList ->
+       execute = { data, cList, fList ->
             if (data == "apply") {
                 (activity as CureHealthCareActivity).productListActivity.clear()
                 val productRequest = ProductRequest(
-                    company = returnString((activity as CureHealthCareActivity).companyListLiveData as ArrayList<String>),
+                    company = returnString(preferences.companyList),
                     firstLatter = preferences.radioData,
-                    form = returnString((activity as CureHealthCareActivity).formListLiveData as ArrayList<String>),
+                    form = returnString(preferences.formList),
                     page = homeViewModel.pageCount.value ?: (0 + 1),
                     search = ""
                 )
@@ -223,9 +224,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
                 homeViewModel.productRequest.postValue(
                     Event(
                         ProductRequest(
-                            company = returnString((activity as CureHealthCareActivity).companyListLiveData as ArrayList<String>),
+                            company = returnString(preferences.companyList),
                             firstLatter = preferences.radioData,
-                            form = returnString((activity as CureHealthCareActivity).formListLiveData as ArrayList<String>),
+                            form = returnString(preferences.formList),
                             page = 1,
                             search = ""
                         )
@@ -290,9 +291,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
         homeViewModel.productRequest.postValue(
             Event(
                 ProductRequest(
-                    company = returnString((activity as CureHealthCareActivity).companyListLiveData as ArrayList<String>),
+                    company = returnString(preferences.companyList),
                     firstLatter = preferences.radioData,
-                    form = returnString((activity as CureHealthCareActivity).formListLiveData as ArrayList<String>),
+                    form = returnString(preferences.formList),
                     page = homeViewModel.pageCount.value ?: (0 + 1),
                     search = ""
                 )
@@ -328,5 +329,24 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
 
             }
         }
+    }
+
+    companion object{
+        var execute : (data: String, cList : ArrayList<String>, fList :ArrayList<String>) -> Unit = { data: String, sList: ArrayList<String>, fList :ArrayList<String>-> }
+    }
+
+    private fun returnString( list : MutableList<String?>?) : String{
+        if(list?.isEmpty()==true) return  ""
+        val data = StringBuilder()
+        list?.forEachIndexed { id, d->
+            if(id == list.size - 1){
+                data.append(d)
+            }else{
+                data.append(d).append(",")
+            }
+
+        }
+        Log.d("THE LIST IS STRING","${data}")
+        return data.toString()
     }
 }

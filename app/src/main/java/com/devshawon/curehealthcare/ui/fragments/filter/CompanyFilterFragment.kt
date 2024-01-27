@@ -66,4 +66,13 @@ class CompanyFilterFragment :
            }, 100)
        }
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.companyList.forEach {
+            if(it.checkBox == true){
+                preferences.companyList?.add(it.id.toString())
+            }
+        }
+    }
 }

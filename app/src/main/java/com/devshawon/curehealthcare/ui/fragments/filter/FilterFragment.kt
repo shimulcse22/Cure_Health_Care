@@ -10,6 +10,7 @@ import com.devshawon.curehealthcare.dagger.viewModel.AppViewModelFactory
 import com.devshawon.curehealthcare.databinding.FilterFragmentBinding
 import com.devshawon.curehealthcare.models.Form
 import com.devshawon.curehealthcare.ui.CureHealthCareActivity
+import com.devshawon.curehealthcare.ui.fragments.home.HomeFragment
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import javax.inject.Inject
@@ -35,16 +36,14 @@ class FilterFragment : BaseFragment<FilterFragmentBinding>(R.layout.filter_fragm
         }.attach()
 
         mBinding.applyBtn.setOnClickListener {
-            execute.invoke("apply",(activity as CureHealthCareActivity).companyListLiveData as ArrayList<String>,(activity as CureHealthCareActivity).formListLiveData as ArrayList<String>)
+            HomeFragment.execute.invoke("apply",(activity as CureHealthCareActivity).companyListLiveData as ArrayList<String>,(activity as CureHealthCareActivity).formListLiveData as ArrayList<String>)
             backToHome()
         }
         mBinding.resetBtn.setOnClickListener {
-            execute.invoke("reset", arrayListOf(), arrayListOf())
+            HomeFragment.execute.invoke("reset", arrayListOf(), arrayListOf())
             backToHome()
         }
     }
 
-    companion object{
-        var execute : (data: String, cList : ArrayList<String>, fList :ArrayList<String>) -> Unit = { data: String, sList: ArrayList<String>, fList :ArrayList<String>-> }
-    }
+
 }

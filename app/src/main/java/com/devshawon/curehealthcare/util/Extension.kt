@@ -126,20 +126,7 @@ fun View.goneUnless(visible: Boolean) {
     this.visibility = if (visible) View.VISIBLE else View.GONE
 }
 
-fun returnString( list : ArrayList<String>) : String{
-    if(list.isEmpty()) return  ""
-    val data = StringBuilder()
-    list.forEachIndexed { id, d->
-        if(id == list.size - 1){
-            data.append(d)
-        }else{
-            data.append(d).append(",")
-        }
 
-    }
-    Log.d("THE LIST IS STRING","${data}")
-    return data.toString()
-}
  class WrapContentLinearLayoutManager(mContext: Context) : LinearLayoutManager(mContext) {
     override fun onLayoutChildren(recycler: RecyclerView.Recycler, state: RecyclerView.State) {
         try {

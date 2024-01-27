@@ -62,6 +62,18 @@ class CureHealthCareActivity : BaseActivity<ActivityCureHealthCareBinding>(R.lay
             mBinding.totalItemCount = itemCount.toString()
             mBinding.totalPriceCount = productPrice.toString()
         }
+        if(preferences.companyList!!.isNotEmpty()){
+            companyListLiveData.clear()
+            preferences.companyList!!.forEach {
+                companyListLiveData.add(it!!)
+            }
+        }
+        if(preferences.formList!!.isNotEmpty()){
+            formListLiveData.clear()
+            preferences.formList!!.forEach {
+                formListLiveData.add(it!!)
+            }
+        }
         mBinding.bottomNavView.setupWithNavController(mNavController)
 
         mNavController.addOnDestinationChangedListener { _, destination, _ ->

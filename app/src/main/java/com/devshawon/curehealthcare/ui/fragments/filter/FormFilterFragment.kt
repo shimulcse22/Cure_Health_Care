@@ -61,4 +61,13 @@ class FormFilterFragment : BaseFragment<FormFilterFragmentBinding>(R.layout.form
             }, 100)
         }
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.formList.forEach {
+            if(it.checkBox == true){
+                preferences.formList?.add(it.id.toString())
+            }
+        }
+    }
 }
