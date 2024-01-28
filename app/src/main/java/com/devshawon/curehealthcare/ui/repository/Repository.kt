@@ -20,6 +20,7 @@ import com.devshawon.curehealthcare.models.ProductRequest
 import com.devshawon.curehealthcare.models.ProductResponse
 import com.devshawon.curehealthcare.models.RegistrationRequest
 import com.devshawon.curehealthcare.models.RegistrationResponse
+import com.devshawon.curehealthcare.models.SingleOrderResponse
 import com.devshawon.curehealthcare.models.UpdatePassword
 import com.devshawon.curehealthcare.models.UpdatePasswordResponse
 import com.devshawon.curehealthcare.models.UpdateProfileRequest
@@ -109,6 +110,12 @@ class Repository @Inject constructor(
     fun postPlaceOrder(body : PlaceOrderRequest) : LiveData<Resource<PlaceOrderResponse>>{
         return object : NetworkBoundResourceOnlyNetwork<PlaceOrderResponse>(appExecutors) {
             override fun createCall() = apiService.postPlaceOrder(body)
+        }.asLiveData()
+    }
+
+    fun getSingleOrder(id : Int?=0) : LiveData<Resource<SingleOrderResponse>>{
+        return object : NetworkBoundResourceOnlyNetwork<SingleOrderResponse>(appExecutors) {
+            override fun createCall() = apiService.getSingleOrder(id)
         }.asLiveData()
     }
 }

@@ -1,6 +1,5 @@
 package com.devshawon.curehealthcare.ui.fragments
 
-import android.icu.number.IntegerWidth
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -17,11 +16,11 @@ import com.devshawon.curehealthcare.models.OrderData
 import com.devshawon.curehealthcare.models.OrderResponse
 import com.devshawon.curehealthcare.models.PlaceOrderRequest
 import com.devshawon.curehealthcare.models.PlaceOrderResponse
-import com.devshawon.curehealthcare.models.Product
 import com.devshawon.curehealthcare.models.ProductData
 import com.devshawon.curehealthcare.models.ProductRequest
 import com.devshawon.curehealthcare.models.ProductResponse
-import com.devshawon.curehealthcare.models.RegistrationResponse
+import com.devshawon.curehealthcare.models.SingleOrderProduct
+import com.devshawon.curehealthcare.models.SingleOrderResponse
 import com.devshawon.curehealthcare.models.UpdatePassword
 import com.devshawon.curehealthcare.models.UpdatePasswordResponse
 import com.devshawon.curehealthcare.models.UpdateProfileRequest
@@ -137,6 +136,14 @@ class HomeViewModel @Inject constructor(
     val orderEvent = MutableLiveData<Event<String>>()
     val orderResponse : LiveData<Resource<OrderResponse>> = orderRequest.switchMap {
         repository.getOrder(it.peekContent())
+    }
+
+    val singleOrderRequest = MutableLiveData<Event<Int>>()
+    val singleOrderList = ArrayList<SingleOrderProduct>()
+    val singleOrderResponseData = MutableLiveData<SingleOrderResponse>()
+    val singleOrderEvent = MutableLiveData<Event<String>>()
+    val singleOrderResponse : LiveData<Resource<SingleOrderResponse>> = singleOrderRequest.switchMap {
+        repository.getSingleOrder(it.peekContent())
     }
 
     init {
@@ -324,6 +331,18 @@ class HomeViewModel @Inject constructor(
                 placeEvent.postValue(Event(it.status.name?:""))
             }else if(it.status == Status.ERROR){
                 placeEvent.postValue(Event("Can not created, Please contact with the helpline number"))
+            }
+        }
+
+        singleOrderResponse.observeForever {
+            if(it.status == Status.SUCCESS && it.data !=null){
+                it.data.let {d ->
+                    singleOrderResponseData.postValue(it.data!!)
+                    singleOrderList.addAll(d.products)
+                }
+                singleOrderEvent.postValue(Event(it.status.name))
+            }else if(it.status == Status.ERROR){
+                singleOrderEvent.postValue(Event(it.status.name))
             }
         }
     }

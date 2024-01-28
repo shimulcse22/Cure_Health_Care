@@ -15,6 +15,7 @@ import com.devshawon.curehealthcare.ui.fragments.filter.FilterViewModel
 import com.devshawon.curehealthcare.ui.fragments.filter.FormFilterFragment
 import com.devshawon.curehealthcare.ui.fragments.filter.NotificationFragment
 import com.devshawon.curehealthcare.ui.fragments.filter.SearchFragment
+import com.devshawon.curehealthcare.ui.fragments.order.SingleOrderFragment
 import com.devshawon.curehealthcare.ui.fragments.profile.ChangePassword
 import com.devshawon.curehealthcare.ui.fragments.profile.EditProfileFragment
 import com.devshawon.curehealthcare.ui.fragments.profile.ProfileFragment
@@ -84,5 +85,9 @@ internal abstract class FragmentModule {
     @FragmentScoped
     @ContributesAndroidInjector
     internal abstract fun contributeNotificationFragment(): NotificationFragment
+
+    @FragmentScoped
+    @ContributesAndroidInjector
+    internal abstract fun contributeSingleOrderFragment(): SingleOrderFragment
 
 }

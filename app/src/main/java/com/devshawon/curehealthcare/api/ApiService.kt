@@ -18,6 +18,7 @@ import com.devshawon.curehealthcare.models.RefreshToken
 import com.devshawon.curehealthcare.models.RefreshTokenResponse
 import com.devshawon.curehealthcare.models.RegistrationRequest
 import com.devshawon.curehealthcare.models.RegistrationResponse
+import com.devshawon.curehealthcare.models.SingleOrderResponse
 import com.devshawon.curehealthcare.models.UpdatePassword
 import com.devshawon.curehealthcare.models.UpdatePasswordResponse
 import com.devshawon.curehealthcare.models.UpdateProfileRequest
@@ -27,6 +28,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiService {
@@ -71,4 +73,7 @@ interface ApiService {
 
     @POST("api/v2/app_checkout")
     fun postPlaceOrder( @Body body : PlaceOrderRequest) : LiveData<ApiResponse<PlaceOrderResponse>>
+
+    @GET("api/v2/orders/{id}")
+    fun getSingleOrder( @Path("id") id: Int?=0) : LiveData<ApiResponse<SingleOrderResponse>>
 }

@@ -42,6 +42,9 @@ class OrderAdapter(private val context: Context) : RecyclerView.Adapter<Recycler
                     money.text = it.amount
                     date.text = it.orderPlacedAt
                     status.text = it.status
+                    binding.root.setOnClickListener{d->
+                        it.id?.let { it1 -> navigate.invoke(it1) }
+                    }
                 }
             }
         }
@@ -58,4 +61,7 @@ class OrderAdapter(private val context: Context) : RecyclerView.Adapter<Recycler
         notifyItemRangeChanged(this.list.size,updateList.size)
     }
 
+    companion object{
+        var navigate :  (data : Int) ->Unit = {}
+    }
 }

@@ -13,11 +13,13 @@ import com.devshawon.curehealthcare.base.ui.BaseFragment
 import com.devshawon.curehealthcare.dagger.viewModel.AppViewModelFactory
 import com.devshawon.curehealthcare.databinding.FragmentOrderBinding
 import com.devshawon.curehealthcare.models.ProductRequest
+import com.devshawon.curehealthcare.network.Status
 import com.devshawon.curehealthcare.ui.OrderAdapter
 import com.devshawon.curehealthcare.ui.fragments.HomeViewModel
 import com.devshawon.curehealthcare.useCase.result.Event
 import com.devshawon.curehealthcare.useCase.result.EventObserver
 import com.devshawon.curehealthcare.util.getInt
+import com.devshawon.curehealthcare.util.navigate
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -52,6 +54,16 @@ class OrderFragment: BaseFragment<FragmentOrderBinding>(R.layout.fragment_order)
                 orderAdapter.updateList(homeViewModel.orderList)
             }else{
                 orderAdapter.addList(homeViewModel.orderList)
+            }
+        })
+
+        OrderAdapter.navigate = {
+            homeViewModel.singleOrderRequest.postValue(Event(it))
+        }
+
+        homeViewModel.singleOrderEvent.observe(viewLifecycleOwner,EventObserver{
+            if(it == Status.SUCCESS.name){
+                navigate(OrderFragmentDirections.actionOrderToSingleOrderFragment())
             }
         })
 

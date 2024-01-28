@@ -61,7 +61,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/medicine_price"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_8sdp"
                 android:layout_marginTop="@dimen/_5sdp"
@@ -70,43 +70,11 @@
                 app:layout_constraintStart_toEndOf="@id/medicine_image"
                 app:layout_constraintTop_toBottomOf="@id/medicine_company"
                 app:layout_constraintBottom_toBottomOf="@id/medicine_image"
+                app:layout_constraintEnd_toEndOf="parent"
                 android:textStyle="normal"
                 android:textColor="@color/text_blue"
                 tools:text="@string/title_fragment_profile" />
 
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/mrp_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_8sdp"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:layout_marginBottom="@dimen/_5sdp"
-                android:textSize="@dimen/_11ssp"
-                app:layout_constraintStart_toEndOf="@id/medicine_price"
-                app:layout_constraintTop_toTopOf="@id/medicine_price"
-                app:layout_constraintBottom_toBottomOf="@id/medicine_price"
-                android:textStyle="normal"
-                android:textColor="@color/black"
-                tools:text="@string/title_fragment_profile" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/discount_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_8sdp"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:layout_marginBottom="@dimen/_5sdp"
-                android:textSize="@dimen/_11ssp"
-                app:layout_constraintStart_toEndOf="@id/mrp_price"
-                app:layout_constraintTop_toTopOf="@id/medicine_price"
-                app:layout_constraintBottom_toBottomOf="@id/medicine_price"
-                android:textStyle="normal"
-                android:textColor="@color/black"
-                android:paddingStart="@dimen/_2sdp"
-                android:paddingEnd="@dimen/_2sdp"
-                android:background="@drawable/text_purple_background"
-                tools:text="@string/title_fragment_profile" />
 
 
             <androidx.appcompat.widget.AppCompatTextView
