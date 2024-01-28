@@ -3,6 +3,7 @@ package com.devshawon.curehealthcare.ui.fragments.cart
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.navGraphViewModels
@@ -142,6 +143,14 @@ class CartFragment : BaseFragment<FragmentCartBinding>(R.layout.fragment_cart), 
         mBinding.uniqueItemCount.text = (activity as CureHealthCareActivity).itemCount.toString()
         mBinding.totalAmountCount.text =
             (activity as CureHealthCareActivity).productPrice.toString()
+
+        val callBack : OnBackPressedCallback = object : OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                backToHome()
+            }
+        }
+
+        activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner,callBack)
     }
 
     override fun onMinusIconClick(item: ProductData, position: Int) {

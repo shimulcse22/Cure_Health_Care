@@ -3,7 +3,9 @@ package com.devshawon.curehealthcare.ui.fragments.trending
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.Navigation
 import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -43,6 +45,7 @@ class TrendingFragment : BaseFragment<FragmentTrendingBinding>(R.layout.fragment
         }
 
         homeViewModel.trendingPageCount.value = 0
+
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -73,6 +76,14 @@ class TrendingFragment : BaseFragment<FragmentTrendingBinding>(R.layout.fragment
                 super.onScrolled(recyclerView, dx, dy)
             }
         })
+
+        val callBack : OnBackPressedCallback = object : OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                backToHome()
+            }
+        }
+
+        activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner,callBack)
     }
 
     override fun onPlusIconClick(item: ProductData) {
@@ -99,4 +110,6 @@ class TrendingFragment : BaseFragment<FragmentTrendingBinding>(R.layout.fragment
             }
         }
     }
+
+
 }

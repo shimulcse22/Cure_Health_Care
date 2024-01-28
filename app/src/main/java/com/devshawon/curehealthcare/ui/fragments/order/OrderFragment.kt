@@ -2,6 +2,7 @@ package com.devshawon.curehealthcare.ui.fragments.order
 
 import android.os.Bundle
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -79,5 +80,13 @@ class OrderFragment: BaseFragment<FragmentOrderBinding>(R.layout.fragment_order)
                 super.onScrolled(recyclerView, dx, dy)
             }
         })
+
+        val callBack : OnBackPressedCallback = object : OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                backToHome()
+            }
+        }
+
+        activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner,callBack)
     }
 }

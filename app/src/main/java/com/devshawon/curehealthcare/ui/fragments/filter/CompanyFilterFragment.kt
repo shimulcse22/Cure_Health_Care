@@ -74,5 +74,6 @@ class CompanyFilterFragment :
                 preferences.companyList?.add(it.id.toString())
             }
         }
+        Log.d("THE PROCESS IS ","${preferences.companyList}  and ${(activity as CureHealthCareActivity).companyListLiveData}")
     }
 }

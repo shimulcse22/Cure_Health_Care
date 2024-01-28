@@ -188,50 +188,53 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
 //            (activity as CureHealthCareActivity).companyListLiveData.clear()
 //            (activity as CureHealthCareActivity).formListLiveData.clear()
             preferences.radioData = ""
-            homeViewModel.productRequest.postValue(
-                Event(
-                    ProductRequest(
-                        company = returnString(preferences.companyList),
-                        firstLatter = preferences.radioData,
-                        form = returnString(preferences.formList),
-                        page = 1,
-                        search = ""
-                    )
-                )
-            )
+//            homeViewModel.productRequest.postValue(
+//                Event(
+//                    ProductRequest(
+//                        company = returnString(preferences.companyList),
+//                        firstLatter = preferences.radioData,
+//                        form = returnString(preferences.formList),
+//                        page = 1,
+//                        search = ""
+//                    )
+//                )
+//            )
+            apiCall()
         }
 
        execute = { data, cList, fList ->
             if (data == "apply") {
                 (activity as CureHealthCareActivity).productListActivity.clear()
-                val productRequest = ProductRequest(
-                    company = returnString(preferences.companyList),
-                    firstLatter = preferences.radioData,
-                    form = returnString(preferences.formList),
-                    page = homeViewModel.pageCount.value ?: (0 + 1),
-                    search = ""
-                )
-                homeViewModel.productRequest.postValue(
-                    Event(
-                        productRequest
-                    )
-                )
+//                val productRequest = ProductRequest(
+//                    company = returnString(preferences.companyList),
+//                    firstLatter = preferences.radioData,
+//                    form = returnString(preferences.formList),
+//                    page = 1,
+//                    search = ""
+//                )
+//                homeViewModel.productRequest.postValue(
+//                    Event(
+//                        productRequest
+//                    )
+//                )
+                apiCall()
             } else {
                 (activity as CureHealthCareActivity).companyListLiveData.clear()
                 (activity as CureHealthCareActivity).formListLiveData.clear()
                 preferences.formList = mutableListOf()
                 preferences.companyList = mutableListOf()
-                homeViewModel.productRequest.postValue(
-                    Event(
-                        ProductRequest(
-                            company = returnString(preferences.companyList),
-                            firstLatter = preferences.radioData,
-                            form = returnString(preferences.formList),
-                            page = 1,
-                            search = ""
-                        )
-                    )
-                )
+//                homeViewModel.productRequest.postValue(
+//                    Event(
+//                        ProductRequest(
+//                            company = returnString(preferences.companyList),
+//                            firstLatter = preferences.radioData,
+//                            form = returnString(preferences.formList),
+//                            page = 1,
+//                            search = ""
+//                        )
+//                    )
+//                )
+                apiCall()
             }
         }
     }
@@ -288,17 +291,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
         if (data.isEmpty()) (activity as CureHealthCareActivity).productListActivity = arrayListOf()
         //productAdapter.productList.clear()
         preferences.radioData = data
-        homeViewModel.productRequest.postValue(
-            Event(
-                ProductRequest(
-                    company = returnString(preferences.companyList),
-                    firstLatter = preferences.radioData,
-                    form = returnString(preferences.formList),
-                    page = homeViewModel.pageCount.value ?: (0 + 1),
-                    search = ""
-                )
-            )
-        )
+        //move to another function
+        apiCall()
     }
 
     override fun onDestroyView() {
@@ -348,5 +342,19 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
         }
         Log.d("THE LIST IS STRING","${data}")
         return data.toString()
+    }
+
+    private fun apiCall(){
+        homeViewModel.productRequest.postValue(
+            Event(
+                ProductRequest(
+                    company = returnString((activity as CureHealthCareActivity).companyListLiveData),
+                    firstLatter = preferences.radioData,
+                    form = returnString((activity as CureHealthCareActivity).formListLiveData),
+                    page = 1,
+                    search = ""
+                )
+            )
+        )
     }
 }

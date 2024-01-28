@@ -34,8 +34,8 @@ class CureHealthCareActivity : BaseActivity<ActivityCureHealthCareBinding>(R.lay
     private lateinit var cureHealthCareApp : CureHealthCareApplication
     val productListLiveData : MutableList<ProductData> = mutableListOf()
     var productListActivity : ArrayList<ProductData> = arrayListOf()
-    val companyListLiveData : MutableList<String> = mutableListOf()
-    val formListLiveData : MutableList<String> = mutableListOf()
+    val companyListLiveData : MutableList<String?> = mutableListOf()
+    val formListLiveData : MutableList<String?> = mutableListOf()
     val productId : ArrayList<Int> = arrayListOf()
     var productPrice : Double = 0.00
     var itemCount : Int = 0
@@ -78,7 +78,7 @@ class CureHealthCareActivity : BaseActivity<ActivityCureHealthCareBinding>(R.lay
 
         mNavController.addOnDestinationChangedListener { _, destination, _ ->
             val selectId = destination.id
-            //mBinding.bottomNavView.menu.getItem(TOP_LEVEL_DESTINATIONS.indexOf(selectId)).isChecked = !BACK_STACK_NOT_ENTRY.contains(selectId)
+
             if(PRICE_LAYOUT_NOT_SHOWING.contains(selectId)){
                 mBinding.priceLayout.visibility = View.GONE
             }else{
