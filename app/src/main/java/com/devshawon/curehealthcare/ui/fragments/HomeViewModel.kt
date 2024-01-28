@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.switchMap
 import com.devshawon.curehealthcare.models.BannerResponseMobile
+import com.devshawon.curehealthcare.models.CancelOrderRequest
 import com.devshawon.curehealthcare.models.CompanyResponse
 import com.devshawon.curehealthcare.models.EditProfileGetRequest
 import com.devshawon.curehealthcare.models.Form
@@ -19,6 +20,7 @@ import com.devshawon.curehealthcare.models.PlaceOrderResponse
 import com.devshawon.curehealthcare.models.ProductData
 import com.devshawon.curehealthcare.models.ProductRequest
 import com.devshawon.curehealthcare.models.ProductResponse
+import com.devshawon.curehealthcare.models.RegistrationResponse
 import com.devshawon.curehealthcare.models.SingleOrderProduct
 import com.devshawon.curehealthcare.models.SingleOrderResponse
 import com.devshawon.curehealthcare.models.UpdatePassword
@@ -144,6 +146,11 @@ class HomeViewModel @Inject constructor(
     val singleOrderEvent = MutableLiveData<Event<String>>()
     val singleOrderResponse : LiveData<Resource<SingleOrderResponse>> = singleOrderRequest.switchMap {
         repository.getSingleOrder(it.peekContent())
+    }
+
+    val cancelOrderRequest = MutableLiveData<Event<CancelOrderRequest>>()
+    val cancelOrderResponse : LiveData<Resource<RegistrationResponse>> = cancelOrderRequest.switchMap {
+        repository.cancelOrder(it.peekContent())
     }
 
     init {
@@ -343,6 +350,15 @@ class HomeViewModel @Inject constructor(
                 singleOrderEvent.postValue(Event(it.status.name))
             }else if(it.status == Status.ERROR){
                 singleOrderEvent.postValue(Event(it.status.name))
+            }
+        }
+
+        cancelOrderResponse.observeForever {
+            if(it.status == Status.SUCCESS && it.data !=null){
+                message.value = it.data.message ?:""
+                placeEvent.postValue(Event(it.status.name))
+            }else if(it.status == Status.ERROR){
+                message.value = it.data?.message ?:""
             }
         }
     }

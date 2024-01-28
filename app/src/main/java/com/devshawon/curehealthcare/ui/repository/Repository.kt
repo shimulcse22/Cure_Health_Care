@@ -6,6 +6,7 @@ import com.devshawon.curehealthcare.api.ApiService
 import com.devshawon.curehealthcare.api.AppExecutors
 import com.devshawon.curehealthcare.models.BannerResponse
 import com.devshawon.curehealthcare.models.BannerResponseMobile
+import com.devshawon.curehealthcare.models.CancelOrderRequest
 import com.devshawon.curehealthcare.models.CompanyResponse
 import com.devshawon.curehealthcare.models.EditProfileGetRequest
 import com.devshawon.curehealthcare.models.Form
@@ -116,6 +117,12 @@ class Repository @Inject constructor(
     fun getSingleOrder(id : Int?=0) : LiveData<Resource<SingleOrderResponse>>{
         return object : NetworkBoundResourceOnlyNetwork<SingleOrderResponse>(appExecutors) {
             override fun createCall() = apiService.getSingleOrder(id)
+        }.asLiveData()
+    }
+
+    fun cancelOrder(body: CancelOrderRequest) : LiveData<Resource<RegistrationResponse>>{
+        return object : NetworkBoundResourceOnlyNetwork<RegistrationResponse>(appExecutors) {
+            override fun createCall() = apiService.cancelOrder(body)
         }.asLiveData()
     }
 }

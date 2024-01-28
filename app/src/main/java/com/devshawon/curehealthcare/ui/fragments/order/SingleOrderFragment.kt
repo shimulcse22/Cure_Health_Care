@@ -8,11 +8,18 @@ import com.devshawon.curehealthcare.R
 import com.devshawon.curehealthcare.base.ui.BaseFragment
 import com.devshawon.curehealthcare.dagger.viewModel.AppViewModelFactory
 import com.devshawon.curehealthcare.databinding.FragmentOrderDetailsLayoutBinding
+import com.devshawon.curehealthcare.models.CancelOrderRequest
+import com.devshawon.curehealthcare.network.Status
 import com.devshawon.curehealthcare.ui.fragments.HomeViewModel
+import com.devshawon.curehealthcare.useCase.result.Event
+import com.devshawon.curehealthcare.useCase.result.EventObserver
 import com.devshawon.curehealthcare.util.WrapContentLinearLayoutManager
+import com.devshawon.curehealthcare.util.positiveButton
+import com.devshawon.curehealthcare.util.showDialog
 import javax.inject.Inject
 
-class SingleOrderFragment : BaseFragment<FragmentOrderDetailsLayoutBinding>(R.layout.fragment_order_details_layout) {
+class SingleOrderFragment :
+    BaseFragment<FragmentOrderDetailsLayoutBinding>(R.layout.fragment_order_details_layout) {
     @Inject
     lateinit var viewModelFactory: AppViewModelFactory
     private val viewModel: HomeViewModel by navGraphViewModels(R.id.cure_health_care_nav_host_xml) { viewModelFactory }
@@ -32,17 +39,46 @@ class SingleOrderFragment : BaseFragment<FragmentOrderDetailsLayoutBinding>(R.la
         mBinding.orderRecyclerView.layoutManager = WrapContentLinearLayoutManager(requireContext())
         mBinding.orderRecyclerView.itemAnimator = DefaultItemAnimator()
 
-        mBinding.orderIdTitle.text = "Order ID : "+viewModel.singleOrderResponseData.value?.id
-        mBinding.orderTime.text = "Ordered at :"+viewModel.singleOrderResponseData.value?.orderPlacedAt
+        mBinding.orderIdTitle.text = "Order ID : " + viewModel.singleOrderResponseData.value?.id
+        mBinding.orderTime.text =
+            "Ordered at :" + viewModel.singleOrderResponseData.value?.orderPlacedAt
         mBinding.orderStatus.text = viewModel.singleOrderResponseData.value?.status
 
-        if(viewModel.singleOrderResponseData.value?.status == "Pending"){
+        if (viewModel.singleOrderResponseData.value?.status == "Pending") {
             mBinding.estimatedTitle.text = viewModel.singleOrderResponseData.value?.createdAt
-        }else{
+        } else {
             mBinding.estimated.visibility = View.GONE
             mBinding.estimatedTitle.visibility = View.GONE
         }
 
         singleOrderAdapter.addList(viewModel.singleOrderList)
+
+        mBinding.cancel.setOnClickListener {
+            viewModel.cancelOrderRequest.postValue(
+                Event(
+                    CancelOrderRequest(
+                        orderId = viewModel.singleOrderResponseData.value?.id ?: 0
+                    )
+                )
+            )
+        }
+
+        viewModel.placeEvent.observe(viewLifecycleOwner, EventObserver {
+            if (it == Status.SUCCESS.name) {
+                showDialog {
+                    setTitle(getString(R.string.success))
+                    setMessage(viewModel.message.value)
+                    setIcon(R.drawable.right_sign)
+                    positiveButton(getString(R.string.ok))
+                }
+            } else {
+                showDialog {
+                    setTitle(getString(R.string.error_title))
+                    setMessage(viewModel.message.value)
+                    setIcon(R.drawable.ic_error)
+                    positiveButton(getString(R.string.ok))
+                }
+            }
+        })
     }
 }

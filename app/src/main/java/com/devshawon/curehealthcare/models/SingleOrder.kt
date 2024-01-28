@@ -236,3 +236,10 @@ data class SingleOrderGeneratedConversions(
     @Json(name = "thumb")
     val thumb: Boolean
 )
+
+@JsonClass(generateAdapter = true)
+data class CancelOrderRequest(
+    @Json(name = "order_id")
+    val orderId: Int
+)
+

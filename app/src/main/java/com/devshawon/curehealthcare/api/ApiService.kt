@@ -2,6 +2,7 @@ package com.devshawon.curehealthcare.api
 
 import androidx.lifecycle.LiveData
 import com.devshawon.curehealthcare.models.BannerResponseMobile
+import com.devshawon.curehealthcare.models.CancelOrderRequest
 import com.devshawon.curehealthcare.models.CompanyResponse
 import com.devshawon.curehealthcare.models.EditProfileData
 import com.devshawon.curehealthcare.models.EditProfileGetRequest
@@ -76,4 +77,7 @@ interface ApiService {
 
     @GET("api/v2/orders/{id}")
     fun getSingleOrder( @Path("id") id: Int?=0) : LiveData<ApiResponse<SingleOrderResponse>>
+
+    @POST("api/v2/cancel-order")
+    fun cancelOrder( @Body body : CancelOrderRequest) : LiveData<ApiResponse<RegistrationResponse>>
 }
