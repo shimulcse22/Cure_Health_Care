@@ -27,12 +27,10 @@ import com.devshawon.curehealthcare.ui.adapter.ProductAdapter
 import com.devshawon.curehealthcare.ui.fragments.HomeViewModel
 import com.devshawon.curehealthcare.ui.fragments.OnItemClick
 import com.devshawon.curehealthcare.ui.fragments.UpdateCart
-import com.devshawon.curehealthcare.ui.fragments.filter.FilterFragment
 import com.devshawon.curehealthcare.useCase.result.Event
 import com.devshawon.curehealthcare.useCase.result.EventObserver
 import com.devshawon.curehealthcare.util.navigate
 import kotlinx.coroutines.launch
-import java.lang.StringBuilder
 import javax.inject.Inject
 
 
@@ -103,7 +101,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
         handler.removeCallbacks(runnable)
         runnable.run()
 
-        addRadioButtons()
+
+        val myTextViews = arrayOfNulls<TextView?>(26)
+        addRadioButtons(myTextViews)
 
         mBinding.resetButton.textSize = 18f
 
@@ -200,6 +200,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
 //                )
 //            )
             apiCall()
+            radioDataList.forEachIndexed { index, b ->
+                if ( radioDataList[index]) {
+                    radioDataList[index] = false
+                    myTextViews[index]?.setBackgroundResource(R.drawable.rect_angle_shape_white)
+                    myTextViews[index]?.setTextColor(resources.getColor(R.color.black))
+                }
+            }
         }
 
        execute = { data, cList, fList ->
@@ -239,11 +246,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
         }
     }
 
-    private fun addRadioButtons() {
+    private fun addRadioButtons( myTextViews :Array<TextView?>) {
         val params = LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT
         )
-        val myTextViews = arrayOfNulls<TextView>(26)
+
         for (i in 0 until 26) {
             val rowTextView = TextView(requireContext())
             rowTextView.text = "${('A' + i)}"
@@ -326,7 +333,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
     }
 
     companion object{
-        var execute : (data: String, cList : ArrayList<String>, fList :ArrayList<String>) -> Unit = { data: String, sList: ArrayList<String>, fList :ArrayList<String>-> }
+        var execute : (data: String, cList : MutableList<String?>, fList :MutableList<String?>) -> Unit = { data: String, sList: MutableList<String?>, fList :MutableList<String?>-> }
     }
 
     private fun returnString( list : MutableList<String?>?) : String{

@@ -70,4 +70,5 @@
     <string name="pending">Pending</string>
     <string name="total">Total :</string>
     <string name="estimated_delivery">Estimated Delivery</string>
+    <string name="order">Order</string>
 </resources>

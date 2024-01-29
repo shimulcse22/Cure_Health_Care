@@ -82,5 +82,9 @@ class NotificationFragment : BaseFragment<NotificationFragmentBinding>(R.layout.
                 super.onScrolled(recyclerView, dx, dy)
             }
         })
+
+        mBinding.toolbar.setNavigationOnClickListener {
+            backToHome()
+        }
     }
 }

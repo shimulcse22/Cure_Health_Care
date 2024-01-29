@@ -150,6 +150,10 @@ class CartFragment : BaseFragment<FragmentCartBinding>(R.layout.fragment_cart), 
         }
 
         activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner,callBack)
+
+        mBinding.toolbar.setNavigationOnClickListener {
+            backToHome()
+        }
     }
 
     override fun onMinusIconClick(item: ProductData, position: Int,isDelete : Boolean) {

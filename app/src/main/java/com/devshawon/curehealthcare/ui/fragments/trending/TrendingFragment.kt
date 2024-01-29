@@ -81,6 +81,10 @@ class TrendingFragment : BaseFragment<FragmentTrendingBinding>(R.layout.fragment
         }
 
         activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner,callBack)
+
+        mBinding.toolbar.setNavigationOnClickListener {
+            backToHome()
+        }
     }
 
     override fun onPlusIconClick(item: ProductData) {

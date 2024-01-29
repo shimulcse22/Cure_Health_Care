@@ -17,6 +17,10 @@ import javax.inject.Inject
 
 class FilterFragment : BaseFragment<FilterFragmentBinding>(R.layout.filter_fragment) {
 
+    override fun haveToolbar(): Boolean = true
+
+    override fun resToolbarId(): Int = R.id.toolbar
+
     @Inject
     lateinit var viewModelFactory: AppViewModelFactory
 
@@ -36,14 +40,16 @@ class FilterFragment : BaseFragment<FilterFragmentBinding>(R.layout.filter_fragm
         }.attach()
 
         mBinding.applyBtn.setOnClickListener {
-            HomeFragment.execute.invoke("apply",(activity as CureHealthCareActivity).companyListLiveData as ArrayList<String>,(activity as CureHealthCareActivity).formListLiveData as ArrayList<String>)
+            HomeFragment.execute.invoke("apply",(activity as CureHealthCareActivity).companyListLiveData,(activity as CureHealthCareActivity).formListLiveData )
             backToHome()
         }
         mBinding.resetBtn.setOnClickListener {
             HomeFragment.execute.invoke("reset", arrayListOf(), arrayListOf())
             backToHome()
         }
+
+        mBinding.toolbar.setNavigationOnClickListener {
+            backToHome()
+        }
     }
-
-
 }

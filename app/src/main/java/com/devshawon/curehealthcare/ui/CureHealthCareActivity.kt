@@ -22,22 +22,24 @@ import com.devshawon.curehealthcare.util.removeBadge
 import com.devshawon.curehealthcare.util.showBadge
 import javax.inject.Inject
 
-class CureHealthCareActivity : BaseActivity<ActivityCureHealthCareBinding>(R.layout.activity_cure_health_care),UpdateCart {
+class CureHealthCareActivity :
+    BaseActivity<ActivityCureHealthCareBinding>(R.layout.activity_cure_health_care), UpdateCart {
     @Inject
     lateinit var viewModelFactory: AppViewModelFactory
+
     @Inject
     lateinit var preferences: PreferenceStorage
     private val viewModel by viewModels<HomeViewModel> { viewModelFactory }
-    private lateinit var cureHealthCareApp : CureHealthCareApplication
-    val productListLiveData : MutableList<ProductData> = mutableListOf()
-    var productListActivity : ArrayList<ProductData> = arrayListOf()
-    val companyListLiveData : MutableList<String?> = mutableListOf()
-    val formListLiveData : MutableList<String?> = mutableListOf()
-    var productPrice : Double = 0.00
-    var itemCount : Int = 0
-    val live  = MutableLiveData<Event<Unit>>()
+    private lateinit var cureHealthCareApp: CureHealthCareApplication
+    val productListLiveData: MutableList<ProductData> = mutableListOf()
+    var productListActivity: ArrayList<ProductData> = arrayListOf()
+    val companyListLiveData: MutableList<String?> = mutableListOf()
+    val formListLiveData: MutableList<String?> = mutableListOf()
+    var productPrice: Double = 0.00
+    var itemCount: Int = 0
+    val live = MutableLiveData<Event<Unit>>()
 
-    var item : Int = -1
+    var item: Int = -1
     private val mNavController by lazy { (supportFragmentManager.findFragmentById(R.id.cureHealthCareNavHostFragment) as NavHostFragment).navController }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,11 +48,11 @@ class CureHealthCareActivity : BaseActivity<ActivityCureHealthCareBinding>(R.lay
         window.statusBarColor = ContextCompat.getColor(this, R.color.update_submit)
         cureHealthCareApp = this.application as CureHealthCareApplication
         mBinding.priceLayout.visibility = View.GONE
-        if(preferences.productList!!.isNotEmpty()){
+        if (preferences.productList!!.isNotEmpty()) {
             productListLiveData.clear()
             preferences.productList!!.forEach {
                 productListLiveData.add(it!!)
-                productPrice += getAmount( it.salePrice)*it.productCount!!
+                productPrice += getAmount(it.salePrice) * it.productCount!!
             }
             showOrHideBadge()
             mBinding.priceLayout.visibility = View.VISIBLE
@@ -58,13 +60,13 @@ class CureHealthCareActivity : BaseActivity<ActivityCureHealthCareBinding>(R.lay
             mBinding.totalItemCount = itemCount.toString()
             mBinding.totalPriceCount = productPrice.toString()
         }
-        if(preferences.companyList!!.isNotEmpty()){
+        if (preferences.companyList!!.isNotEmpty()) {
             companyListLiveData.clear()
             preferences.companyList!!.forEach {
                 companyListLiveData.add(it!!)
             }
         }
-        if(preferences.formList!!.isNotEmpty()){
+        if (preferences.formList!!.isNotEmpty()) {
             formListLiveData.clear()
             preferences.formList!!.forEach {
                 formListLiveData.add(it!!)
@@ -75,12 +77,12 @@ class CureHealthCareActivity : BaseActivity<ActivityCureHealthCareBinding>(R.lay
         mNavController.addOnDestinationChangedListener { _, destination, _ ->
             val selectId = destination.id
 
-            if(PRICE_LAYOUT_NOT_SHOWING.contains(selectId)){
+            if (PRICE_LAYOUT_NOT_SHOWING.contains(selectId)) {
                 mBinding.priceLayout.visibility = View.GONE
-            }else{
-                if(productListLiveData.isNotEmpty()){
+            } else {
+                if (productListLiveData.isNotEmpty()) {
                     mBinding.priceLayout.visibility = View.VISIBLE
-                }else{
+                } else {
                     mBinding.priceLayout.visibility = View.GONE
                 }
             }
@@ -88,13 +90,13 @@ class CureHealthCareActivity : BaseActivity<ActivityCureHealthCareBinding>(R.lay
     }
 
     override fun onStop() {
-        if(productListLiveData.isNotEmpty()){
-            preferences.productList = productListLiveData.toMutableList()
-        }
-        if(companyListLiveData.isNotEmpty()){
+
+        preferences.productList = productListLiveData.toMutableList()
+
+        if (companyListLiveData.isNotEmpty()) {
             preferences.companyList = companyListLiveData.toMutableList()
         }
-        if(formListLiveData.isNotEmpty()){
+        if (formListLiveData.isNotEmpty()) {
             preferences.formList = formListLiveData.toMutableList()
         }
         super.onStop()
@@ -106,7 +108,7 @@ class CureHealthCareActivity : BaseActivity<ActivityCureHealthCareBinding>(R.lay
         return navHostFragment!!.childFragmentManager.backStackEntryCount
     }
 
-    companion object{
+    companion object {
         private val TOP_LEVEL_DESTINATIONS = setOf(
             R.id.homeFragment,
             R.id.trendingFragment,
@@ -115,13 +117,10 @@ class CureHealthCareActivity : BaseActivity<ActivityCureHealthCareBinding>(R.lay
             R.id.profileFragment
         )
         private val PRICE_LAYOUT_NOT_SHOWING = setOf(
-            R.id.cartFragment,
-            R.id.filter_fragment
+            R.id.cartFragment, R.id.filter_fragment
         )
         val BACK_STACK_NOT_ENTRY = setOf(
-            R.id.filter_fragment,
-            R.id.search_fragment,
-            R.id.notification_fragment
+            R.id.filter_fragment, R.id.search_fragment, R.id.notification_fragment
         )
     }
 
@@ -130,7 +129,7 @@ class CureHealthCareActivity : BaseActivity<ActivityCureHealthCareBinding>(R.lay
         mBinding.totalPriceCount = productPrice.toString()
         var bool = false
         productListLiveData.forEach {
-            if(it.id == data.id){
+            if (it.id == data.id) {
                 bool = true
                 it.productCount = data.productCount
                 live.postValue(Event(Unit))
@@ -138,25 +137,25 @@ class CureHealthCareActivity : BaseActivity<ActivityCureHealthCareBinding>(R.lay
             }
         }
 
-        if(!bool){
+        if (!bool) {
             productListLiveData.add(data)
             itemCount = productListLiveData.size
             mBinding.totalItemCount = itemCount.toString()
         }
-        if(productListLiveData.isNotEmpty()) mBinding.priceLayout.visibility = View.VISIBLE
+        if (productListLiveData.isNotEmpty()) mBinding.priceLayout.visibility = View.VISIBLE
     }
 
-    override fun decreaseItem(data: ProductData,position : Int,isDelete : Boolean) {
-        productPrice -= if(isDelete){
-            getAmount(data.salePrice)* position
-        }else{
+    override fun decreaseItem(data: ProductData, position: Int, isDelete: Boolean) {
+        productPrice -= if (isDelete) {
+            getAmount(data.salePrice) * position
+        } else {
             getAmount(data.salePrice)
         }
         mBinding.totalPriceCount = productPrice.toString()
-        var id  =  -1
-        if(data.productCount == 0){
+        var id = -1
+        if (data.productCount == 0) {
             productListLiveData.forEachIndexed { index, productData ->
-                if(productData.id == data.id){
+                if (productData.id == data.id) {
                     id = index
                     productData.productCount = data.productCount
                     live.postValue(Event(Unit))
@@ -166,12 +165,14 @@ class CureHealthCareActivity : BaseActivity<ActivityCureHealthCareBinding>(R.lay
             productListLiveData.removeAt(id)
             itemCount = productListLiveData.size
             mBinding.totalItemCount = itemCount.toString()
-            if(productListLiveData.size == 0) mBinding.priceLayout.visibility = View.GONE
+            if (productListLiveData.size == 0) mBinding.priceLayout.visibility = View.GONE
 
-            showBadge(this, mBinding.bottomNavView, R.id.cartFragment, productListLiveData.size.toString())
-        }else{
+            showBadge(
+                this, mBinding.bottomNavView, R.id.cartFragment, productListLiveData.size.toString()
+            )
+        } else {
             productListLiveData.forEach {
-                if(it.id == data.id){
+                if (it.id == data.id) {
                     it.productCount = data.productCount
                     live.postValue(Event(Unit))
                     return@forEach
@@ -182,7 +183,7 @@ class CureHealthCareActivity : BaseActivity<ActivityCureHealthCareBinding>(R.lay
     }
 
     fun showOrHideBadge() {
-        val badge : Int  = productListLiveData.size
+        val badge: Int = productListLiveData.size
         if (badge > 0) {
             showBadge(this, mBinding.bottomNavView, R.id.cartFragment, badge.toString())
         } else {

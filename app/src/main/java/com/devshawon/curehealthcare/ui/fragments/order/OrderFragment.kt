@@ -25,10 +25,14 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class OrderFragment: BaseFragment<FragmentOrderBinding>(R.layout.fragment_order) {
+
+    override fun haveToolbar(): Boolean = true
+    override fun resToolbarId(): Int = R.id.toolbar
+
     @Inject
     lateinit var viewModelFactory: AppViewModelFactory
     private val homeViewModel: HomeViewModel by navGraphViewModels(R.id.cure_health_care_nav_host_xml) { viewModelFactory }
-    lateinit var orderAdapter : OrderAdapter
+    private lateinit var orderAdapter : OrderAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         homeViewModel.resetData()
@@ -86,7 +90,10 @@ class OrderFragment: BaseFragment<FragmentOrderBinding>(R.layout.fragment_order)
                 backToHome()
             }
         }
-
         activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner,callBack)
+
+        mBinding.toolbar.setNavigationOnClickListener {
+            backToHome()
+        }
     }
 }

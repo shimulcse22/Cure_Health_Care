@@ -66,6 +66,10 @@ class SearchFragment : BaseFragment<SearchFragmentBinding>(R.layout.search_fragm
             }
         })
 
+        mBinding.toolbar.setNavigationOnClickListener {
+            backToHome()
+        }
+
 
         mBinding.searchView.setOnQueryTextListener(
             DebouncingQueryTextListener(

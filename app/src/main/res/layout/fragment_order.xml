@@ -36,7 +36,7 @@
                 android:importantForAccessibility="yes"
                 app:layout_collapseMode="pin"
                 app:navigationIcon="@drawable/back_icon"
-                app:title="@string/filter" />
+                app:title="@string/order" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
