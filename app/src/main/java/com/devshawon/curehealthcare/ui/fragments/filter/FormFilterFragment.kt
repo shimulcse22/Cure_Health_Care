@@ -3,6 +3,9 @@ package com.devshawon.curehealthcare.ui.fragments.filter
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.coroutineScope
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -17,6 +20,8 @@ import com.devshawon.curehealthcare.ui.CureHealthCareActivity
 import com.devshawon.curehealthcare.ui.fragments.HomeViewModel
 import com.devshawon.curehealthcare.useCase.result.Event
 import com.devshawon.curehealthcare.useCase.result.EventObserver
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -68,6 +73,30 @@ class FormFilterFragment : BaseFragment<FormFilterFragmentBinding>(R.layout.form
             if(it.checkBox == true){
                 preferences.formList?.add(it.id.toString())
             }
+        }
+    }
+
+    internal class DebouncingQueryTextListener(
+        lifecycle: Lifecycle,
+        private val onDebouncingQueryTextChange: (String?) -> Unit
+    ) : SearchView.OnQueryTextListener {
+        private var debouncePeriod: Long = 500
+        private val coroutineScope = lifecycle.coroutineScope
+        private var searchJob: Job? = null
+
+        override fun onQueryTextSubmit(query: String?): Boolean {
+            return false
+        }
+
+        override fun onQueryTextChange(newText: String?): Boolean {
+            searchJob?.cancel()
+            searchJob = coroutineScope.launch {
+                newText?.let {
+                    delay(debouncePeriod)
+                    onDebouncingQueryTextChange(newText)
+                }
+            }
+            return false
         }
     }
 }

@@ -1,13 +1,16 @@
 package com.devshawon.curehealthcare.ui.fragments.filter
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.coroutineScope
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.devshawon.curehealthcare.R
 import com.devshawon.curehealthcare.base.ui.BaseFragment
 import com.devshawon.curehealthcare.dagger.viewModel.AppViewModelFactory
@@ -18,8 +21,9 @@ import com.devshawon.curehealthcare.ui.CureHealthCareActivity
 import com.devshawon.curehealthcare.ui.fragments.HomeViewModel
 import com.devshawon.curehealthcare.useCase.result.Event
 import com.devshawon.curehealthcare.useCase.result.EventObserver
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.util.Collections
 import javax.inject.Inject
 
 class CompanyFilterFragment :
@@ -29,6 +33,8 @@ class CompanyFilterFragment :
     lateinit var viewModelFactory: AppViewModelFactory
     private val viewModel: HomeViewModel by navGraphViewModels(R.id.cure_health_care_nav_host_xml) { viewModelFactory }
     lateinit var adapter: SingleItemAdapter
+
+    private var companyList = ArrayList<Form>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,14 +49,35 @@ class CompanyFilterFragment :
 
         mBinding.companyFilterRecyclerViewAll.adapter = adapter
         mBinding.companyFilterRecyclerViewAll.itemAnimator = DefaultItemAnimator()
-        mBinding.companyFilterRecyclerViewAll.layoutManager =
-            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        mBinding.companyFilterRecyclerViewAll.layoutManager = WrapContentLinearLayoutManager()
+            //LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
         viewModel.companyOrFormEvent.observe(viewLifecycleOwner, EventObserver {
             if (it == Status.SUCCESS.name) {
-                adapter.updateList(viewModel.companyList)
+                companyList = viewModel.companyList
+                adapter.updateList(companyList)
             }
         })
+
+        mBinding.searchView.setOnQueryTextListener(
+            DebouncingQueryTextListener(
+                requireActivity().lifecycle
+            ) { newText ->
+                newText?.let {
+                    if (it.isNotEmpty()) {
+                        val filter = viewModel.companyList.filter {d->
+                            d.name?.contains(it,ignoreCase = true)!! || d.checkBox == true
+                        }
+                        companyList = filter as ArrayList<Form>
+                        adapter.updateList(companyList)
+                        mBinding.companyFilterRecyclerViewAll.itemAnimator = null
+                    }else{
+                        adapter.updateList(viewModel.companyList)
+                        mBinding.companyFilterRecyclerViewAll.itemAnimator = DefaultItemAnimator()
+                    }
+                }
+            }
+        )
 
        SingleItemAdapter.execute = { form: Form, i: Int ,isSelected :Boolean->
            mBinding.companyFilterRecyclerViewAll.postDelayed({
@@ -75,5 +102,42 @@ class CompanyFilterFragment :
             }
         }
         Log.d("THE PROCESS IS ","${preferences.companyList}  and ${(activity as CureHealthCareActivity).companyListLiveData}")
+    }
+
+    internal class DebouncingQueryTextListener(
+        lifecycle: Lifecycle,
+        private val onDebouncingQueryTextChange: (String?) -> Unit
+    ) : SearchView.OnQueryTextListener {
+        private var debouncePeriod: Long = 500
+        private val coroutineScope = lifecycle.coroutineScope
+        private var searchJob: Job? = null
+
+        override fun onQueryTextSubmit(query: String?): Boolean {
+            return false
+        }
+
+        override fun onQueryTextChange(newText: String?): Boolean {
+            searchJob?.cancel()
+            searchJob = coroutineScope.launch {
+                newText?.let {
+                    delay(debouncePeriod)
+                    onDebouncingQueryTextChange(newText)
+                }
+            }
+            return false
+        }
+    }
+
+    inner class WrapContentLinearLayoutManager :
+        LinearLayoutManager(requireContext(), VERTICAL, false) {
+        override fun onLayoutChildren(
+            recycler: RecyclerView.Recycler?, state: RecyclerView.State?
+        ) {
+            try {
+                super.onLayoutChildren(recycler, state)
+            } catch (_: IndexOutOfBoundsException) {
+
+            }
+        }
     }
 }

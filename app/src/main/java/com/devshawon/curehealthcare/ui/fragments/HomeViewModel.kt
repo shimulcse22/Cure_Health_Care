@@ -112,7 +112,7 @@ class HomeViewModel @Inject constructor(
 
 
     val companyRequest = MutableLiveData<Event<String>>()
-    val companyList = ArrayList<Form>()
+    var companyList = ArrayList<Form>()
     val companyOrFormEvent = MutableLiveData<Event<String>>()
     val companyResponse : LiveData<Resource<CompanyResponse>> = companyRequest.switchMap {
         repository.getCompany(it.peekContent())

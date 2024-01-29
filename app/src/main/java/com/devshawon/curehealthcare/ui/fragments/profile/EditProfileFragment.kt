@@ -14,9 +14,12 @@ import com.devshawon.curehealthcare.models.UpdateProfileRequest
 import com.devshawon.curehealthcare.ui.fragments.HomeViewModel
 import com.devshawon.curehealthcare.useCase.result.Event
 import com.devshawon.curehealthcare.useCase.result.EventObserver
+import com.devshawon.curehealthcare.util.navigateUp
 import javax.inject.Inject
 
 class EditProfileFragment : BaseFragment<EditProfileFragmentBinding>(R.layout.edit_profile_fragment) {
+    override fun haveToolbar(): Boolean  = true
+    override fun resToolbarId(): Int  = R.id.toolbar
     @Inject
     lateinit var viewModelFactory: AppViewModelFactory
     private val homeViewModel: HomeViewModel by navGraphViewModels(R.id.cure_health_care_nav_host_xml) { viewModelFactory }
@@ -51,5 +54,9 @@ class EditProfileFragment : BaseFragment<EditProfileFragmentBinding>(R.layout.ed
         homeViewModel.updateProfileEvent.observe(viewLifecycleOwner,EventObserver{
             Toast.makeText(requireContext(),it,Toast.LENGTH_LONG).show()
         })
+
+        mBinding.toolbar.setNavigationOnClickListener {
+            navigateUp()
+        }
     }
 }

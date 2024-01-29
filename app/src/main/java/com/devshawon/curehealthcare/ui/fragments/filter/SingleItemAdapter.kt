@@ -1,5 +1,6 @@
 package com.devshawon.curehealthcare.ui.fragments.filter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
@@ -45,9 +46,11 @@ class SingleItemAdapter(private val context : Context) : RecyclerView.Adapter<Re
     }
 
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateList(form: ArrayList<Form>){
         list = form
         notifyItemRangeChanged(0,form.size)
+        notifyDataSetChanged()
     }
 
     companion object{
