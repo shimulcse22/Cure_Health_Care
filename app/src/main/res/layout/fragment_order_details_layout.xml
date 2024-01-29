@@ -80,28 +80,30 @@
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/order_id_title"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_12ssp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias=".1"
+                    android:layout_marginStart="@dimen/_17sdp"
+                    android:layout_marginEnd="@dimen/_12sdp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="@string/reset" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/order_time"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_3sdp"
                     android:layout_marginBottom="@dimen/_3sdp"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_10ssp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias=".1"
+                    android:layout_marginStart="@dimen/_17sdp"
+                    android:layout_marginEnd="@dimen/_12sdp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/order_id_title"
                     tools:text="@string/reset" />
@@ -117,7 +119,8 @@
                     android:textSize="@dimen/_10ssp"
                     app:layout_constraintBottom_toTopOf="@id/estimated"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias=".1"
+                    app:layout_constraintHorizontal_bias="0"
+                    android:layout_marginStart="@dimen/_17sdp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/order_time" />
 
@@ -135,7 +138,8 @@
                     android:textSize="@dimen/_10ssp"
                     app:layout_constraintBottom_toBottomOf="@id/order_status"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias=".9"
+                    app:layout_constraintHorizontal_bias="1"
+                    android:layout_marginEnd="@dimen/_12sdp"
                     app:layout_constraintStart_toEndOf="@+id/order_status"
                     app:layout_constraintTop_toTopOf="@id/order_status" />
 
@@ -148,7 +152,8 @@
                     android:text="@string/estimated_delivery"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias=".1"
+                    app:layout_constraintHorizontal_bias="0"
+                    android:layout_marginStart="@dimen/_17sdp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/order_status" />
 
@@ -168,7 +173,8 @@
                     android:textSize="@dimen/_10ssp"
                     app:layout_constraintBottom_toBottomOf="@id/estimated"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias=".9"
+                    app:layout_constraintHorizontal_bias="1"
+                    android:layout_marginEnd="@dimen/_12sdp"
                     app:layout_constraintStart_toEndOf="@+id/estimated"
                     app:layout_constraintTop_toTopOf="@id/estimated" />
             </androidx.constraintlayout.widget.ConstraintLayout>

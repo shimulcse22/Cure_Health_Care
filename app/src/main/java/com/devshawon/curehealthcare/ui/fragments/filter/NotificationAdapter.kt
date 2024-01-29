@@ -10,6 +10,9 @@ import com.devshawon.curehealthcare.R
 import com.devshawon.curehealthcare.databinding.NotificationListItemDataBinding
 import com.devshawon.curehealthcare.models.NotificationResponseData
 import com.devshawon.curehealthcare.useCase.result.Event
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 
 class NotificationAdapter(private val context: Context) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -40,7 +43,7 @@ class NotificationAdapter(private val context: Context) :
                 list[position].let {
                     headerTitle.text = it.name
                     subHeaderTitle.text = it.description
-                    dateTitle.text = it.createdAt
+                    dateTitle.text = dateToHowManyAgo(it.createdAt?.replace(".000000Z","",false)!!)
                     if(it.status == "Unread"){
                         if(count == 0){
                             count = 1
@@ -63,5 +66,34 @@ class NotificationAdapter(private val context: Context) :
     fun updateMoreData(list : ArrayList<NotificationResponseData>){
         this.list.addAll(list)
         notifyItemRangeChanged(this.list.size,list.size)
+    }
+
+    fun dateToHowManyAgo(stringDate: String): String {
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
+        val currDate = LocalDateTime.now()
+        val pastDate = LocalDateTime.parse(stringDate, formatter)
+        val diffSeconds = ChronoUnit.SECONDS.between(pastDate, currDate)
+
+        if (diffSeconds < 60)
+            return "$diffSeconds second${if (diffSeconds != 1L) "s" else ""} ago"
+
+        val diffMinutes = diffSeconds / 60
+        if (diffMinutes < 60)
+            return "$diffMinutes minute${if (diffMinutes != 1L) "s" else ""} ago"
+
+        val diffHours = diffMinutes / 60
+        if (diffHours < 24)
+            return "$diffHours hour${if (diffHours != 1L) "s" else ""} ago"
+
+        val diffDays = diffHours / 24
+        if (diffDays < 30)
+            return "$diffDays day${if (diffDays != 1L) "s" else ""} ago"
+
+        val diffMonths = diffDays / 30
+        if (diffMonths < 12)
+            return "$diffMonths month${if (diffMonths != 1L) "s" else ""} ago"
+
+        val diffYears = diffMonths / 12
+        return "$diffYears year${if (diffYears != 1L) "s" else ""} ago"
     }
 }
