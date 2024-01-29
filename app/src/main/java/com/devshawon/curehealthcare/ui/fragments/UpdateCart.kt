@@ -4,5 +4,5 @@ import com.devshawon.curehealthcare.models.ProductData
 
 interface UpdateCart {
     fun inCreaseItem(data : ProductData)
-    fun decreaseItem(data : ProductData,position : Int)
+    fun decreaseItem(data : ProductData,position : Int,isDelete : Boolean)
 }

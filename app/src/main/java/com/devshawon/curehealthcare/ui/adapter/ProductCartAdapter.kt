@@ -110,15 +110,15 @@ class ProductCartAdapter (private val onItemClick : OnItemClick) : RecyclerView.
                 minusIcon.setOnClickListener {
                     binding.data = ((getInt(binding.data) - 1)).toString()
                     if (getInt(binding.data) == 0) {
-                        removeItem(this,position)
+                        removeItem(this,position,false)
                         return@setOnClickListener
                     }
                     productList[position].productCount = productList[position].productCount!! - 1
-                    onItemClick.onMinusIconClick(productList[position],position)
+                    onItemClick.onMinusIconClick(productList[position],position,false)
                     executePendingBindings()
                 }
                 deleteIcon.setOnClickListener {
-                    removeItem(this,position)
+                    removeItem(this,position,true)
                 }
             }
         }
@@ -136,9 +136,10 @@ class ProductCartAdapter (private val onItemClick : OnItemClick) : RecyclerView.
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private fun removeItem(binding : ListItemMedicineBinding, position: Int){
+    private fun removeItem(binding : ListItemMedicineBinding, position: Int,isDelete: Boolean){
+        val count = productList[position].productCount
         productList[position].productCount = 0
-        onItemClick.onMinusIconClick(productList[position],position)
+        onItemClick.onMinusIconClick(productList[position],count?:0,isDelete)
         productList.removeAt(position)
         notifyItemRemoved(position)
         notifyItemRangeChanged(position, productList.size)

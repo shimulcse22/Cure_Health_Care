@@ -112,13 +112,13 @@ class SearchFragment : BaseFragment<SearchFragmentBinding>(R.layout.search_fragm
     override fun onPlusIconClick(item: ProductData) {
         viewModel.productCount.value = viewModel.productCount.value ?: (0 + 1)
         (activity as UpdateCart).inCreaseItem(item)
-        (activity as CureHealthCareActivity).showOrHideBadge(0)
+        (activity as CureHealthCareActivity).showOrHideBadge()
     }
 
-    override fun onMinusIconClick(item: ProductData, position: Int) {
+    override fun onMinusIconClick(item: ProductData, position: Int,isDelete : Boolean) {
         viewModel.productCount.value = viewModel.productCount.value ?: (0 - 1)
-        (activity as UpdateCart).decreaseItem(item,position)
-        (activity as CureHealthCareActivity).showOrHideBadge(0)
+        (activity as UpdateCart).decreaseItem(item,position,isDelete)
+        (activity as CureHealthCareActivity).showOrHideBadge()
     }
 
     inner class WrapContentLinearLayoutManager :

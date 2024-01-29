@@ -1,11 +1,9 @@
 package com.devshawon.curehealthcare.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
-import androidx.core.view.get
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -14,7 +12,6 @@ import com.devshawon.curehealthcare.R
 import com.devshawon.curehealthcare.base.ui.BaseActivity
 import com.devshawon.curehealthcare.dagger.viewModel.AppViewModelFactory
 import com.devshawon.curehealthcare.databinding.ActivityCureHealthCareBinding
-import com.devshawon.curehealthcare.models.Form
 import com.devshawon.curehealthcare.models.ProductData
 import com.devshawon.curehealthcare.ui.fragments.HomeViewModel
 import com.devshawon.curehealthcare.ui.fragments.UpdateCart
@@ -36,13 +33,12 @@ class CureHealthCareActivity : BaseActivity<ActivityCureHealthCareBinding>(R.lay
     var productListActivity : ArrayList<ProductData> = arrayListOf()
     val companyListLiveData : MutableList<String?> = mutableListOf()
     val formListLiveData : MutableList<String?> = mutableListOf()
-    val productId : ArrayList<Int> = arrayListOf()
     var productPrice : Double = 0.00
     var itemCount : Int = 0
     val live  = MutableLiveData<Event<Unit>>()
 
     var item : Int = -1
-    val mNavController by lazy { (supportFragmentManager.findFragmentById(R.id.cureHealthCareNavHostFragment) as NavHostFragment).navController }
+    private val mNavController by lazy { (supportFragmentManager.findFragmentById(R.id.cureHealthCareNavHostFragment) as NavHostFragment).navController }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBinding.lifecycleOwner = this
@@ -56,7 +52,7 @@ class CureHealthCareActivity : BaseActivity<ActivityCureHealthCareBinding>(R.lay
                 productListLiveData.add(it!!)
                 productPrice += getAmount( it.salePrice)*it.productCount!!
             }
-            showOrHideBadge(0)
+            showOrHideBadge()
             mBinding.priceLayout.visibility = View.VISIBLE
             itemCount = productListLiveData.size
             mBinding.totalItemCount = itemCount.toString()
@@ -150,8 +146,12 @@ class CureHealthCareActivity : BaseActivity<ActivityCureHealthCareBinding>(R.lay
         if(productListLiveData.isNotEmpty()) mBinding.priceLayout.visibility = View.VISIBLE
     }
 
-    override fun decreaseItem(data: ProductData,position : Int) {
-        productPrice -= getAmount(data.salePrice)
+    override fun decreaseItem(data: ProductData,position : Int,isDelete : Boolean) {
+        productPrice -= if(isDelete){
+            getAmount(data.salePrice)* position
+        }else{
+            getAmount(data.salePrice)
+        }
         mBinding.totalPriceCount = productPrice.toString()
         var id  =  -1
         if(data.productCount == 0){
@@ -181,7 +181,7 @@ class CureHealthCareActivity : BaseActivity<ActivityCureHealthCareBinding>(R.lay
         }
     }
 
-    fun showOrHideBadge(count: Int) {
+    fun showOrHideBadge() {
         val badge : Int  = productListLiveData.size
         if (badge > 0) {
             showBadge(this, mBinding.bottomNavView, R.id.cartFragment, badge.toString())

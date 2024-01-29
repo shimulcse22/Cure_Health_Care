@@ -35,7 +35,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:navigationIcon="@drawable/ic_icon_user_home"
+                    app:navigationIcon="@drawable/back_icon"
                     app:title="Notification"
                     app:titleTextColor="@color/semi_dal_blue" />
 

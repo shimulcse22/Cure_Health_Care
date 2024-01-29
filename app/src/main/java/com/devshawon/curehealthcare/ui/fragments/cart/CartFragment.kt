@@ -1,7 +1,6 @@
 package com.devshawon.curehealthcare.ui.fragments.cart
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.MutableLiveData
@@ -35,7 +34,7 @@ class CartFragment : BaseFragment<FragmentCartBinding>(R.layout.fragment_cart), 
     private val homeViewModel: HomeViewModel by navGraphViewModels(R.id.cure_health_care_nav_host_xml) { viewModelFactory }
 
     private lateinit var productAdapter: ProductCartAdapter
-    var productList = MutableLiveData<ArrayList<ProductData>>()
+    private var productList = MutableLiveData<ArrayList<ProductData>>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,7 +88,7 @@ class CartFragment : BaseFragment<FragmentCartBinding>(R.layout.fragment_cart), 
                 }
                 data.clear()
                 visibility()
-                (activity as CureHealthCareActivity).showOrHideBadge(0)
+                (activity as CureHealthCareActivity).showOrHideBadge()
                 preferences.productList = mutableListOf()
                 showDialog {
                     setTitle(getString(R.string.success))
@@ -139,7 +138,7 @@ class CartFragment : BaseFragment<FragmentCartBinding>(R.layout.fragment_cart), 
         }
 
         (activity as UpdateCart).inCreaseItem(item)
-        (activity as CureHealthCareActivity).showOrHideBadge(0)
+        (activity as CureHealthCareActivity).showOrHideBadge()
         mBinding.uniqueItemCount.text = (activity as CureHealthCareActivity).itemCount.toString()
         mBinding.totalAmountCount.text =
             (activity as CureHealthCareActivity).productPrice.toString()
@@ -153,17 +152,17 @@ class CartFragment : BaseFragment<FragmentCartBinding>(R.layout.fragment_cart), 
         activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner,callBack)
     }
 
-    override fun onMinusIconClick(item: ProductData, position: Int) {
+    override fun onMinusIconClick(item: ProductData, position: Int,isDelete : Boolean) {
         homeViewModel.productCount.value = homeViewModel.productCount.value ?: (0 - 1)
-        (activity as CureHealthCareActivity).productListActivity.forEachIndexed { index, productData ->
+        (activity as CureHealthCareActivity).productListActivity.forEachIndexed { _, productData ->
             if (productData.id == item.id) {
                 productData.productCount = item.productCount
                 return@forEachIndexed
             }
         }
 
-        (activity as UpdateCart).decreaseItem(item, position)
-        (activity as CureHealthCareActivity).showOrHideBadge(0)
+        (activity as UpdateCart).decreaseItem(item, position,isDelete)
+        (activity as CureHealthCareActivity).showOrHideBadge()
     }
 
     private fun visibility(){

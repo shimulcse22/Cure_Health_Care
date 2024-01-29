@@ -118,11 +118,11 @@ class ProductAdapter(private val onItemClick: OnItemClick) :
                 minusIcon.setOnClickListener {
                     binding.data = ((getInt(binding.data) - 1)).toString()
                     if (getInt(binding.data) == 0) {
-                        removeItem(this,position)
+                        removeItem(this,position,false)
                         return@setOnClickListener
                     }
                     productList[position].productCount = productList[position].productCount!! - 1
-                    onItemClick.onMinusIconClick(productList[position],position)
+                    onItemClick.onMinusIconClick(productList[position],position,false)
                     if(getInt( binding.data) <= getInt( productList[position].productLimits)){
                         plusIcon.setBackgroundResource(R.drawable.plus_icon_background)
                         plusIcon.isClickable = true
@@ -133,7 +133,7 @@ class ProductAdapter(private val onItemClick: OnItemClick) :
                 deleteIcon.setOnClickListener {
                     plusIcon.setBackgroundResource(R.drawable.plus_icon_background)
                     plusIcon.isClickable = true
-                    removeItem(this,position)
+                    removeItem(this,position,true)
                 }
             }
         }
@@ -161,12 +161,13 @@ class ProductAdapter(private val onItemClick: OnItemClick) :
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private fun removeItem(binding : ListItemMedicineBinding, position: Int){
+    private fun removeItem(binding : ListItemMedicineBinding, position: Int,isDelete : Boolean){
         binding.data = ""
         binding.minusIcon.visibility = View.INVISIBLE
         binding.deleteIcon.visibility = View.INVISIBLE
         binding.numberTitle.visibility = View.INVISIBLE
+        val count = productList[position].productCount
         productList[position].productCount = 0
-        onItemClick.onMinusIconClick(productList[position],position)
+        onItemClick.onMinusIconClick(productList[position],count?:0,isDelete)
     }
 }

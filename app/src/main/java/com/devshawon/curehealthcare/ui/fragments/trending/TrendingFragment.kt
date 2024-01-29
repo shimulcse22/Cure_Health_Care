@@ -1,11 +1,9 @@
 package com.devshawon.curehealthcare.ui.fragments.trending
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.Navigation
 import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -66,7 +64,6 @@ class TrendingFragment : BaseFragment<FragmentTrendingBinding>(R.layout.fragment
         mBinding.trending.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 if (!recyclerView.canScrollVertically(1) ) {
-                    Log.d("THE DATA IS ^#^&^^","${homeViewModel.trendingPageCount.value}")
                     homeViewModel.trendingRequest.postValue(
                         Event(
                             homeViewModel.trendingPageCount.value!! + 1
@@ -89,13 +86,13 @@ class TrendingFragment : BaseFragment<FragmentTrendingBinding>(R.layout.fragment
     override fun onPlusIconClick(item: ProductData) {
         homeViewModel.productCount.value = homeViewModel.productCount.value ?: (0 + 1)
         (activity as UpdateCart).inCreaseItem(item)
-        (activity as CureHealthCareActivity).showOrHideBadge(0)
+        (activity as CureHealthCareActivity).showOrHideBadge()
     }
 
-    override fun onMinusIconClick(item: ProductData,position: Int) {
+    override fun onMinusIconClick(item: ProductData,position: Int,isDelete : Boolean) {
         homeViewModel.productCount.value = homeViewModel.productCount.value ?: (0 - 1)
-        (activity as UpdateCart).decreaseItem(item,position)
-        (activity as CureHealthCareActivity).showOrHideBadge(0)
+        (activity as UpdateCart).decreaseItem(item,position,isDelete)
+        (activity as CureHealthCareActivity).showOrHideBadge()
     }
 
     inner class WrapContentLinearLayoutManager :

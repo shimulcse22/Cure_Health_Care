@@ -27,6 +27,7 @@
                 android:focusableInTouchMode="true"
                 android:importantForAccessibility="yes"
                 app:layout_collapseMode="pin"
+                app:navigationIcon="@drawable/back_icon"
                 app:title="@string/filter" />
 
         </com.google.android.material.appbar.AppBarLayout>
