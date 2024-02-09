@@ -30,6 +30,8 @@ class FormFilterFragment : BaseFragment<FormFilterFragmentBinding>(R.layout.form
     private val viewModel: HomeViewModel by navGraphViewModels(R.id.cure_health_care_nav_host_xml) { viewModelFactory }
     lateinit var adapter: SingleItemAdapterForm
 
+    private var formList = ArrayList<Form>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         lifecycleScope.launch {
@@ -49,34 +51,52 @@ class FormFilterFragment : BaseFragment<FormFilterFragmentBinding>(R.layout.form
         viewModel.formEvent.observe(viewLifecycleOwner, EventObserver {
             preferences.formList?.toMutableList()?.let { it1 -> (activity as CureHealthCareActivity).formListLiveData.addAll(it1) }
             if (it == Status.SUCCESS.name) {
-                adapter.updateList(viewModel.formList)
+                formList = viewModel.formList
+                adapter.updateList(formList)
             }
         })
 
+        mBinding.searchView.setOnQueryTextListener(DebouncingQueryTextListener(
+                requireActivity().lifecycle
+            ) { newText ->
+                newText?.let {
+                    if (it.isNotEmpty()) {
+                        val filter = viewModel.formList.filter { d ->
+                            d.name?.startsWith(it, ignoreCase = true)!! || d.checkBox == true
+                        }
+                        formList = filter as ArrayList<Form>
+                        adapter.updateList(formList)
+                        mBinding.companyFilterRecyclerViewAll.itemAnimator = null
+                    } else {
+                        formList = viewModel.formList
+                        adapter.updateList(viewModel.formList)
+                        mBinding.companyFilterRecyclerViewAll.itemAnimator = DefaultItemAnimator()
+                    }
+                }
+            }
+        )
+
         SingleItemAdapterForm.execute = { form: Form, i: Int, isSelected :Boolean->
-            mBinding.companyFilterRecyclerViewAll.postDelayed({
-                viewModel.formList.removeAt(i)
+            mBinding.companyFilterRecyclerViewAll.postDelayed({var id = 0
+                var find = false
+                viewModel.formList.forEachIndexed { index, data ->
+                    if(data.id == form.id){
+                        id = index
+                        find = true
+                    }
+                }
+                if(find) viewModel.formList.removeAt(id)
                 if(isSelected){
                     viewModel.formList.add(0,form)
-                    //form.id?.let { (activity as CureHealthCareActivity).formListLiveData.add(it.toString()) }
                 }else{
                     viewModel.formList.add(viewModel.formList.size,form)
-                    //if((activity as CureHealthCareActivity).formListLiveData.contains(id.toString())) (activity as CureHealthCareActivity).formListLiveData.remove(form.id.toString())
                 }
-                adapter.updateList(viewModel.formList)
+                formList = viewModel.formList
+                adapter.updateList(formList)
             }, 100)
         }
     }
 
-    override fun onDestroyView() {
-        (activity as CureHealthCareActivity).formListLiveData.clear()
-        viewModel.formList.forEach {
-            if(it.checkBox == true){
-                (activity as CureHealthCareActivity).formListLiveData.add(it.id.toString())
-            }
-        }
-        super.onDestroyView()
-    }
 
     internal class DebouncingQueryTextListener(
         lifecycle: Lifecycle,

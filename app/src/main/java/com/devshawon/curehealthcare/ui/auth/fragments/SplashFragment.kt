@@ -29,6 +29,11 @@ class SplashFragment : BaseFragment<SplashFragmentBinding>(R.layout.splash_fragm
     override fun haveToolbar(): Boolean {
         return false
     }
+
+    override fun resToolbarId(): Int {
+        return 0
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mBinding.viewModel = viewModel

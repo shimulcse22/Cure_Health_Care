@@ -23,21 +23,21 @@ class LoginFragment : BaseFragment<LoginFragmentLayoutBinding>(R.layout.login_fr
     @Inject
     lateinit var viewModelFactory: AppViewModelFactory
     private val viewModel: AuthViewModel by navGraphViewModels(R.id.auth_nav_graph) { viewModelFactory }
-
     override fun haveToolbar(): Boolean {
         return false
+    }
+
+    override fun resToolbarId(): Int {
+        return 0
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mBinding.viewModel = viewModel
         viewModel.loader.value = false
+        viewModel.phone.value = ""
 
         mBinding.loginBtn.setOnClickListener {
             viewModel.loader.value = true
-            lifecycleScope.launch {
-                //mBinding.loadingStateProgressCircular.visibility = View.VISIBLE
-            }
-
             viewModel.loginRequest.postValue(
                 LoginRequest(
                     phone = "01677732635", password = "995633"
@@ -66,6 +66,10 @@ class LoginFragment : BaseFragment<LoginFragmentLayoutBinding>(R.layout.login_fr
 
         mBinding.registerBtn.setOnClickListener {
             navigate(LoginFragmentDirections.actionLoginFragmentToRegistrationFragment())
+        }
+
+        mBinding.forgotPasswordBtn.setOnClickListener {
+            navigate(LoginFragmentDirections.actionLoginFragmentToForgotFragment())
         }
     }
 }

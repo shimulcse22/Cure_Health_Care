@@ -72,4 +72,7 @@
     <string name="estimated_delivery">Estimated Delivery</string>
     <string name="order">Order</string>
     <string name="back_to_home">Go Back</string>
+    <string name="back_to_login">Back to Login</string>
+    <string name="phone">Phone</string>
+    <string name="forgot_password_1">Forgot Password</string>
 </resources>

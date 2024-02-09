@@ -7,128 +7,133 @@
             name="viewModel"
             type="com.devshawon.curehealthcare.ui.auth.AuthViewModel"/>
     </data>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/first_page_background">
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/circular_image"
-            android:layout_width="@dimen/_100sdp"
-            android:layout_height="@dimen/_100sdp"
-            android:background="@drawable/circular_white_background"
-            android:padding="@dimen/_12sdp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias=".4"
-            app:srcCompat="@drawable/logo" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/order_medicine_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_15sdp"
-            android:text="@string/order_medicines"
-            android:textColor="@color/white"
-            android:textSize="@dimen/_20ssp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias=".2"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/circular_image" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/quickly_text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_40sdp"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:drawableStart="@drawable/circular_background_white_small"
-            android:drawablePadding="@dimen/_7sdp"
-            android:text="@string/quickly"
-            android:textColor="@color/white"
-            android:textSize="@dimen/_11ssp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/order_medicine_text" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/in_bulk_text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:drawableStart="@drawable/circular_background_white_small"
-            android:drawablePadding="@dimen/_7sdp"
-            android:text="@string/order_medicines"
-            android:textColor="@color/white"
-            android:textSize="@dimen/_11ssp"
-            android:textStyle="bold"
-            android:layout_marginStart="@dimen/_40sdp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/quickly_text" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/at_you"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:drawableStart="@drawable/circular_background_white_small"
-            android:drawablePadding="@dimen/_7sdp"
-            android:text="@string/at_you_convenience"
-            android:textColor="@color/white"
-            android:textSize="@dimen/_11ssp"
-            android:textStyle="bold"
-            android:layout_marginStart="@dimen/_40sdp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/in_bulk_text" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/call_us"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:drawableStart="@drawable/phone"
-            android:drawablePadding="@dimen/_5sdp"
-            android:text="@string/call_us_01860998499"
-            android:textColor="@color/white"
-            android:textSize="@dimen/_11ssp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/at_you" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/login_btn"
+        android:fitsSystemWindows="true">
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_20sdp"
-            android:layout_marginTop="@dimen/_12sdp"
-            android:layout_marginEnd="@dimen/_20sdp"
-            android:background="@drawable/update_submit_button"
-            android:text="@string/login"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@+id/call_us" />
+            android:layout_height="match_parent"
+            android:background="@drawable/first_page_background">
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/register_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_20sdp"
-            android:layout_marginTop="@dimen/_12sdp"
-            android:layout_marginEnd="@dimen/_20sdp"
-            android:background="@drawable/update_submit_button"
-            android:backgroundTint="@color/white"
-            android:text="@string/register"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@+id/login_btn" />
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/circular_image"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_100sdp"
+                android:background="@drawable/circular_white_background"
+                android:padding="@dimen/_12sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias=".4"
+                app:srcCompat="@drawable/logo" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/order_medicine_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:text="@string/order_medicines"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_20ssp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias=".2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/circular_image" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/quickly_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_40sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:drawableStart="@drawable/circular_background_white_small"
+                android:drawablePadding="@dimen/_7sdp"
+                android:text="@string/quickly"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_11ssp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/order_medicine_text" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/in_bulk_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:drawableStart="@drawable/circular_background_white_small"
+                android:drawablePadding="@dimen/_7sdp"
+                android:text="@string/order_medicines"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_11ssp"
+                android:textStyle="bold"
+                android:layout_marginStart="@dimen/_40sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/quickly_text" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/at_you"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:drawableStart="@drawable/circular_background_white_small"
+                android:drawablePadding="@dimen/_7sdp"
+                android:text="@string/at_you_convenience"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_11ssp"
+                android:textStyle="bold"
+                android:layout_marginStart="@dimen/_40sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/in_bulk_text" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/call_us"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:drawableStart="@drawable/phone"
+                android:drawablePadding="@dimen/_5sdp"
+                android:text="@string/call_us_01860998499"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_11ssp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/at_you" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/login_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:layout_marginEnd="@dimen/_20sdp"
+                android:background="@drawable/update_submit_button"
+                android:text="@string/login"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@+id/call_us" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/register_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:layout_marginEnd="@dimen/_20sdp"
+                android:background="@drawable/update_submit_button"
+                android:backgroundTint="@color/white"
+                android:text="@string/register"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@+id/login_btn" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
 </layout>

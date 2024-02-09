@@ -12,6 +12,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.FragmentActivity
 import com.devshawon.curehealthcare.dagger.viewModel.AppViewModelFactory
 import com.devshawon.curehealthcare.ui.CureHealthCareActivity
+import com.devshawon.curehealthcare.ui.auth.AuthActivity
 import com.devshawon.curehealthcare.util.PreferenceStorage
 import com.devshawon.curehealthcare.util.autoCleared
 import com.devshawon.curehealthcare.util.navigateUp
@@ -85,7 +86,7 @@ abstract class BaseFragment<T : ViewDataBinding> constructor(@LayoutRes private 
     protected fun activityScreenSwitcher() = navigationHost?.activityScreenSwitcher()
 
     open fun backToHome() {
-        Timber.e("backToHome")
+
         try {
             (requireContext() as CureHealthCareActivity).let {
                 for (item in 0..it.getStackCount()) {
@@ -96,5 +97,4 @@ abstract class BaseFragment<T : ViewDataBinding> constructor(@LayoutRes private 
 
         }
     }
-
 }

@@ -1,7 +1,6 @@
 package com.devshawon.curehealthcare.ui.fragments.filter
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Lifecycle
@@ -50,11 +49,10 @@ class CompanyFilterFragment :
         mBinding.companyFilterRecyclerViewAll.adapter = adapter
         mBinding.companyFilterRecyclerViewAll.itemAnimator = DefaultItemAnimator()
         mBinding.companyFilterRecyclerViewAll.layoutManager = WrapContentLinearLayoutManager()
-            //LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
         viewModel.companyOrFormEvent.observe(viewLifecycleOwner, EventObserver {
             preferences.companyList?.toMutableList()
-                ?.let { it1 -> (activity as CureHealthCareActivity).companyListLiveData.addAll(it1) }
+                ?.let { list -> (activity as CureHealthCareActivity).companyListLiveData.addAll(list) }
             if (it == Status.SUCCESS.name) {
                 companyList = viewModel.companyList
                 adapter.updateList(companyList)
@@ -68,12 +66,13 @@ class CompanyFilterFragment :
                 newText?.let {
                     if (it.isNotEmpty()) {
                         val filter = viewModel.companyList.filter {d->
-                            d.name?.contains(it,ignoreCase = true)!! || d.checkBox == true
+                            d.name?.startsWith(it,ignoreCase = true)!! || d.checkBox == true
                         }
                         companyList = filter as ArrayList<Form>
                         adapter.updateList(companyList)
                         mBinding.companyFilterRecyclerViewAll.itemAnimator = null
                     }else{
+                        companyList = viewModel.companyList
                         adapter.updateList(viewModel.companyList)
                         mBinding.companyFilterRecyclerViewAll.itemAnimator = DefaultItemAnimator()
                     }
@@ -83,31 +82,26 @@ class CompanyFilterFragment :
 
        SingleItemAdapter.execute = { form: Form, i: Int ,isSelected :Boolean->
            mBinding.companyFilterRecyclerViewAll.postDelayed({
-               viewModel.companyList.removeAt(i)
+               var id = 0
+               var find = false
+               viewModel.companyList.forEachIndexed { index, data ->
+                   if(data.id == form.id){
+                       id = index
+                       find = true
+                   }
+               }
+               if(find) viewModel.companyList.removeAt(id)
                if(isSelected){
                    viewModel.companyList.add(0,form)
-                   //form.id?.let { (activity as CureHealthCareActivity).companyListLiveData.add(it.toString()) }
                }else{
                    viewModel.companyList.add(viewModel.companyList.size,form)
-                   //if((activity as CureHealthCareActivity).companyListLiveData.contains(form.id.toString())) (activity as CureHealthCareActivity).companyListLiveData.remove(form.id.toString())
                }
-               adapter.updateList(viewModel.companyList)
+               companyList = viewModel.companyList
+               adapter.updateList(companyList)
            }, 100)
        }
     }
 
-    override fun onDestroyView() {
-        //(activity as CureHealthCareActivity).companyListLiveData.clear()
-        val list = ArrayList<String>()
-        viewModel.companyList.forEach {
-            if(it.checkBox == true){
-                list.add(it.id.toString())
-            }
-        }
-
-        Log.d("THE PROCESS IS ","${preferences.companyList}  and ${(activity as CureHealthCareActivity).companyListLiveData}")
-        super.onDestroyView()
-    }
 
     internal class DebouncingQueryTextListener(
         lifecycle: Lifecycle,

@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_login_fragment_to_registration_fragment"
             app:destination="@id/registration_fragment" />
+        <action
+            android:id="@+id/action_login_fragment_to_forgot_fragment"
+            app:destination="@id/forgot_fragment" />
     </fragment>
 
     <fragment
@@ -36,5 +39,12 @@
             android:id="@+id/action_registration_fragment_to_login_fragment"
             app:destination="@id/login_fragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/forgot_fragment"
+        android:name="com.devshawon.curehealthcare.ui.auth.fragments.ForgotPasswordFragment"
+        android:label=""
+        tools:layout="@layout/forgot_password_fragment"/>
+
 
 </navigation>

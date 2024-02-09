@@ -96,6 +96,12 @@ data class RegistrationResponse(
     val message: String?=""
 )
 
+@JsonClass(generateAdapter = true)
+data class ForgotPasswordRequest(
+    @Json(name = "phone")
+    val phone: String?=""
+)
+
 
 object EmptyRequest {
     val INSTANCE: EmptyRequest = EmptyRequest

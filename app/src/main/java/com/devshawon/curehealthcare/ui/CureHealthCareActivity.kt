@@ -30,7 +30,7 @@ class CureHealthCareActivity :
     @Inject
     lateinit var preferences: PreferenceStorage
     private val viewModel by viewModels<HomeViewModel> { viewModelFactory }
-    private lateinit var cureHealthCareApp: CureHealthCareApplication
+    lateinit var cureHealthCareApp: CureHealthCareApplication
     val productListLiveData: MutableList<ProductData> = mutableListOf()
     var productListActivity: ArrayList<ProductData> = arrayListOf()
     val companyListLiveData: MutableList<String?> = mutableListOf()

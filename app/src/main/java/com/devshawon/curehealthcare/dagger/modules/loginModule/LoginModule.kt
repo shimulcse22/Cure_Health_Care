@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.devshawon.curehealthcare.dagger.FragmentScoped
 import com.devshawon.curehealthcare.dagger.viewModel.ViewModelKey
 import com.devshawon.curehealthcare.ui.auth.AuthViewModel
+import com.devshawon.curehealthcare.ui.auth.fragments.ForgotPasswordFragment
 import com.devshawon.curehealthcare.ui.auth.fragments.LoginFragment
 import com.devshawon.curehealthcare.ui.auth.fragments.RegistrationFragment
 import com.devshawon.curehealthcare.ui.auth.fragments.SplashFragment
@@ -33,5 +34,9 @@ internal abstract class LoginModule {
     @FragmentScoped
     @ContributesAndroidInjector
     internal abstract fun contributeSplashFragment(): SplashFragment
+
+    @FragmentScoped
+    @ContributesAndroidInjector
+    internal abstract fun contributeForgotPasswordFragment(): ForgotPasswordFragment
 }
 

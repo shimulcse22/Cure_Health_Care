@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.switchMap
+import com.devshawon.curehealthcare.models.ForgotPasswordRequest
 import com.devshawon.curehealthcare.network.Status
 import com.devshawon.curehealthcare.models.LoginRequest
 import com.devshawon.curehealthcare.models.LoginResponse
@@ -46,6 +47,11 @@ class AuthViewModel @Inject constructor(
         repository.registration(it)
     }
 
+    var forgotRequest = MutableLiveData<ForgotPasswordRequest>()
+    var forgotResponse : LiveData<Resource<RegistrationResponse>> = forgotRequest.switchMap {
+        repository.forgotPassword(it)
+    }
+
 
     val event = MutableLiveData<Event<String>>()
 
@@ -73,6 +79,14 @@ class AuthViewModel @Inject constructor(
                 event.postValue(Event(it.data.message?:""))
             }else if(it.status == Status.SUCCESS){
                 loader.value = false
+                event.postValue(Event("Can not created, Please contact with the helpline number"))
+            }
+        }
+
+        forgotResponse.observeForever {
+            if(it.status == Status.SUCCESS && it.data !=null){
+                event.postValue(Event(it.data.message?:""))
+            }else if(it.status == Status.SUCCESS){
                 event.postValue(Event("Can not created, Please contact with the helpline number"))
             }
         }
