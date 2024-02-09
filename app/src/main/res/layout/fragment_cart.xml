@@ -114,7 +114,7 @@
             android:background="@drawable/update_submit_button"
             android:gravity="center"
             android:padding="@dimen/_8sdp"
-            android:text="@string/place_order"
+
             android:textColor="@color/white"
             android:textSize="@dimen/_12ssp"
             app:layout_constraintBottom_toBottomOf="parent"

@@ -326,6 +326,8 @@ subprojects {
 
         implementation 'com.makeramen:roundedimageview:2.3.0'
 
+        implementation 'com.github.nikartm:image-support:1.0.5'
+
 
     }
 
@@ -407,6 +409,18 @@ subprojects {
                 )
             }
         }
+
+//        signingConfigs {
+//
+//            release {
+//                def props = new Properties()
+//                props.load(new FileInputStream(rootProject.file("keystore/release.properties")))
+//                storeFile rootProject.file("keystore/" + props.keyStore)
+//                storePassword props.keyStorePassword
+//                keyAlias props.keyAlias
+//                keyPassword props.keyAliasPassword
+//            }
+//        }
 
         lintOptions {
             checkReleaseBuilds false

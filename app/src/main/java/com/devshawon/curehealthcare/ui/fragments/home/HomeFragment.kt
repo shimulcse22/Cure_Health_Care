@@ -1,9 +1,10 @@
 package com.devshawon.curehealthcare.ui.fragments.home
 
+import android.annotation.SuppressLint
+import android.graphics.Typeface
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -27,10 +28,12 @@ import com.devshawon.curehealthcare.ui.adapter.ProductAdapter
 import com.devshawon.curehealthcare.ui.fragments.HomeViewModel
 import com.devshawon.curehealthcare.ui.fragments.OnItemClick
 import com.devshawon.curehealthcare.ui.fragments.UpdateCart
+import com.devshawon.curehealthcare.ui.fragments.filter.FilterFragment
 import com.devshawon.curehealthcare.useCase.result.Event
 import com.devshawon.curehealthcare.useCase.result.EventObserver
 import com.devshawon.curehealthcare.util.navigate
 import kotlinx.coroutines.launch
+import ru.nikartm.support.BadgePosition
 import javax.inject.Inject
 
 
@@ -74,18 +77,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
             productAdapter.updateContext(requireContext())
         }
         //lifecycleScope.launch {
-            Log.d("THE PRODUCT REQUEST IS 53","${preferences.companyList} and ${preferences.formList}")
-            homeViewModel.productRequest.postValue(
-                Event(
-                    ProductRequest(
-                        company = returnString(preferences.companyList),
-                        firstLatter = preferences.radioData,
-                        form = returnString(preferences.formList),
-                        page = homeViewModel.pageCount.value ?: (0 + 1),
-                        search = ""
-                    )
+        homeViewModel.productRequest.postValue(
+            Event(
+                ProductRequest(
+                    company = returnString(preferences.companyList),
+                    firstLatter = preferences.radioData,
+                    form = returnString(preferences.formList),
+                    page = homeViewModel.pageCount.value ?: (0 + 1),
+                    search = ""
                 )
             )
+        )
         //}
 
         lifecycleScope.launch {
@@ -95,25 +97,48 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
         }
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mBinding.viewModel = homeViewModel
         handler.removeCallbacks(runnable)
         runnable.run()
 
+        homeViewModel.notificationRequest.postValue(Event(0))
 
         val myTextViews = arrayOfNulls<TextView?>(26)
         addRadioButtons(myTextViews)
 
         mBinding.resetButton.textSize = 18f
 
-        Log.d(
-            "THE LIST IS ",
-            "${(activity as CureHealthCareActivity).companyListLiveData} and ${(activity as CureHealthCareActivity).companyListLiveData}"
-        )
+        mBinding.filterImage.apply {
+            if(preferences.companyList?.isNotEmpty()!! || preferences.formList?.isNotEmpty()!!){
+                badgeValue = preferences.companyList?.size!! + preferences.formList?.size!!
+                isBadgeOvalAfterFirst = true
+                badgeTextSize = 10f
+                maxBadgeValue = 99
+                badgePosition = BadgePosition.TOP_RIGHT
+                badgeTextStyle = Typeface.NORMAL
+                isShowCounter = true
+                setBadgePadding(5)
+            }else{
+                badgeValue = 0
+            }
+        }
+        mBinding.alarmImage.apply {
+            badgeValue = homeViewModel.notificationCount
+            isBadgeOvalAfterFirst = true
+            badgeTextSize = 10f
+            maxBadgeValue = 99
+            badgePosition = BadgePosition.TOP_RIGHT
+            badgeTextStyle = Typeface.NORMAL
+            isShowCounter = true
+            setBadgePadding(5)
+        }
+
         mBinding.bannerRecyclerView.adapter = homeBannerAdapter
         mBinding.bannerRecyclerView.itemAnimator = DefaultItemAnimator()
-        var layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        val layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         val snapHelper: SnapHelper = PagerSnapHelper()
         mBinding.bannerRecyclerView.layoutManager = layoutManager
         mBinding.indicator.attachToRecyclerView(mBinding.bannerRecyclerView)
@@ -185,22 +210,25 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
         }
 
         mBinding.resetButton.setOnClickListener {
-//            (activity as CureHealthCareActivity).companyListLiveData.clear()
-//            (activity as CureHealthCareActivity).formListLiveData.clear()
+            (activity as CureHealthCareActivity).companyListLiveData.clear()
+            (activity as CureHealthCareActivity).formListLiveData.clear()
             preferences.radioData = ""
-//            homeViewModel.productRequest.postValue(
-//                Event(
-//                    ProductRequest(
-//                        company = returnString(preferences.companyList),
-//                        firstLatter = preferences.radioData,
-//                        form = returnString(preferences.formList),
-//                        page = 1,
-//                        search = ""
-//                    )
-//                )
-//            )
-            apiCall()
-            radioDataList.forEachIndexed { index, b ->
+            preferences.formList = mutableListOf()
+            preferences.companyList = mutableListOf()
+            mBinding.filterImage.badgeValue = 0
+
+            homeViewModel.productRequest.postValue(
+                Event(
+                    ProductRequest(
+                        company = returnString((activity as CureHealthCareActivity).companyListLiveData),
+                        firstLatter = preferences.radioData,
+                        form = returnString((activity as CureHealthCareActivity).formListLiveData),
+                        page = 1,
+                        search = ""
+                    )
+                )
+            )
+            radioDataList.forEachIndexed { index, _ ->
                 if ( radioDataList[index]) {
                     radioDataList[index] = false
                     myTextViews[index]?.setBackgroundResource(R.drawable.rect_angle_shape_white)
@@ -209,44 +237,45 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
             }
         }
 
-       execute = { data, cList, fList ->
+        FilterFragment.execute = { data, _, _ ->
             if (data == "apply") {
                 (activity as CureHealthCareActivity).productListActivity.clear()
-//                val productRequest = ProductRequest(
-//                    company = returnString(preferences.companyList),
-//                    firstLatter = preferences.radioData,
-//                    form = returnString(preferences.formList),
-//                    page = 1,
-//                    search = ""
-//                )
-//                homeViewModel.productRequest.postValue(
-//                    Event(
-//                        productRequest
-//                    )
-//                )
+                (activity as CureHealthCareActivity).formListLiveData.clear()
+                (activity as CureHealthCareActivity).companyListLiveData.clear()
+                val cList = ArrayList<String>()
+                val fList = ArrayList<String>()
+                homeViewModel.companyList.forEach {
+                    if(it.checkBox == true){
+                        (activity as CureHealthCareActivity).companyListLiveData.add(it.id.toString())
+                        cList.add(it.id.toString())
+                    }
+                }
+
+                preferences.companyList = cList.toMutableList()
+
+                homeViewModel.formList.forEach {
+                    if(it.checkBox == true){
+                        (activity as CureHealthCareActivity).formListLiveData.add(it.id.toString())
+                        fList.add(it.id.toString())
+                    }
+                }
+
+                preferences.formList = fList.toMutableList()
+
                 apiCall()
             } else {
                 (activity as CureHealthCareActivity).companyListLiveData.clear()
                 (activity as CureHealthCareActivity).formListLiveData.clear()
                 preferences.formList = mutableListOf()
                 preferences.companyList = mutableListOf()
-//                homeViewModel.productRequest.postValue(
-//                    Event(
-//                        ProductRequest(
-//                            company = returnString(preferences.companyList),
-//                            firstLatter = preferences.radioData,
-//                            form = returnString(preferences.formList),
-//                            page = 1,
-//                            search = ""
-//                        )
-//                    )
-//                )
                 apiCall()
             }
         }
+
     }
 
-    private fun addRadioButtons( myTextViews :Array<TextView?>) {
+    @SuppressLint("SetTextI18n")
+    private fun addRadioButtons(myTextViews :Array<TextView?>) {
         val params = LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT
         )
@@ -273,7 +302,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
                     rowTextView.setBackgroundResource(R.drawable.rect_angle_shape_black)
                     rowTextView.setTextColor(resources.getColor(R.color.white))
                     radioDataList[i] = true
-                    radioDataList.forEachIndexed { index, b ->
+                    radioDataList.forEachIndexed { index, _ ->
                         if (i != index && radioDataList[index]) {
                             radioDataList[index] = false
                             myTextViews[index]?.setBackgroundResource(R.drawable.rect_angle_shape_white)
@@ -303,8 +332,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
         handler.removeCallbacks(runnable)
+        super.onDestroyView()
     }
 
     override fun onPlusIconClick(item: ProductData) {
@@ -332,9 +361,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
         }
     }
 
-    companion object{
-        var execute : (data: String, cList : MutableList<String?>, fList :MutableList<String?>) -> Unit = { data: String, sList: MutableList<String?>, fList :MutableList<String?>-> }
-    }
+
 
     private fun returnString( list : MutableList<String?>?) : String{
         if(list?.isEmpty()==true) return  ""
@@ -347,7 +374,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
             }
 
         }
-        Log.d("THE LIST IS STRING","${data}")
         return data.toString()
     }
 

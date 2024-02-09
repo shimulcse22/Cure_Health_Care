@@ -6,6 +6,7 @@ import com.devshawon.curehealthcare.models.CancelOrderRequest
 import com.devshawon.curehealthcare.models.CompanyResponse
 import com.devshawon.curehealthcare.models.EditProfileData
 import com.devshawon.curehealthcare.models.EditProfileGetRequest
+import com.devshawon.curehealthcare.models.EmptyRequest
 import com.devshawon.curehealthcare.models.FormResponse
 import com.devshawon.curehealthcare.models.LoginRequest
 import com.devshawon.curehealthcare.models.LoginResponse
@@ -80,4 +81,7 @@ interface ApiService {
 
     @POST("api/v2/cancel-order")
     fun cancelOrder( @Body body : CancelOrderRequest) : LiveData<ApiResponse<RegistrationResponse>>
+
+    @POST("api/v2/markasread")
+    fun markAsRead() : LiveData<ApiResponse<RegistrationResponse>>
 }

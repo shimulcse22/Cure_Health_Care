@@ -23,12 +23,10 @@ class LiveDataCallAdapter<R>(private val responseType: Type) :
                 if (started.compareAndSet(false, true)) {
                     call.enqueue(object : Callback<R> {
                         override fun onResponse(call: Call<R>, response: Response<R>) {
-                            Log.d("THE DATA IS 45 ",response.message())
                             postValue(ApiResponse.create(response))
                         }
 
                         override fun onFailure(call: Call<R>, throwable: Throwable) {
-                            Log.d("THE DATA IS 5 ",throwable.message.toString())
                             postValue(ApiResponse.create(throwable))
                         }
                     })

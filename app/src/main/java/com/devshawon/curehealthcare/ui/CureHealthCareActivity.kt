@@ -38,6 +38,7 @@ class CureHealthCareActivity :
     var productPrice: Double = 0.00
     var itemCount: Int = 0
     val live = MutableLiveData<Event<Unit>>()
+    var notificationCount = 0
 
     var item: Int = -1
     private val mNavController by lazy { (supportFragmentManager.findFragmentById(R.id.cureHealthCareNavHostFragment) as NavHostFragment).navController }
@@ -47,6 +48,7 @@ class CureHealthCareActivity :
         mBinding.viewModel = viewModel
         window.statusBarColor = ContextCompat.getColor(this, R.color.update_submit)
         cureHealthCareApp = this.application as CureHealthCareApplication
+
         mBinding.priceLayout.visibility = View.GONE
         if (preferences.productList!!.isNotEmpty()) {
             productListLiveData.clear()
@@ -77,6 +79,11 @@ class CureHealthCareActivity :
         mNavController.addOnDestinationChangedListener { _, destination, _ ->
             val selectId = destination.id
 
+            if(BACK_STACK_NOT_ENTRY.contains(selectId)){
+                mBinding.bottomNavView.visibility = View.GONE
+            }else{
+                mBinding.bottomNavView.visibility = View.VISIBLE
+            }
             if (PRICE_LAYOUT_NOT_SHOWING.contains(selectId)) {
                 mBinding.priceLayout.visibility = View.GONE
             } else {
@@ -90,15 +97,9 @@ class CureHealthCareActivity :
     }
 
     override fun onStop() {
-
         preferences.productList = productListLiveData.toMutableList()
-
-        if (companyListLiveData.isNotEmpty()) {
-            preferences.companyList = companyListLiveData.toMutableList()
-        }
-        if (formListLiveData.isNotEmpty()) {
-            preferences.formList = formListLiveData.toMutableList()
-        }
+        //preferences.companyList = companyListLiveData.toMutableList()
+        //preferences.formList = formListLiveData.toMutableList()
         super.onStop()
     }
 
@@ -120,7 +121,7 @@ class CureHealthCareActivity :
             R.id.cartFragment, R.id.filter_fragment
         )
         val BACK_STACK_NOT_ENTRY = setOf(
-            R.id.filter_fragment, R.id.search_fragment, R.id.notification_fragment
+            R.id.singleOrderFragment, R.id.search_fragment, R.id.notification_fragment,R.id.chagePassword,R.id.editProfileFragment
         )
     }
 

@@ -53,7 +53,8 @@ class OrderAdapter(private val context: Context) : RecyclerView.Adapter<Recycler
     fun updateList(updateList : ArrayList<OrderData>){
         this.list.clear()
         this.list.addAll(updateList)
-        notifyItemInserted(0)
+        notifyItemRangeChanged(0,updateList.size)
+        notifyDataSetChanged()
     }
 
     fun addList(updateList : ArrayList<OrderData>){

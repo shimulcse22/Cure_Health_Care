@@ -1,9 +1,12 @@
 package com.devshawon.curehealthcare.ui.fragments.filter
 
+import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.View
+import android.view.View.OnFocusChangeListener
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.SearchView.SearchAutoComplete
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.coroutineScope
 import androidx.lifecycle.lifecycleScope
@@ -30,7 +33,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
-class SearchFragment : BaseFragment<SearchFragmentBinding>(R.layout.search_fragment),OnItemClick {
+class SearchFragment : BaseFragment<SearchFragmentBinding>(R.layout.search_fragment), OnItemClick {
     @Inject
     lateinit var viewModelFactory: AppViewModelFactory
     private val viewModel: HomeViewModel by navGraphViewModels(R.id.cure_health_care_nav_host_xml) { viewModelFactory }
@@ -48,7 +51,17 @@ class SearchFragment : BaseFragment<SearchFragmentBinding>(R.layout.search_fragm
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mBinding.searchView.requestFocus()
+        val id: SearchAutoComplete =
+            mBinding.searchView.findViewById(androidx.appcompat.R.id.search_src_text)
+        id.requestFocus()
+
+        id.onFocusChangeListener = OnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                val imm =
+                    (activity as CureHealthCareActivity).getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.showSoftInput(id, InputMethodManager.SHOW_IMPLICIT)
+            }
+        }
 
         mBinding.medicineCompany.adapter = productAdapter
         mBinding.medicineCompany.itemAnimator = DefaultItemAnimator()
@@ -60,7 +73,7 @@ class SearchFragment : BaseFragment<SearchFragmentBinding>(R.layout.search_fragm
                 mBinding.medicineCompany.visibility = View.VISIBLE
                 mBinding.noTitleText.visibility = View.GONE
                 productAdapter.updateProductList(viewModel.searchList, 1)
-            }else{
+            } else {
                 mBinding.medicineCompany.visibility = View.GONE
                 mBinding.noTitleText.visibility = View.VISIBLE
             }
@@ -77,12 +90,15 @@ class SearchFragment : BaseFragment<SearchFragmentBinding>(R.layout.search_fragm
             ) { newText ->
                 newText?.let {
                     if (it.isNotEmpty()) {
-                        Log.d("SEARCH LIST 3","${viewModel.searchList.size}")
-                        viewModel.searchRequest.postValue(Event(
-                            ProductRequest(
-                                search = it
+                        viewModel.searchRequest.postValue(
+                            Event(
+                                ProductRequest(
+                                    search = it
+                                )
                             )
-                        ))
+                        )
+                    } else {
+                        productAdapter.updateProductList(arrayListOf(), 1)
                     }
                 }
             }
@@ -119,9 +135,9 @@ class SearchFragment : BaseFragment<SearchFragmentBinding>(R.layout.search_fragm
         (activity as CureHealthCareActivity).showOrHideBadge()
     }
 
-    override fun onMinusIconClick(item: ProductData, position: Int,isDelete : Boolean) {
+    override fun onMinusIconClick(item: ProductData, position: Int, isDelete: Boolean) {
         viewModel.productCount.value = viewModel.productCount.value ?: (0 - 1)
-        (activity as UpdateCart).decreaseItem(item,position,isDelete)
+        (activity as UpdateCart).decreaseItem(item, position, isDelete)
         (activity as CureHealthCareActivity).showOrHideBadge()
     }
 

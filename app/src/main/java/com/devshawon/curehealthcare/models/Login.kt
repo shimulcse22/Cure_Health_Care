@@ -72,7 +72,7 @@ data class Customer(
 )
 
 
-@JsonClass(generateAdapter = true)
+
 data class RegistrationRequest(
     @Json(name = "address")
     val address: String,
@@ -95,3 +95,8 @@ data class RegistrationResponse(
     @Json(name = "message")
     val message: String?=""
 )
+
+
+object EmptyRequest {
+    val INSTANCE: EmptyRequest = EmptyRequest
+}

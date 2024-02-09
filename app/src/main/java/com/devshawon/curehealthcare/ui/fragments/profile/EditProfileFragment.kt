@@ -38,7 +38,7 @@ class EditProfileFragment : BaseFragment<EditProfileFragmentBinding>(R.layout.ed
                 firstName = homeViewModel.firstName.value
                 lastName = homeViewModel.lastName.value
                 license = homeViewModel.license.value
-                nid = homeViewModel.license.value
+                nid = homeViewModel.nid.value
                 shopAddress = homeViewModel.shopAddress.value
                 shopName = homeViewModel.shopName.value
             }

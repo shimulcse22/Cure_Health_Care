@@ -9,6 +9,7 @@ import com.devshawon.curehealthcare.models.BannerResponseMobile
 import com.devshawon.curehealthcare.models.CancelOrderRequest
 import com.devshawon.curehealthcare.models.CompanyResponse
 import com.devshawon.curehealthcare.models.EditProfileGetRequest
+import com.devshawon.curehealthcare.models.EmptyRequest
 import com.devshawon.curehealthcare.models.Form
 import com.devshawon.curehealthcare.models.FormResponse
 import com.devshawon.curehealthcare.models.NotificationResponse
@@ -153,6 +154,13 @@ class HomeViewModel @Inject constructor(
         repository.cancelOrder(it.peekContent())
     }
 
+    val markAsReadRequest = MutableLiveData<EmptyRequest>()
+    val markAsReadResponse : LiveData<Resource<RegistrationResponse>> = markAsReadRequest.switchMap {
+        repository.markAsReadOrder(it)
+    }
+
+    var notificationCount = 0
+
     init {
         bannerListResponse.observeForever {
             if(it.status == Status.SUCCESS && it.data != null){
@@ -198,7 +206,6 @@ class HomeViewModel @Inject constructor(
                     }
 
                 }
-                Log.d("THE DATA IS ^#^&^^ ","${trendingList}")
                 trendingList = it.data.data as ArrayList<ProductData>
                 productEvent.postValue(Event(it.status.name))
             }else if(it.status == Status.ERROR){
@@ -228,6 +235,11 @@ class HomeViewModel @Inject constructor(
         notificationResponse.observeForever {
             if(it.status == Status.SUCCESS && it.data != null){
                 notificationPageCount.value = it.data.currentPage?:0
+                it.data.data.forEach{d->
+                    if(d.status == "Unread" ){
+                        notificationCount++
+                    }
+                }
                 notificationList = it.data.data as ArrayList<NotificationResponseData>
                 productEvent.postValue(Event(it.status.name))
             }else if(it.status == Status.ERROR){
@@ -357,6 +369,15 @@ class HomeViewModel @Inject constructor(
             if(it.status == Status.SUCCESS && it.data !=null){
                 message.value = it.data.message ?:""
                 placeEvent.postValue(Event(it.status.name))
+            }else if(it.status == Status.ERROR){
+                message.value = it.data?.message ?:""
+            }
+        }
+
+        markAsReadResponse.observeForever {
+            if(it.status == Status.SUCCESS && it.data !=null){
+                message.value = it.data.message ?:""
+
             }else if(it.status == Status.ERROR){
                 message.value = it.data?.message ?:""
             }

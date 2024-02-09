@@ -1,9 +1,16 @@
 package com.devshawon.curehealthcare.ui.fragments.order
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import com.devshawon.curehealthcare.R
 import com.devshawon.curehealthcare.databinding.ListItemOrderBinding
 import com.devshawon.curehealthcare.models.SingleOrderProduct
@@ -29,6 +36,24 @@ class SingleOrderAdapter(private val context : Context) : RecyclerView.Adapter<R
     inner class SingleItemViewHolder(private val binding: ListItemOrderBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(position: Int){
             binding.apply {
+                Glide.with(context).load(list[position].photo.previewUrl)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .placeholder(R.drawable.banner_background).apply(
+                        RequestOptions.bitmapTransform(
+                            RoundedCorners(
+                                context.resources.getDimension(com.intuit.sdp.R.dimen._9sdp).toInt()
+                            )
+                        )
+                    ).into(object : CustomTarget<Drawable>() {
+                        override fun onLoadCleared(placeholder: Drawable?) {
+                        }
+
+                        override fun onResourceReady(
+                            resource: Drawable, transition: Transition<in Drawable>?
+                        ) {
+                            medicineImage.background = resource
+                        }
+                    })
                 val string = StringBuilder()
                 list[position].let {
                     string.append(it.productForms.name).append(" ").append(it.commercialName).append("(").append(it.boxSize).append(" ")

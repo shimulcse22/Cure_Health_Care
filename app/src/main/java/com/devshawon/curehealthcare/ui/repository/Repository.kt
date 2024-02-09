@@ -9,6 +9,7 @@ import com.devshawon.curehealthcare.models.BannerResponseMobile
 import com.devshawon.curehealthcare.models.CancelOrderRequest
 import com.devshawon.curehealthcare.models.CompanyResponse
 import com.devshawon.curehealthcare.models.EditProfileGetRequest
+import com.devshawon.curehealthcare.models.EmptyRequest
 import com.devshawon.curehealthcare.models.Form
 import com.devshawon.curehealthcare.models.FormResponse
 import com.devshawon.curehealthcare.models.LoginRequest
@@ -123,6 +124,12 @@ class Repository @Inject constructor(
     fun cancelOrder(body: CancelOrderRequest) : LiveData<Resource<RegistrationResponse>>{
         return object : NetworkBoundResourceOnlyNetwork<RegistrationResponse>(appExecutors) {
             override fun createCall() = apiService.cancelOrder(body)
+        }.asLiveData()
+    }
+
+    fun markAsReadOrder(body: EmptyRequest) : LiveData<Resource<RegistrationResponse>>{
+        return object : NetworkBoundResourceOnlyNetwork<RegistrationResponse>(appExecutors) {
+            override fun createCall() = apiService.markAsRead()
         }.asLiveData()
     }
 }

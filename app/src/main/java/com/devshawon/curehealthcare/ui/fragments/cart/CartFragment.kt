@@ -107,24 +107,29 @@ class CartFragment : BaseFragment<FragmentCartBinding>(R.layout.fragment_cart), 
         })
 
         mBinding.placeOrder.setOnClickListener {
-            val list = ArrayList<Product>()
-            var total = 0
-            (activity as CureHealthCareActivity).productListLiveData.forEach {
-                total += it.productCount ?: 0
-                val product = Product()
-                product.id = it.id
-                product.mrp = it.mrp
-                product.discount = it.discount
-                product.quantity = it.productCount
-                product.salePrice = it.salePrice
-                product.status = it.status
-                list.add(product)
-            }
-            homeViewModel.placeOrderRequest.postValue(
-                PlaceOrderRequest(
-                    Cart(products = list, total = total)
+            if(mBinding.placeOrder.text == context?.resources?.getString(R.string.place_order)){
+                val list = ArrayList<Product>()
+                var total = 0
+                (activity as CureHealthCareActivity).productListLiveData.forEach {
+                    total += it.productCount ?: 0
+                    val product = Product()
+                    product.id = it.id
+                    product.mrp = it.mrp
+                    product.discount = it.discount
+                    product.quantity = it.productCount
+                    product.salePrice = it.salePrice
+                    product.status = it.status
+                    list.add(product)
+                }
+                homeViewModel.placeOrderRequest.postValue(
+                    PlaceOrderRequest(
+                        Cart(products = list, total = total)
+                    )
                 )
-            )
+            }else{
+                backToHome()
+            }
+
         }
     }
 
@@ -174,10 +179,12 @@ class CartFragment : BaseFragment<FragmentCartBinding>(R.layout.fragment_cart), 
             mBinding.medicineLayout.visibility = View.VISIBLE
             mBinding.amount.visibility = View.VISIBLE
             mBinding.empty.visibility = View.GONE
+            mBinding.placeOrder.text = context?.resources?.getString(R.string.place_order)
         }else{
             mBinding.medicineLayout.visibility = View.GONE
             mBinding.amount.visibility = View.GONE
             mBinding.empty.visibility = View.VISIBLE
+            mBinding.placeOrder.text = context?.resources?.getString(R.string.back_to_home)
         }
     }
 }

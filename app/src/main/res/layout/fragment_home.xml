@@ -51,10 +51,10 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <androidx.appcompat.widget.AppCompatImageView
+                <ru.nikartm.support.ImageBadgeView
                     android:id="@+id/alarm_image"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp"
                     android:layout_marginStart="@dimen/_19sdp"
                     android:layout_marginTop="@dimen/_2sdp"
                     android:layout_marginEnd="@dimen/_12sdp"
@@ -62,7 +62,15 @@
                     android:src="@drawable/notification"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:padding="8dp"
+                    app:ibv_badgeValue="0"
+                    app:ibv_badgeTextSize="12sp"
+                    app:ibv_fixedBadgeRadius="10dp"
+                    app:ibv_badgeTextStyle="bold"
+                    app:ibv_badgeTextColor="#ffffff"
+                    app:ibv_badgeColor="@color/red"
+                    app:ibv_badgeLimitValue="true"/>
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/search_image"
@@ -75,20 +83,28 @@
                     android:src="@drawable/search"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/alarm_image"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <androidx.appcompat.widget.AppCompatImageView
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
+                <ru.nikartm.support.ImageBadgeView
                     android:id="@+id/filter_image"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp"
                     android:layout_marginStart="@dimen/_19sdp"
                     android:layout_marginTop="@dimen/_2sdp"
                     android:layout_marginEnd="@dimen/_12sdp"
                     android:layout_marginBottom="@dimen/_2sdp"
-                    android:src="@drawable/filter"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/search_image"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:padding="8dp"
+                    app:ibv_badgeValue="0"
+                    app:ibv_badgeTextSize="12sp"
+                    app:ibv_fixedBadgeRadius="10dp"
+                    app:ibv_badgeTextStyle="bold"
+                    app:ibv_badgeTextColor="#ffffff"
+                    app:ibv_badgeColor="@color/red"
+                    app:ibv_badgeLimitValue="true"
+                    android:src="@drawable/filter" />
 
 <!--                <androidx.appcompat.widget.Toolbar-->
 <!--                    android:layout_width="match_parent"-->

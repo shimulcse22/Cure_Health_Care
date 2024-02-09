@@ -1,7 +1,6 @@
 package com.devshawon.curehealthcare.ui.fragments.filter
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Lifecycle
@@ -46,7 +45,9 @@ class FormFilterFragment : BaseFragment<FormFilterFragmentBinding>(R.layout.form
         mBinding.companyFilterRecyclerViewAll.itemAnimator = DefaultItemAnimator()
         mBinding.companyFilterRecyclerViewAll.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+
         viewModel.formEvent.observe(viewLifecycleOwner, EventObserver {
+            preferences.formList?.toMutableList()?.let { it1 -> (activity as CureHealthCareActivity).formListLiveData.addAll(it1) }
             if (it == Status.SUCCESS.name) {
                 adapter.updateList(viewModel.formList)
             }
@@ -57,10 +58,10 @@ class FormFilterFragment : BaseFragment<FormFilterFragmentBinding>(R.layout.form
                 viewModel.formList.removeAt(i)
                 if(isSelected){
                     viewModel.formList.add(0,form)
-                    form.id?.let { (activity as CureHealthCareActivity).formListLiveData.add(it.toString()) }
+                    //form.id?.let { (activity as CureHealthCareActivity).formListLiveData.add(it.toString()) }
                 }else{
                     viewModel.formList.add(viewModel.formList.size,form)
-                    if((activity as CureHealthCareActivity).formListLiveData.contains(id.toString())) (activity as CureHealthCareActivity).formListLiveData.remove(form.id.toString())
+                    //if((activity as CureHealthCareActivity).formListLiveData.contains(id.toString())) (activity as CureHealthCareActivity).formListLiveData.remove(form.id.toString())
                 }
                 adapter.updateList(viewModel.formList)
             }, 100)
@@ -68,12 +69,13 @@ class FormFilterFragment : BaseFragment<FormFilterFragmentBinding>(R.layout.form
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
+        (activity as CureHealthCareActivity).formListLiveData.clear()
         viewModel.formList.forEach {
             if(it.checkBox == true){
-                preferences.formList?.add(it.id.toString())
+                (activity as CureHealthCareActivity).formListLiveData.add(it.id.toString())
             }
         }
+        super.onDestroyView()
     }
 
     internal class DebouncingQueryTextListener(

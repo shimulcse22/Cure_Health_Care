@@ -1,6 +1,7 @@
 package com.devshawon.curehealthcare.ui.fragments.order
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.lifecycleScope
@@ -36,11 +37,7 @@ class OrderFragment: BaseFragment<FragmentOrderBinding>(R.layout.fragment_order)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         homeViewModel.resetData()
-        lifecycleScope.launchWhenCreated {
-            homeViewModel.orderRequest.postValue(
-                Event("")
-            )
-        }
+
         lifecycleScope.launch {
             orderAdapter = OrderAdapter(requireContext())
         }
@@ -49,15 +46,24 @@ class OrderFragment: BaseFragment<FragmentOrderBinding>(R.layout.fragment_order)
         super.onViewCreated(view, savedInstanceState)
         mBinding.viewModel = homeViewModel
 
+        homeViewModel.orderList.clear()
+
         mBinding.orderRecyclerView.adapter = orderAdapter
         mBinding.orderRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         mBinding.orderRecyclerView.itemAnimator = DefaultItemAnimator()
 
+        lifecycleScope.launchWhenCreated {
+            homeViewModel.orderRequest.postValue(
+                Event("")
+            )
+        }
 
         homeViewModel.orderEvent.observe(viewLifecycleOwner,EventObserver{
             if(getInt(it) != 0 && homeViewModel.orderPageCount.value == 1){
+                Log.d("UM HERE111111","1")
                 orderAdapter.updateList(homeViewModel.orderList)
             }else{
+                Log.d("UM HERE111111","22")
                 orderAdapter.addList(homeViewModel.orderList)
             }
         })

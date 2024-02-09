@@ -1,8 +1,12 @@
 package com.devshawon.curehealthcare.ui.fragments.filter
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import android.view.View
 import androidx.core.os.bundleOf
+import androidx.core.os.postDelayed
 import androidx.fragment.app.setFragmentResult
 import com.devshawon.curehealthcare.R
 import com.devshawon.curehealthcare.base.ui.BaseFragment
@@ -40,16 +44,28 @@ class FilterFragment : BaseFragment<FilterFragmentBinding>(R.layout.filter_fragm
         }.attach()
 
         mBinding.applyBtn.setOnClickListener {
-            HomeFragment.execute.invoke("apply",(activity as CureHealthCareActivity).companyListLiveData,(activity as CureHealthCareActivity).formListLiveData )
-            backToHome()
+            Log.d("THE PROCESS IS 3","${(activity as CureHealthCareActivity).companyListLiveData}")
+            Handler(Looper.getMainLooper()).postDelayed({
+                execute.invoke("apply",(activity as CureHealthCareActivity).companyListLiveData,(activity as CureHealthCareActivity).formListLiveData )
+                backToHome()
+            },1000)
+
         }
         mBinding.resetBtn.setOnClickListener {
-            HomeFragment.execute.invoke("reset", arrayListOf(), arrayListOf())
-            backToHome()
+            Handler(Looper.getMainLooper()).postDelayed({
+                execute.invoke("reset", arrayListOf(), arrayListOf())
+                backToHome()
+            },1000)
+
         }
 
         mBinding.toolbar.setNavigationOnClickListener {
             backToHome()
         }
+    }
+
+
+    companion object{
+        var execute : (data: String, cList : MutableList<String?>, fList :MutableList<String?>) -> Unit = { data: String, sList: MutableList<String?>, fList :MutableList<String?>-> }
     }
 }

@@ -54,6 +54,16 @@
         <action
             android:id="@+id/action_profileFragment_to_chagePassword"
             app:destination="@id/chagePassword" />
+
+        <action
+            android:id="@+id/action_home_to_filter_fragment"
+            app:destination="@id/filter_fragment" />
+        <action
+            android:id="@+id/action_home_to_search_fragment"
+            app:destination="@id/search_fragment" />
+        <action
+            android:id="@+id/action_home_to_notification_fragment"
+            app:destination="@id/notification_fragment" />
     </fragment>
 
     <fragment

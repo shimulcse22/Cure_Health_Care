@@ -154,7 +154,6 @@ class ProductAdapter(private val onItemClick: OnItemClick) :
 
     @SuppressLint("NotifyDataSetChanged")
     fun addProductList(updateList: ArrayList<ProductData>) {
-        Log.e("DTASSSSSS","${updateList.size}")
         productList.addAll(updateList)
         notifyItemChanged(this.productList.size, updateList)
         notifyDataSetChanged()

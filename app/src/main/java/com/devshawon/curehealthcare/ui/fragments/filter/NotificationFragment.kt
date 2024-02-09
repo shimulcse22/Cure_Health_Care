@@ -12,6 +12,7 @@ import com.devshawon.curehealthcare.R
 import com.devshawon.curehealthcare.base.ui.BaseFragment
 import com.devshawon.curehealthcare.dagger.viewModel.AppViewModelFactory
 import com.devshawon.curehealthcare.databinding.NotificationFragmentBinding
+import com.devshawon.curehealthcare.models.EmptyRequest
 import com.devshawon.curehealthcare.models.ProductRequest
 import com.devshawon.curehealthcare.network.Status
 import com.devshawon.curehealthcare.ui.fragments.HomeViewModel
@@ -52,9 +53,10 @@ class NotificationFragment : BaseFragment<NotificationFragmentBinding>(R.layout.
         })
 
         notificationAdapter.markCount.observe(viewLifecycleOwner,EventObserver{
-            Log.d("notificationssss","$it")
             if(it == 1){
                 mBinding.markAsRead.visibility = View.VISIBLE
+            }else{
+                mBinding.markAsRead.visibility = View.GONE
             }
         })
 
@@ -66,8 +68,12 @@ class NotificationFragment : BaseFragment<NotificationFragmentBinding>(R.layout.
                     it.status = ""
                 }
             }
-            if (count >0) mBinding.markAsRead.visibility = View.GONE
+            viewModel.notificationCount = 0
+            mBinding.markAsRead.visibility = View.GONE
             notificationAdapter.notifyItemRangeChanged(0,count)
+            lifecycleScope.launch {
+                viewModel.markAsReadRequest.postValue(EmptyRequest.INSTANCE)
+            }
         }
 
         mBinding.notificationRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {

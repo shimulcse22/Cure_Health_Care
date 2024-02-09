@@ -42,13 +42,14 @@ class SingleOrderFragment :
         mBinding.orderIdTitle.text = "Order ID : " + viewModel.singleOrderResponseData.value?.id
         mBinding.orderTime.text =
             "Ordered at :" + viewModel.singleOrderResponseData.value?.orderPlacedAt
-        mBinding.orderStatus.text = viewModel.singleOrderResponseData.value?.status
+        mBinding.orderStatusTitle.text = viewModel.singleOrderResponseData.value?.status
 
         if (viewModel.singleOrderResponseData.value?.status == "Pending") {
             mBinding.estimatedTitle.text = viewModel.singleOrderResponseData.value?.createdAt
         } else {
             mBinding.estimated.visibility = View.GONE
             mBinding.estimatedTitle.visibility = View.GONE
+            mBinding.cancel.visibility = View.GONE
         }
 
         singleOrderAdapter.addList(viewModel.singleOrderList)
@@ -65,6 +66,7 @@ class SingleOrderFragment :
 
         viewModel.placeEvent.observe(viewLifecycleOwner, EventObserver {
             if (it == Status.SUCCESS.name) {
+                mBinding.cancel.visibility = View.GONE
                 showDialog {
                     setTitle(getString(R.string.success))
                     setMessage(viewModel.message.value)

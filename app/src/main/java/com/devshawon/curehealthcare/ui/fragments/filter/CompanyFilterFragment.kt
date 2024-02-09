@@ -53,6 +53,8 @@ class CompanyFilterFragment :
             //LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
         viewModel.companyOrFormEvent.observe(viewLifecycleOwner, EventObserver {
+            preferences.companyList?.toMutableList()
+                ?.let { it1 -> (activity as CureHealthCareActivity).companyListLiveData.addAll(it1) }
             if (it == Status.SUCCESS.name) {
                 companyList = viewModel.companyList
                 adapter.updateList(companyList)
@@ -84,10 +86,10 @@ class CompanyFilterFragment :
                viewModel.companyList.removeAt(i)
                if(isSelected){
                    viewModel.companyList.add(0,form)
-                   form.id?.let { (activity as CureHealthCareActivity).companyListLiveData.add(it.toString()) }
+                   //form.id?.let { (activity as CureHealthCareActivity).companyListLiveData.add(it.toString()) }
                }else{
                    viewModel.companyList.add(viewModel.companyList.size,form)
-                   if((activity as CureHealthCareActivity).companyListLiveData.contains(form.id.toString())) (activity as CureHealthCareActivity).companyListLiveData.remove(form.id.toString())
+                   //if((activity as CureHealthCareActivity).companyListLiveData.contains(form.id.toString())) (activity as CureHealthCareActivity).companyListLiveData.remove(form.id.toString())
                }
                adapter.updateList(viewModel.companyList)
            }, 100)
@@ -95,13 +97,16 @@ class CompanyFilterFragment :
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
+        //(activity as CureHealthCareActivity).companyListLiveData.clear()
+        val list = ArrayList<String>()
         viewModel.companyList.forEach {
             if(it.checkBox == true){
-                preferences.companyList?.add(it.id.toString())
+                list.add(it.id.toString())
             }
         }
+
         Log.d("THE PROCESS IS ","${preferences.companyList}  and ${(activity as CureHealthCareActivity).companyListLiveData}")
+        super.onDestroyView()
     }
 
     internal class DebouncingQueryTextListener(
