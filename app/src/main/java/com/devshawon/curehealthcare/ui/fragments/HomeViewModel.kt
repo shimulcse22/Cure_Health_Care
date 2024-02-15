@@ -33,6 +33,8 @@ import com.devshawon.curehealthcare.network.Status
 import com.devshawon.curehealthcare.ui.repository.Repository
 import com.devshawon.curehealthcare.useCase.result.Event
 import com.devshawon.curehealthcare.util.PreferenceStorage
+import com.devshawon.curehealthcare.util.getDouble
+import com.devshawon.curehealthcare.util.getInt
 import javax.inject.Inject
 
 class HomeViewModel @Inject constructor(
@@ -49,6 +51,7 @@ class HomeViewModel @Inject constructor(
     var shopAddress = MutableLiveData<String>()
     var pageCount = MutableLiveData<Int>()
     var trendingPageCount = MutableLiveData<Int>()
+    var totalPrice = MutableLiveData<Double>()
 
     var bannerRequest = MutableLiveData<Event<Unit>>()
     var bannerList = ArrayList<String>()
@@ -292,7 +295,6 @@ class HomeViewModel @Inject constructor(
                 companyList.clear()
                 it.data.let { d->
                     d.forms.forEach { id ->
-                        //Log.d("THE LIST IS 2","${preferences.formList?.contains(id.id.toString())} and ${preferences.formList} and id ${id.id}")
                         if(preferences.companyList?.contains(id.id.toString()) == true){
                             val form = Form()
                             form.checkBox = true
@@ -314,7 +316,6 @@ class HomeViewModel @Inject constructor(
                 formList.clear()
                 it.data.let { d->
                     d.forms.forEach { id ->
-                        //Log.d("THE LIST IS 1","${preferences.formList?.contains(id.id.toString())} and ${preferences.formList} and id ${id.id}")
                         if(preferences.formList?.contains(id.id.toString()) == true){
                             val form = Form()
                             form.checkBox = true
@@ -356,8 +357,14 @@ class HomeViewModel @Inject constructor(
         singleOrderResponse.observeForever {
             if(it.status == Status.SUCCESS && it.data !=null){
                 it.data.let {d ->
+                    singleOrderList.clear()
+                    totalPrice.value = 0.00
                     singleOrderResponseData.postValue(it.data!!)
-                    singleOrderList.addAll(d.products)
+                    d.products.forEach {list->
+                        singleOrderList.add(list)
+                        totalPrice.value = totalPrice.value!! + (getDouble(list.salePrice) * getDouble(list.quantity))
+                        Log.d("THE PRICE IS ","${totalPrice.value}  sale ${list.salePrice} and ${list.quantity}  ${getInt(list.salePrice)}")
+                    }
                 }
                 singleOrderEvent.postValue(Event(it.status.name))
             }else if(it.status == Status.ERROR){
@@ -389,5 +396,6 @@ class HomeViewModel @Inject constructor(
         orderPageCount.value = 1
         notificationPageCount.value = 1
         trendingPageCount.value = 1
+        totalPrice.value = 0.00
     }
 }

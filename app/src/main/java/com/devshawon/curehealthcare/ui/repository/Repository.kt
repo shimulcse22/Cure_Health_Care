@@ -139,4 +139,11 @@ class Repository @Inject constructor(
             override fun createCall() = apiService.forgotPassword(body)
         }.asLiveData()
     }
+
+    fun versionCheck() : LiveData<Resource<RegistrationResponse>>{
+        Log.d("Version Check 1","")
+        return object : NetworkBoundResourceOnlyNetwork<RegistrationResponse>(appExecutors) {
+            override fun createCall() = apiService.version()
+        }.asLiveData()
+    }
 }

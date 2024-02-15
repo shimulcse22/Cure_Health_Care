@@ -3,9 +3,12 @@ package com.devshawon.curehealthcare.util
 import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
+import android.content.res.Resources
 import android.os.Build
+import android.os.SystemClock
 import android.provider.Settings.Global.getString
 import android.util.Log
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
@@ -59,6 +62,25 @@ fun getInt(amountInStr: String?): Int {
         0
     }
 }
+
+fun getDouble(amount : String?) : Double{
+    return try {
+        amount?.toDouble() ?: 0.00
+    } catch (e: Exception){
+        0.00
+    }
+}
+
+fun getInt( data : Double?): Int {
+    return try {
+        data?.toInt() ?: 0
+    } catch (e: Exception) {
+        0
+    }
+}
+
+object ScreenUtils {fun dpToPixel(dp: Int): Int {
+    return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, dp.toFloat(), Resources.getSystem().displayMetrics).toInt()}}
 
 fun Context.showDialog(
     cancelable: Boolean = true, cancelableTouchOutside: Boolean = true,
@@ -134,4 +156,40 @@ fun View.goneUnless(visible: Boolean) {
         } catch (e: IndexOutOfBoundsException) {
         }
     }
+}
+
+fun Activity.showDialog(
+    cancelable: Boolean = true, cancelableTouchOutside: Boolean = true,
+    builderFunction: AlertDialog.Builder.() -> Any
+) {
+
+    try {
+        val builder = MaterialAlertDialogBuilder(this, R.style.AlertDialogTheme)
+        builder.builderFunction()
+        val dialog = builder.create()
+        dialog.setCancelable(cancelable)
+        dialog.setCanceledOnTouchOutside(cancelableTouchOutside)
+        dialog.show()
+    } catch (_: Exception) {
+    }
+}
+
+var lastTimeClicked: Long = 0
+var defaultInterval: Int = 500
+class SafeClickListener(
+    private val onSafeCLick: (View) -> Unit
+) : View.OnClickListener {
+    override fun onClick(v: View) {
+        if ((SystemClock.elapsedRealtime() - lastTimeClicked) < defaultInterval) {
+            return
+        }
+        lastTimeClicked = SystemClock.elapsedRealtime()
+        onSafeCLick(v)
+    }
+}
+fun View.setSafeOnClickListener(onSafeClick: (View) -> Unit) {
+    val safeClickListener = SafeClickListener {
+        onSafeClick(it)
+    }
+    setOnClickListener(safeClickListener)
 }

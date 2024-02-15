@@ -50,6 +50,7 @@ class SearchFragment : BaseFragment<SearchFragmentBinding>(R.layout.search_fragm
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        mBinding.viewModel = viewModel
 
         val id: SearchAutoComplete =
             mBinding.searchView.findViewById(androidx.appcompat.R.id.search_src_text)
@@ -99,6 +100,7 @@ class SearchFragment : BaseFragment<SearchFragmentBinding>(R.layout.search_fragm
                         )
                     } else {
                         productAdapter.updateProductList(arrayListOf(), 1)
+                        mBinding.noTitleText.visibility = View.VISIBLE
                     }
                 }
             }
@@ -152,5 +154,10 @@ class SearchFragment : BaseFragment<SearchFragmentBinding>(R.layout.search_fragm
 
             }
         }
+    }
+
+    override fun onDestroy() {
+        viewModel.searchList = arrayListOf()
+        super.onDestroy()
     }
 }

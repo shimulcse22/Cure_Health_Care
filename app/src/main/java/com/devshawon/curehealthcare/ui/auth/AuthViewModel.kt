@@ -35,6 +35,8 @@ class AuthViewModel @Inject constructor(
     var nid = MutableLiveData<String>()
     var license = MutableLiveData<String>()
     var loader = MutableLiveData<Boolean>()
+    var check = MutableLiveData<Event<String>>()
+    var isTrue = MutableLiveData<Boolean>()
 
     var loginRequest = MutableLiveData<LoginRequest>()
     var loginData = MutableLiveData<LoginResponse>()
@@ -47,6 +49,11 @@ class AuthViewModel @Inject constructor(
         repository.registration(it)
     }
 
+    var versionReq = MutableLiveData<Unit>()
+    var versionResponse : LiveData<Resource<RegistrationResponse>> = versionReq.switchMap {
+        repository.versionCheck()
+    }
+
     var forgotRequest = MutableLiveData<ForgotPasswordRequest>()
     var forgotResponse : LiveData<Resource<RegistrationResponse>> = forgotRequest.switchMap {
         repository.forgotPassword(it)
@@ -56,6 +63,8 @@ class AuthViewModel @Inject constructor(
     val event = MutableLiveData<Event<String>>()
 
     init {
+        check.value = Event("")
+        isTrue.value = false
         loginResponse.observeForever {
             if(it.status == Status.SUCCESS && it.data != null){
                 loader.value = false
@@ -77,7 +86,7 @@ class AuthViewModel @Inject constructor(
             if(it.status == Status.SUCCESS && it.data !=null){
                 loader.value = false
                 event.postValue(Event(it.data.message?:""))
-            }else if(it.status == Status.SUCCESS){
+            }else if(it.status == Status.ERROR){
                 loader.value = false
                 event.postValue(Event("Can not created, Please contact with the helpline number"))
             }
@@ -86,8 +95,19 @@ class AuthViewModel @Inject constructor(
         forgotResponse.observeForever {
             if(it.status == Status.SUCCESS && it.data !=null){
                 event.postValue(Event(it.data.message?:""))
-            }else if(it.status == Status.SUCCESS){
+            }else if(it.status == Status.ERROR){
                 event.postValue(Event("Can not created, Please contact with the helpline number"))
+            }
+        }
+        versionResponse.observeForever {
+            if(it.status == Status.SUCCESS && it.data !=null){
+                isTrue.value = true
+                check.value = Event(it.data.message?:"")
+                Log.d("Version Check 2","${it.data.message}")
+            }else if(it.status == Status.ERROR){
+                isTrue.value = false
+                check.value = Event(Status.ERROR.name)
+                Log.d("Version Check 3","${it.data?.message}")
             }
         }
     }

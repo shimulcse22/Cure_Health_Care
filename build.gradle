@@ -336,6 +336,14 @@ subprojects {
 //    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
     android {
+        signingConfigs {
+            release {
+                storeFile file('/home/bs01207/StudioProjects/Cure_Health_Care/app/cure_health_care.jks')
+                storePassword 'cureheathcare22'
+                keyAlias 'cure_health_care'
+                keyPassword 'curehealthcare22'
+            }
+        }
         namespace 'com.devshawon.curehealthcare'
         compileSdk 33
         dexOptions {
@@ -384,8 +392,8 @@ subprojects {
             minSdkVersion 24
             targetSdkVersion compileSdk
             multiDexEnabled true
-            versionCode 1
-            versionName "1.1.0"
+            versionCode 2
+            versionName "2.0.0"
             applicationId "com.devshawon.curehealthcare"
             vectorDrawables.useSupportLibrary = true
             //signingConfig signingConfigs.dev
@@ -407,6 +415,7 @@ subprojects {
                 proguardFiles(
                         getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
                 )
+                signingConfig signingConfigs.release
             }
         }
 

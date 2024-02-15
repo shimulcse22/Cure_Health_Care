@@ -32,11 +32,12 @@
                 android:layout_height="wrap_content">
 
                 <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/order_details"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toTopOf="parent"
                     app:navigationIcon="@drawable/back_icon"
-                    app:title="Notification"
+                    app:title="Order Details"
                     app:titleTextColor="@color/semi_dal_blue" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -227,12 +228,12 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/total_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:layout_marginEnd="@dimen/_5sdp"
                     android:layout_marginBottom="@dimen/_5sdp"
-                    android:text="@string/total"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_12ssp"
                     android:textStyle="bold"

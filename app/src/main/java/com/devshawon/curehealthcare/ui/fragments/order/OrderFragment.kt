@@ -60,10 +60,8 @@ class OrderFragment: BaseFragment<FragmentOrderBinding>(R.layout.fragment_order)
 
         homeViewModel.orderEvent.observe(viewLifecycleOwner,EventObserver{
             if(getInt(it) != 0 && homeViewModel.orderPageCount.value == 1){
-                Log.d("UM HERE111111","1")
                 orderAdapter.updateList(homeViewModel.orderList)
             }else{
-                Log.d("UM HERE111111","22")
                 orderAdapter.addList(homeViewModel.orderList)
             }
         })

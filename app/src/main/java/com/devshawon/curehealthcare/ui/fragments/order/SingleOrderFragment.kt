@@ -1,5 +1,6 @@
 package com.devshawon.curehealthcare.ui.fragments.order
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.navGraphViewModels
@@ -14,6 +15,7 @@ import com.devshawon.curehealthcare.ui.fragments.HomeViewModel
 import com.devshawon.curehealthcare.useCase.result.Event
 import com.devshawon.curehealthcare.useCase.result.EventObserver
 import com.devshawon.curehealthcare.util.WrapContentLinearLayoutManager
+import com.devshawon.curehealthcare.util.navigateUp
 import com.devshawon.curehealthcare.util.positiveButton
 import com.devshawon.curehealthcare.util.showDialog
 import javax.inject.Inject
@@ -31,6 +33,7 @@ class SingleOrderFragment :
         singleOrderAdapter = SingleOrderAdapter(requireContext())
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mBinding.viewModel = viewModel
@@ -40,8 +43,7 @@ class SingleOrderFragment :
         mBinding.orderRecyclerView.itemAnimator = DefaultItemAnimator()
 
         mBinding.orderIdTitle.text = "Order ID : " + viewModel.singleOrderResponseData.value?.id
-        mBinding.orderTime.text =
-            "Ordered at :" + viewModel.singleOrderResponseData.value?.orderPlacedAt
+        mBinding.orderTime.text = "Ordered at :" + viewModel.singleOrderResponseData.value?.orderPlacedAt
         mBinding.orderStatusTitle.text = viewModel.singleOrderResponseData.value?.status
 
         if (viewModel.singleOrderResponseData.value?.status == "Pending") {
@@ -53,6 +55,12 @@ class SingleOrderFragment :
         }
 
         singleOrderAdapter.addList(viewModel.singleOrderList)
+
+        mBinding.totalPrice.text = context?.resources?.getString(R.string.money_sign)+ viewModel.totalPrice.value.toString()
+
+        mBinding.orderDetails.setNavigationOnClickListener {
+            navigateUp()
+        }
 
         mBinding.cancel.setOnClickListener {
             viewModel.cancelOrderRequest.postValue(

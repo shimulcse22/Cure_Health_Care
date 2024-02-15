@@ -75,4 +75,6 @@
     <string name="back_to_login">Back to Login</string>
     <string name="phone">Phone</string>
     <string name="forgot_password_1">Forgot Password</string>
+    <string name="update_available">Update Available</string>
+    <string name="force_update_text">Please update your apk for your use</string>
 </resources>

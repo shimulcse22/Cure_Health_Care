@@ -5,6 +5,7 @@ import android.graphics.Typeface
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.Gravity
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -31,6 +32,8 @@ import com.devshawon.curehealthcare.ui.fragments.UpdateCart
 import com.devshawon.curehealthcare.ui.fragments.filter.FilterFragment
 import com.devshawon.curehealthcare.useCase.result.Event
 import com.devshawon.curehealthcare.useCase.result.EventObserver
+import com.devshawon.curehealthcare.util.ScreenUtils
+import com.devshawon.curehealthcare.util.getInt
 import com.devshawon.curehealthcare.util.navigate
 import kotlinx.coroutines.launch
 import ru.nikartm.support.BadgePosition
@@ -284,7 +287,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
             val rowTextView = TextView(requireContext())
             rowTextView.text = "${('A' + i)}"
             rowTextView.textSize = 18f
-            rowTextView.setPadding(20, 10, 20, 10)
+            rowTextView.gravity = Gravity.CENTER
+            rowTextView.setPadding(20,8,20,10)
+            //rowTextView.setPadding(ScreenUtils.dpToPixel(20) , ScreenUtils.dpToPixel(10), ScreenUtils.dpToPixel(20), ScreenUtils.dpToPixel(10))
             params.setMargins(8, 0, 8, 0)
             if(preferences.radioData == "${('A' + i)}"){
                 rowTextView.setBackgroundResource(R.drawable.rect_angle_shape_black)

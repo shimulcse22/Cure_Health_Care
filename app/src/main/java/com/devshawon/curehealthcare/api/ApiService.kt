@@ -88,4 +88,7 @@ interface ApiService {
 
     @POST("api/v2/forgot-request")
     fun forgotPassword(@Body body: ForgotPasswordRequest) : LiveData<ApiResponse<RegistrationResponse>>
+
+    @GET("api/v2/version")
+    fun version() : LiveData<ApiResponse<RegistrationResponse>>
 }
