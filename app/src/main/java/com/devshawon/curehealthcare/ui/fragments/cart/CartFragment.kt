@@ -106,6 +106,18 @@ class CartFragment : BaseFragment<FragmentCartBinding>(R.layout.fragment_cart), 
             }
         })
 
+        val callBack : OnBackPressedCallback = object : OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                backToHome()
+            }
+        }
+
+        activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner,callBack)
+
+        mBinding.toolbar.setNavigationOnClickListener {
+            backToHome()
+        }
+
         mBinding.placeOrder.setOnClickListener {
             if(mBinding.placeOrder.text == context?.resources?.getString(R.string.place_order)){
                 val list = ArrayList<Product>()
@@ -148,17 +160,7 @@ class CartFragment : BaseFragment<FragmentCartBinding>(R.layout.fragment_cart), 
         mBinding.totalAmountCount.text =
             (activity as CureHealthCareActivity).productPrice.toString()
 
-        val callBack : OnBackPressedCallback = object : OnBackPressedCallback(true){
-            override fun handleOnBackPressed() {
-                backToHome()
-            }
-        }
 
-        activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner,callBack)
-
-        mBinding.toolbar.setNavigationOnClickListener {
-            backToHome()
-        }
     }
 
     override fun onMinusIconClick(item: ProductData, position: Int,isDelete : Boolean) {

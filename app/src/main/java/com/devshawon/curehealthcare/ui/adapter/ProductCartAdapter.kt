@@ -15,6 +15,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.devshawon.curehealthcare.R
+import com.devshawon.curehealthcare.databinding.CartListLayoutBinding
 import com.devshawon.curehealthcare.databinding.ListItemMedicineBinding
 import com.devshawon.curehealthcare.models.ProductData
 import com.devshawon.curehealthcare.ui.fragments.OnItemClick
@@ -26,7 +27,7 @@ class ProductCartAdapter (private val onItemClick : OnItemClick) : RecyclerView.
     lateinit var context: Context
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return ProductViewHolder(
-            ListItemMedicineBinding.inflate(
+            CartListLayoutBinding.inflate(
                 LayoutInflater.from(context),
                 parent,
                 false
@@ -43,7 +44,7 @@ class ProductCartAdapter (private val onItemClick : OnItemClick) : RecyclerView.
         return itemViewType
     }
 
-    inner class ProductViewHolder (private val binding : ListItemMedicineBinding) : RecyclerView.ViewHolder(binding.root){
+    inner class ProductViewHolder (private val binding : CartListLayoutBinding) : RecyclerView.ViewHolder(binding.root){
         @SuppressLint("SetTextI18n")
         fun productBindView(position: Int) {
             binding.apply {
@@ -54,17 +55,8 @@ class ProductCartAdapter (private val onItemClick : OnItemClick) : RecyclerView.
                         .append(it.unitType).append(")")
                     this.medicineName.text = string
                     this.medicineCompany.text = it.manufacturingCompany.name
-                    this.medicinePrice.text=  "${context.resources.getString(R.string.money_sign)} ${it.salePrice}"
-                    this.mrpPrice.text = it.mrp
-                    this.mrpPrice.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
-                    this.discountPrice.text = it.discount+"%"
-                    if(it.estimatedDelivery?.isNotEmpty() == true){
-                        this.preorderText.text = "Pre-order"
-                        this.dateText.text = it.estimatedDelivery
-                    }else{
-                        this.preorderText.visibility= View.GONE
-                        this.dateText.visibility= View.GONE
-                    }
+                    val data = getInt(it.salePrice?.toDouble())* getInt(it.productCount.toString())
+                    this.medicinePrice.text=  "${context.resources.getString(R.string.money_sign)} ${it.salePrice} * ${it.productCount} = $data"
                 }
                 if(productList[position].productCount == 0){
                     deleteIcon.visibility = View.INVISIBLE
@@ -103,6 +95,8 @@ class ProductCartAdapter (private val onItemClick : OnItemClick) : RecyclerView.
                         numberTitle.visibility = View.VISIBLE
                     }
                     productList[position].productCount = productList[position].productCount!! + 1
+                    val data = getInt(productList[position].salePrice?.toDouble())* getInt(productList[position].productCount.toString())
+                    this.medicinePrice.text=  "${context.resources.getString(R.string.money_sign)} ${productList[position].salePrice} * ${productList[position].productCount} = $data"
                     onItemClick.onPlusIconClick(productList[position])
                     executePendingBindings()
                 }
@@ -114,6 +108,8 @@ class ProductCartAdapter (private val onItemClick : OnItemClick) : RecyclerView.
                         return@setOnClickListener
                     }
                     productList[position].productCount = productList[position].productCount!! - 1
+                    val data = getInt(productList[position].salePrice?.toDouble())* getInt(productList[position].productCount.toString())
+                    this.medicinePrice.text=  "${context.resources.getString(R.string.money_sign)} ${productList[position].salePrice} * ${productList[position].productCount} = $data"
                     onItemClick.onMinusIconClick(productList[position],position,false)
                     executePendingBindings()
                 }
@@ -136,7 +132,7 @@ class ProductCartAdapter (private val onItemClick : OnItemClick) : RecyclerView.
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private fun removeItem(binding : ListItemMedicineBinding, position: Int,isDelete: Boolean){
+    private fun removeItem(binding : CartListLayoutBinding, position: Int,isDelete: Boolean){
         val count = productList[position].productCount
         productList[position].productCount = 0
         onItemClick.onMinusIconClick(productList[position],count?:0,isDelete)

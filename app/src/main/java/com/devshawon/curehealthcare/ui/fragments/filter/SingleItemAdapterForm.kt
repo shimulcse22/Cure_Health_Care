@@ -2,13 +2,11 @@ package com.devshawon.curehealthcare.ui.fragments.filter
 
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.devshawon.curehealthcare.databinding.SingleItemViewWithTextBoxBinding
 import com.devshawon.curehealthcare.models.Form
-import java.util.Collections
 
 class SingleItemAdapterForm(private val context : Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var list : ArrayList<Form> = arrayListOf()
@@ -50,6 +48,6 @@ class SingleItemAdapterForm(private val context : Context) : RecyclerView.Adapte
     }
 
     companion object{
-        var execute : (data: Form,position : Int,isSelected :Boolean) -> Unit = { form: Form, i: Int ,isSelected :Boolean-> }
+        var execute : (data: Form,position : Int,isSelected :Boolean) -> Unit = { _: Form, _: Int, _:Boolean-> }
     }
 }

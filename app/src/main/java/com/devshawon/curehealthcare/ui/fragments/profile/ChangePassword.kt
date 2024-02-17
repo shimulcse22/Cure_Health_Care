@@ -1,7 +1,6 @@
 package com.devshawon.curehealthcare.ui.fragments.profile
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.navigation.navGraphViewModels
@@ -12,7 +11,6 @@ import com.devshawon.curehealthcare.databinding.ChnagePasswordFragmentBinding
 import com.devshawon.curehealthcare.models.UpdatePassword
 import com.devshawon.curehealthcare.ui.fragments.HomeViewModel
 import com.devshawon.curehealthcare.useCase.result.EventObserver
-import com.devshawon.curehealthcare.util.navigate
 import com.devshawon.curehealthcare.util.navigateUp
 import javax.inject.Inject
 

@@ -8,7 +8,6 @@ import com.devshawon.curehealthcare.R
 import com.devshawon.curehealthcare.base.ui.BaseFragment
 import com.devshawon.curehealthcare.dagger.viewModel.AppViewModelFactory
 import com.devshawon.curehealthcare.databinding.EditProfileFragmentBinding
-import com.devshawon.curehealthcare.databinding.FragmentProfileBinding
 import com.devshawon.curehealthcare.models.UpdateProfileCustomer
 import com.devshawon.curehealthcare.models.UpdateProfileRequest
 import com.devshawon.curehealthcare.ui.fragments.HomeViewModel

@@ -79,14 +79,18 @@ class SingleOrderFragment :
                     setTitle(getString(R.string.success))
                     setMessage(viewModel.message.value)
                     setIcon(R.drawable.right_sign)
-                    positiveButton(getString(R.string.ok))
+                    positiveButton(getString(R.string.ok)){
+                        navigateUp()
+                    }
                 }
             } else {
                 showDialog {
                     setTitle(getString(R.string.error_title))
                     setMessage(viewModel.message.value)
                     setIcon(R.drawable.ic_error)
-                    positiveButton(getString(R.string.ok))
+                    positiveButton(getString(R.string.ok)){
+                        navigateUp()
+                    }
                 }
             }
         })

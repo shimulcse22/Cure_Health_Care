@@ -2,13 +2,11 @@ package com.devshawon.curehealthcare.ui.fragments.filter
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.devshawon.curehealthcare.databinding.SingleItemViewWithTextBoxBinding
 import com.devshawon.curehealthcare.models.Form
-import java.util.Collections
 
 class SingleItemAdapter(private val context : Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var list : ArrayList<Form> = arrayListOf()
@@ -32,7 +30,6 @@ class SingleItemAdapter(private val context : Context) : RecyclerView.Adapter<Re
     inner class SingleItemViewHolder(private val binding: SingleItemViewWithTextBoxBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(position: Int){
             binding.apply {
-                Log.d("THE LIST IS 55","${list[position].checkBox}")
                 checkBox.text = list[position].name
                 checkBox.isChecked = list[position].checkBox?:false
                 checkBox.setOnClickListener {
@@ -54,6 +51,6 @@ class SingleItemAdapter(private val context : Context) : RecyclerView.Adapter<Re
     }
 
     companion object{
-        var execute : (data: Form,position : Int,isSelected :Boolean) -> Unit = { form: Form, i: Int ,isSelected :Boolean-> }
+        var execute : (data: Form,position : Int,isSelected :Boolean) -> Unit = { _: Form, _: Int, _:Boolean-> }
     }
 }

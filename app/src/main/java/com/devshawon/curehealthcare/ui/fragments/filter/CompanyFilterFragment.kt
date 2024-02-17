@@ -80,7 +80,7 @@ class CompanyFilterFragment :
             }
         )
 
-       SingleItemAdapter.execute = { form: Form, i: Int ,isSelected :Boolean->
+       SingleItemAdapter.execute = { form: Form, _: Int, isSelected :Boolean->
            mBinding.companyFilterRecyclerViewAll.postDelayed({
                var id = 0
                var find = false

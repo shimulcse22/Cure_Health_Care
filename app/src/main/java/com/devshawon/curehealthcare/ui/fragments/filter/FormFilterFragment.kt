@@ -76,7 +76,7 @@ class FormFilterFragment : BaseFragment<FormFilterFragmentBinding>(R.layout.form
             }
         )
 
-        SingleItemAdapterForm.execute = { form: Form, i: Int, isSelected :Boolean->
+        SingleItemAdapterForm.execute = { form: Form, _: Int, isSelected :Boolean->
             mBinding.companyFilterRecyclerViewAll.postDelayed({var id = 0
                 var find = false
                 viewModel.formList.forEachIndexed { index, data ->
