@@ -76,7 +76,8 @@ class ApiModule {
     }
 
     companion object {
-        var URL: String = "https://stage.curehealth.care"
+        //var URL: String = "https://stage.curehealth.care"
+        var URL: String = "https://curehealth.care"
         var API_URL: HttpUrl = HttpUrl.get(URL)
     }
 }

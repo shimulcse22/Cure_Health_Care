@@ -337,12 +337,24 @@ subprojects {
 
     android {
         signingConfigs {
+//            release {
+//                storeFile file('/home/bs01207/StudioProjects/Cure_Health_Care/app/cure_health_care.jks')
+//                storePassword 'curehealthcare22'
+//                keyAlias 'cure_health_care'
+//                keyPassword 'curehealthcare22'
+//            }
+
             release {
-                storeFile file('/home/bs01207/StudioProjects/Cure_Health_Care/app/cure_health_care.jks')
-                storePassword 'cureheathcare22'
-                keyAlias 'cure_health_care'
-                keyPassword 'curehealthcare22'
+                storeFile file('/home/bs01207/StudioProjects/Cure_Health_Care/app/keystore.jks')
+                storePassword '5a33236053c95a6cd573a444a965496c'
+                keyAlias '31b040c5be705a19c15f547ea21701cb'
+                keyPassword 'e02744b947858855928a32e24f276e6f'
             }
+
+//            "keystorePath": "credentials/android/keystore.jks",
+//            "keystorePassword": "5a33236053c95a6cd573a444a965496c",
+//            "keyAlias": "31b040c5be705a19c15f547ea21701cb",
+//            "keyPassword": "e02744b947858855928a32e24f276e6f"
         }
         namespace 'com.devshawon.curehealthcare'
         compileSdk 33
