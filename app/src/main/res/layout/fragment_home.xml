@@ -224,6 +224,16 @@
                 android:nestedScrollingEnabled="true"
                 app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
                 tools:listitem="@layout/list_item_medicine" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/no_product_found"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/no_product_found"
+                android:textColor="@color/black"
+                style="@style/BodyTextStyle"
+                android:visibility="gone"
+                />
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

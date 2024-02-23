@@ -181,7 +181,7 @@ class HomeViewModel @Inject constructor(
                     val id  = d.id
                     preferences.productList?.forEach {pD->
                         if(id == pD?.id){
-                           d.productCount = pD?.productCount
+                            d.productCount = pD?.productCount
                             return@forEach
                         }
                     }
@@ -238,6 +238,7 @@ class HomeViewModel @Inject constructor(
         notificationResponse.observeForever {
             if(it.status == Status.SUCCESS && it.data != null){
                 notificationPageCount.value = it.data.currentPage?:0
+                notificationCount = 0
                 it.data.data.forEach{d->
                     if(d.status == "Unread" ){
                         notificationCount++
@@ -284,9 +285,9 @@ class HomeViewModel @Inject constructor(
                     shopName.value = d.customer?.shopName?:""
                     shopAddress.value = d.customer?.shopAddress?:""
                 }
-                updatePasswordEvent.postValue(Event(it.data.message?:"h"))
+                updateProfileEvent.postValue(Event(it.data.message?:"h"))
             }else if(it.status == Status.ERROR){
-                updatePasswordEvent.postValue(Event(it.data?.message!!))
+                updateProfileEvent.postValue(Event(it.data?.message!!))
             }
         }
 
@@ -363,7 +364,6 @@ class HomeViewModel @Inject constructor(
                     d.products.forEach {list->
                         singleOrderList.add(list)
                         totalPrice.value = totalPrice.value!! + (getDouble(list.salePrice) * getDouble(list.quantity))
-                        Log.d("THE PRICE IS ","${totalPrice.value}  sale ${list.salePrice} and ${list.quantity}  ${getInt(list.salePrice)}")
                     }
                 }
                 singleOrderEvent.postValue(Event(it.status.name))

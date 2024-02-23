@@ -14,6 +14,7 @@ import com.bumptech.glide.request.transition.Transition
 import com.devshawon.curehealthcare.R
 import com.devshawon.curehealthcare.databinding.ListItemOrderBinding
 import com.devshawon.curehealthcare.models.SingleOrderProduct
+import com.devshawon.curehealthcare.util.getDouble
 import com.devshawon.curehealthcare.util.getInt
 import java.lang.StringBuilder
 
@@ -64,8 +65,7 @@ class SingleOrderAdapter(private val context : Context) : RecyclerView.Adapter<R
                     medicinePrice.text = string.append(it.mrp).append((getInt(it.mrp) - getInt(it.salePrice))).append("(").append(it.discount).append("%) = ")
                         .append(context.resources.getString(R.string.money_sign)).append(it.salePrice).append("*").append(it.quantity).toString()
                     string.clear()
-                    deleteIcon.text = string.append(context.resources.getString(R.string.money_sign)).append((getInt(it.salePrice)* getInt(it.quantity)).toString()).toString()
-
+                    deleteIcon.text = string.append(context.resources.getString(R.string.money_sign)).append((getDouble(it.salePrice) * getDouble(it.quantity)).toString()).toString()
                 }
             }
         }

@@ -56,7 +56,7 @@ class ProductCartAdapter (private val onItemClick : OnItemClick) : RecyclerView.
                     this.medicineName.text = string
                     this.medicineCompany.text = it.manufacturingCompany.name
                     val data = getInt(it.salePrice?.toDouble())* getInt(it.productCount.toString())
-                    this.medicinePrice.text=  "${context.resources.getString(R.string.money_sign)} ${it.salePrice} * ${it.productCount} = $data"
+                    this.medicinePrice.text=  "${context.resources.getString(R.string.money_sign)} ${it.salePrice} * ${it.productCount} = ${context.resources.getString(R.string.money_sign)}$data"
                 }
                 if(productList[position].productCount == 0){
                     deleteIcon.visibility = View.INVISIBLE

@@ -46,7 +46,6 @@ class CureHealthCareActivity :
         super.onCreate(savedInstanceState)
         mBinding.lifecycleOwner = this
         mBinding.viewModel = viewModel
-        window.statusBarColor = ContextCompat.getColor(this, R.color.update_submit)
         cureHealthCareApp = this.application as CureHealthCareApplication
 
         mBinding.priceLayout.visibility = View.GONE

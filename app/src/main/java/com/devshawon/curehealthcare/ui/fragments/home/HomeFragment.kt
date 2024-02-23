@@ -5,6 +5,7 @@ import android.graphics.Typeface
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.LinearLayout
@@ -35,6 +36,7 @@ import com.devshawon.curehealthcare.useCase.result.EventObserver
 import com.devshawon.curehealthcare.util.ScreenUtils
 import com.devshawon.curehealthcare.util.getInt
 import com.devshawon.curehealthcare.util.navigate
+import kotlinx.android.synthetic.main.fragment_home.no_product_found
 import kotlinx.coroutines.launch
 import ru.nikartm.support.BadgePosition
 import javax.inject.Inject
@@ -164,10 +166,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
 
         homeViewModel.productEvent.observe(viewLifecycleOwner, EventObserver {
             (activity as CureHealthCareActivity).productListActivity.addAll(homeViewModel.productList)
+            Log.d("NO DATA FOUND","${productAdapter.listSize}")
             if (it == Status.SUCCESS.name && homeViewModel.pageCount.value == 1) {
                 productAdapter.updateProductList(homeViewModel.productList, 1)
             } else {
                 productAdapter.addProductList(homeViewModel.productList)
+            }
+            if(productAdapter.listSize){
+                mBinding.noProductFound.visibility = View.VISIBLE
+            }else{
+                mBinding.noProductFound.visibility = View.GONE
             }
         })
 

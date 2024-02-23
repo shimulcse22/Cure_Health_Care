@@ -91,6 +91,7 @@ class SearchFragment : BaseFragment<SearchFragmentBinding>(R.layout.search_fragm
             ) { newText ->
                 newText?.let {
                     if (it.isNotEmpty()) {
+                        mBinding.noTitleText.visibility = View.GONE
                         viewModel.searchRequest.postValue(
                             Event(
                                 ProductRequest(

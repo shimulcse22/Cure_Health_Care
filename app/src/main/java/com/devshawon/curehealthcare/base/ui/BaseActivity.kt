@@ -6,8 +6,10 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.ViewPumpAppCompatDelegate
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import com.devshawon.curehealthcare.R
 import com.devshawon.curehealthcare.base.navigation.ActivityScreenSwitcher
 import dagger.android.support.DaggerAppCompatActivity
 import dev.b3nedikt.app_locale.AppLocale
@@ -41,6 +43,7 @@ abstract class BaseActivity<T : ViewDataBinding> constructor(@LayoutRes private 
         super.onCreate(savedInstanceState)
         mActivity = this
         mBinding.lifecycleOwner = this
+        window.statusBarColor = ContextCompat.getColor(this, R.color.update_submit)
     }
 
     override fun onResume() {

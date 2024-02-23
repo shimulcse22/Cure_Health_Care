@@ -23,6 +23,8 @@ import com.devshawon.curehealthcare.ui.fragments.HomeViewModel
 import com.devshawon.curehealthcare.ui.fragments.OnItemClick
 import com.devshawon.curehealthcare.ui.fragments.UpdateCart
 import com.devshawon.curehealthcare.useCase.result.EventObserver
+import com.devshawon.curehealthcare.util.getDouble
+import com.devshawon.curehealthcare.util.getInt
 import com.devshawon.curehealthcare.util.positiveButton
 import com.devshawon.curehealthcare.util.showDialog
 import kotlinx.coroutines.launch
@@ -121,9 +123,9 @@ class CartFragment : BaseFragment<FragmentCartBinding>(R.layout.fragment_cart), 
         mBinding.placeOrder.setOnClickListener {
             if(mBinding.placeOrder.text == context?.resources?.getString(R.string.place_order)){
                 val list = ArrayList<Product>()
-                var total = 0
+                var total = 0.00
                 (activity as CureHealthCareActivity).productListLiveData.forEach {
-                    total += it.productCount ?: 0
+                    total += getDouble(it.salePrice)
                     val product = Product()
                     product.id = it.id
                     product.mrp = it.mrp

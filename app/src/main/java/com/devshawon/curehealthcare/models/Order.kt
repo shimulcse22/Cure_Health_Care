@@ -81,7 +81,7 @@ data class Cart(
     @Json(name = "products")
     val products: List<Product>?= listOf(),
     @Json(name = "total")
-    val total: Int?=0
+    val total: Double?=0.00
 )
 
 @JsonClass(generateAdapter = true)

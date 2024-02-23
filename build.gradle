@@ -337,19 +337,19 @@ subprojects {
 
     android {
         signingConfigs {
-//            release {
-//                storeFile file('/home/bs01207/StudioProjects/Cure_Health_Care/app/cure_health_care.jks')
-//                storePassword 'curehealthcare22'
-//                keyAlias 'cure_health_care'
-//                keyPassword 'curehealthcare22'
-//            }
-
             release {
-                storeFile file('/home/bs01207/StudioProjects/Cure_Health_Care/app/keystore.jks')
-                storePassword '5a33236053c95a6cd573a444a965496c'
-                keyAlias '31b040c5be705a19c15f547ea21701cb'
-                keyPassword 'e02744b947858855928a32e24f276e6f'
+                storeFile file('/home/bs01207/StudioProjects/Cure_Health_Care/app/cure_health_care.jks')
+                storePassword 'curehealthcare22'
+                keyAlias 'cure_health_care'
+                keyPassword 'curehealthcare22'
             }
+
+//            release {
+//                storeFile file('/home/bs01207/StudioProjects/Cure_Health_Care/app/keystore.jks')
+//                storePassword '5a33236053c95a6cd573a444a965496c'
+//                keyAlias '31b040c5be705a19c15f547ea21701cb'
+//                keyPassword 'e02744b947858855928a32e24f276e6f'
+//            }
 
 //            "keystorePath": "credentials/android/keystore.jks",
 //            "keystorePassword": "5a33236053c95a6cd573a444a965496c",
@@ -404,7 +404,7 @@ subprojects {
             minSdkVersion 24
             targetSdkVersion compileSdk
             multiDexEnabled true
-            versionCode 2
+            versionCode 7
             versionName "2.0.0"
             applicationId "com.devshawon.curehealthcare"
             vectorDrawables.useSupportLibrary = true
