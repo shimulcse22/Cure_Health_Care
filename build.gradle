@@ -337,6 +337,12 @@ subprojects {
 
     android {
         signingConfigs {
+            debug {
+                storeFile file('/home/bs01207/StudioProjects/Cure_Health_Care/app/cure_health_care.jks')
+                storePassword 'curehealthcare22'
+                keyAlias 'cure_health_care'
+                keyPassword 'curehealthcare22'
+            }
             release {
                 storeFile file('/home/bs01207/StudioProjects/Cure_Health_Care/app/cure_health_care.jks')
                 storePassword 'curehealthcare22'
@@ -408,7 +414,7 @@ subprojects {
             versionName "2.0.0"
             applicationId "com.devshawon.curehealthcare"
             vectorDrawables.useSupportLibrary = true
-            //signingConfig signingConfigs.dev
+            //signingConfig signingConfigs.release
             testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
             javaCompileOptions {
                 annotationProcessorOptions {
@@ -421,27 +427,44 @@ subprojects {
         }
 
         buildTypes {
-            release {
-                minifyEnabled  false
-                debuggable true
+            debug{
+                minifyEnabled true
+                debuggable false
+                zipAlignEnabled true
                 proguardFiles(
                         getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
                 )
+                signingConfig signingConfigs.debug
+            }
+            release {
+                minifyEnabled true
+                debuggable false
+                zipAlignEnabled true
+                proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
                 signingConfig signingConfigs.release
             }
         }
 
-//        signingConfigs {
-//
-//            release {
-//                def props = new Properties()
-//                props.load(new FileInputStream(rootProject.file("keystore/release.properties")))
-//                storeFile rootProject.file("keystore/" + props.keyStore)
-//                storePassword props.keyStorePassword
-//                keyAlias props.keyAlias
-//                keyPassword props.keyAliasPassword
-//            }
-//        }
+        productFlavors {
+            uat {
+                applicationId "com.devshawon.curehealthcare"
+                minSdkVersion 24
+                targetSdkVersion 33
+                versionCode 7
+                versionName "2.0.0"
+                dimension "appId"
+                resValue "string", "app_name", "CureHealth Uat"
+            }
+            pro {
+                applicationId "com.devshawon.curehealthcare"
+                minSdkVersion 24
+                targetSdkVersion 33
+                versionCode 7
+                versionName "2.0.0"
+                dimension "appId"
+                resValue "string", "app_name", "CureHealth"
+            }
+        }
 
         lintOptions {
             checkReleaseBuilds false
@@ -452,7 +475,6 @@ subprojects {
 
     }
 }
-//  GP start     versionName "2.1.1" 05/06/2022 version Code 32
 task clean(type: Delete) {
     delete rootProject.buildDir
 }

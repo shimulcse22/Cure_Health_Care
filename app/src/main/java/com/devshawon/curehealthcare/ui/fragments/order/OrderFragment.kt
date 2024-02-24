@@ -19,6 +19,9 @@ import com.devshawon.curehealthcare.useCase.result.Event
 import com.devshawon.curehealthcare.useCase.result.EventObserver
 import com.devshawon.curehealthcare.util.getInt
 import com.devshawon.curehealthcare.util.navigate
+import com.devshawon.curehealthcare.util.navigateUp
+import com.devshawon.curehealthcare.util.positiveButton
+import com.devshawon.curehealthcare.util.showDialog
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -51,7 +54,7 @@ class OrderFragment: BaseFragment<FragmentOrderBinding>(R.layout.fragment_order)
 
         lifecycleScope.launchWhenCreated {
             homeViewModel.orderRequest.postValue(
-                Event("")
+                Event(homeViewModel.orderPageCount.value!!)
             )
         }
 
@@ -70,6 +73,15 @@ class OrderFragment: BaseFragment<FragmentOrderBinding>(R.layout.fragment_order)
         homeViewModel.singleOrderEvent.observe(viewLifecycleOwner,EventObserver{
             if(it == Status.SUCCESS.name){
                 navigate(OrderFragmentDirections.actionOrderToSingleOrderFragment())
+            }else{
+                showDialog {
+                    setTitle(getString(R.string.error_title))
+                    setMessage(it)
+                    setIcon(R.drawable.ic_error)
+                    positiveButton(getString(R.string.ok)){
+                        navigateUp()
+                    }
+                }
             }
         })
 
@@ -78,7 +90,7 @@ class OrderFragment: BaseFragment<FragmentOrderBinding>(R.layout.fragment_order)
                 if (!recyclerView.canScrollVertically(1)) {
                     homeViewModel.orderRequest.postValue(
                         Event(
-                            (homeViewModel.pageCount.value!!+1).toString()
+                            (homeViewModel.orderPageCount.value!!+1)
                         )
                     )
                 }

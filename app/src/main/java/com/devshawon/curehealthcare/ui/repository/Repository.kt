@@ -97,10 +97,10 @@ class Repository @Inject constructor(
         }.asLiveData()
     }
 
-    fun getOrder(page: String?="") : LiveData<Resource<OrderResponse>>{
+    fun getOrder(page: Int?=0) : LiveData<Resource<OrderResponse>>{
         Log.d("Order is called","")
         return object : NetworkBoundResourceOnlyNetwork<OrderResponse>(appExecutors) {
-            override fun createCall() = apiService.getOrder(getInt(page))
+            override fun createCall() = apiService.getOrder(page)
         }.asLiveData()
     }
 
@@ -141,7 +141,6 @@ class Repository @Inject constructor(
     }
 
     fun versionCheck() : LiveData<Resource<RegistrationResponse>>{
-        Log.d("Version Check 1","")
         return object : NetworkBoundResourceOnlyNetwork<RegistrationResponse>(appExecutors) {
             override fun createCall() = apiService.version()
         }.asLiveData()

@@ -2,6 +2,7 @@ package com.devshawon.curehealthcare.network.token
 
 import android.content.Context
 import com.devshawon.curehealthcare.api.ApiService
+import com.devshawon.curehealthcare.dagger.modules.apiModule.ApiModule.Companion.API_URL
 import com.devshawon.curehealthcare.models.RefreshToken
 import com.devshawon.curehealthcare.useCase.RefreshTokenUseCase
 import com.devshawon.curehealthcare.useCase.TokenUseCase
@@ -43,7 +44,7 @@ class TokenInterceptor constructor(
                             .addNetworkInterceptor(StethoInterceptor()).build()
                         val retrofit = Retrofit.Builder()
                             .client(client)
-                            .baseUrl("API_URL")
+                            .baseUrl(API_URL)
                             .addConverterFactory(MoshiConverterFactory.create(build)).build()
                         val apiService = retrofit.create(ApiService::class.java)
                         val data = RefreshToken(storage.refreshToken)

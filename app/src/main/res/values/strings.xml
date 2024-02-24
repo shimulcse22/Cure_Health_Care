@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CureHealth</string>
+
     <string name="title_fragment_home">Home</string>
     <string name="title_fragment_trending">Trending</string>
     <string name="title_fragment_orders">Orders</string>

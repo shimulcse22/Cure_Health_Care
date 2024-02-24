@@ -136,7 +136,7 @@ class HomeViewModel @Inject constructor(
         repository.getForm(it.peekContent())
     }
 
-    val orderRequest = MutableLiveData<Event<String>>()
+    val orderRequest = MutableLiveData<Event<Int>>()
     var orderPageCount = MutableLiveData(1)
     val orderList = ArrayList<OrderData>()
     val orderEvent = MutableLiveData<Event<String>>()
@@ -337,8 +337,9 @@ class HomeViewModel @Inject constructor(
         orderResponse.observeForever {
             if(it.status == Status.SUCCESS && it.data != null){
                 orderPageCount.value = it.data.currentPage?:1
+                orderList.clear()
                 it.data.let { d->
-                    orderList.addAll(d.data)
+                    d.data?.let { it1 -> orderList.addAll(it1) }
                     orderEvent.postValue(Event(it.data.currentPage!!.toString()))
                 }
             }else if(it.status == Status.ERROR){

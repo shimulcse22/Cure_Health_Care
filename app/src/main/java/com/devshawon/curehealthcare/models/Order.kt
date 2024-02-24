@@ -9,7 +9,7 @@ data class OrderResponse(
     @Json(name = "current_page")
     val currentPage: Int?=0,
     @Json(name = "data")
-    val `data`: List<OrderData>,
+    val `data`: List<OrderData>?= listOf(),
     @Json(name = "first_page_url")
     val firstPageUrl: String?="",
     @Json(name = "from")
@@ -19,7 +19,7 @@ data class OrderResponse(
     @Json(name = "last_page_url")
     val lastPageUrl: String?="",
     @Json(name = "links")
-    val links: List<LinkData>,
+    val links: List<LinkData>?= arrayListOf(),
     @Json(name = "next_page_url")
     val nextPageUrl: String?="",
     @Json(name = "path")

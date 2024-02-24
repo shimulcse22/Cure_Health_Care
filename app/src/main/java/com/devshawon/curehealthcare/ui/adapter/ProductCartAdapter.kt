@@ -19,7 +19,9 @@ import com.devshawon.curehealthcare.databinding.CartListLayoutBinding
 import com.devshawon.curehealthcare.databinding.ListItemMedicineBinding
 import com.devshawon.curehealthcare.models.ProductData
 import com.devshawon.curehealthcare.ui.fragments.OnItemClick
+import com.devshawon.curehealthcare.util.getDouble
 import com.devshawon.curehealthcare.util.getInt
+import com.devshawon.curehealthcare.util.setSafeOnClickListener
 
 class ProductCartAdapter (private val onItemClick : OnItemClick) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val productList = ArrayList<ProductData>()
@@ -55,7 +57,7 @@ class ProductCartAdapter (private val onItemClick : OnItemClick) : RecyclerView.
                         .append(it.unitType).append(")")
                     this.medicineName.text = string
                     this.medicineCompany.text = it.manufacturingCompany.name
-                    val data = getInt(it.salePrice?.toDouble())* getInt(it.productCount.toString())
+                    val data = getDouble(it.salePrice) * getInt(it.productCount.toString())
                     this.medicinePrice.text=  "${context.resources.getString(R.string.money_sign)} ${it.salePrice} * ${it.productCount} = ${context.resources.getString(R.string.money_sign)}$data"
                 }
                 if(productList[position].productCount == 0){
@@ -87,7 +89,7 @@ class ProductCartAdapter (private val onItemClick : OnItemClick) : RecyclerView.
                         }
                     })
 
-                plusIcon.setOnClickListener {
+                plusIcon.setSafeOnClickListener {
                     binding.data = ((getInt(binding.data) + 1)).toString()
                     if (getInt(binding.data) > 0) {
                         minusIcon.visibility = View.VISIBLE
@@ -101,11 +103,11 @@ class ProductCartAdapter (private val onItemClick : OnItemClick) : RecyclerView.
                     executePendingBindings()
                 }
 
-                minusIcon.setOnClickListener {
+                minusIcon.setSafeOnClickListener {
                     binding.data = ((getInt(binding.data) - 1)).toString()
                     if (getInt(binding.data) == 0) {
                         removeItem(this,position,false)
-                        return@setOnClickListener
+                        return@setSafeOnClickListener
                     }
                     productList[position].productCount = productList[position].productCount!! - 1
                     val data = getInt(productList[position].salePrice?.toDouble())* getInt(productList[position].productCount.toString())
@@ -113,7 +115,7 @@ class ProductCartAdapter (private val onItemClick : OnItemClick) : RecyclerView.
                     onItemClick.onMinusIconClick(productList[position],position,false)
                     executePendingBindings()
                 }
-                deleteIcon.setOnClickListener {
+                deleteIcon.setSafeOnClickListener {
                     removeItem(this,position,true)
                 }
             }

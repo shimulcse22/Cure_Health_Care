@@ -12,7 +12,7 @@ data class SingleOrderResponse(
     @Json(name = "id")
     val id: Int?=0,
     @Json(name = "is_pre_order")
-    val isPreOrder: Boolean,
+    val isPreOrder: Boolean?=false,
     @Json(name = "order_date")
     val orderDate: String?="",
     @Json(name = "order_placed_at")
@@ -60,7 +60,7 @@ data class SingleOrderProduct(
     @Json(name = "product_forms_id")
     val productFormsId: String?="",
     @Json(name = "product_generics")
-    val productGenerics: SingleOrderProductGenerics,
+    val productGenerics: SingleOrderProductGenerics?=null,
     @Json(name = "product_generics_id")
     val productGenericsId: String?="",
     @Json(name = "product_limits")
@@ -86,7 +86,7 @@ data class SingleOrderManufacturingCompany(
     @Json(name = "created_at")
     val createdAt: String?="",
     @Json(name = "description")
-    val description: String?="",
+    val description: String?=null,
     @Json(name = "id")
     val id: Int?=0,
     @Json(name = "name")

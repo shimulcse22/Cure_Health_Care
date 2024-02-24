@@ -50,6 +50,7 @@ class OrderAdapter(private val context: Context) : RecyclerView.Adapter<Recycler
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateList(updateList : ArrayList<OrderData>){
         this.list.clear()
         this.list.addAll(updateList)

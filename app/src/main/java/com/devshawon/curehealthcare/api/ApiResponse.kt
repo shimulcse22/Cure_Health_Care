@@ -31,7 +31,7 @@ sealed class ApiResponse<T> {
         }
 
         fun <T> create(response: Response<T>): ApiResponse<T> {
-            Log.d("THE DATA IS 23",response.toString())
+            //Log.d("THE DATA IS 23",response.toString())
 
             return when {
                 response.isSuccessful -> {
